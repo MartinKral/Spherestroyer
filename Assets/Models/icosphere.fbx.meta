@@ -1,66 +1,11 @@
 fileFormatVersion: 2
-guid: 3cc85aca79e34234289f8d8313ac7d34
+guid: d63efd3dab3c14f47beedbcb4d6a70ff
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: CloudMaterial
-    second: {fileID: 2100000, guid: 957fad4254a519644a7ae6735a578bd2, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: GrassMaterial
-    second: {fileID: 2100000, guid: d7919777f6f036f40add20087c0736b0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: GroundMaterial
-    second: {fileID: 2100000, guid: 14a7f6a2fe084144198092edfc9f0352, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: RocksMaterial
-    second: {fileID: 2100000, guid: 2d59ad97aff41a543ac33bd97443f7a7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: TreeMaterial
-    second: {fileID: 2100000, guid: 0090737547b6d3d4ba4818301b64eda7, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: TrunkMaterial
-    second: {fileID: 2100000, guid: 81403ee9cc623044287e0b38947c4c2e, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: WIndmillMaterial1
-    second: {fileID: 2100000, guid: 9ae90089cec258a48a57ecb91b148567, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: WaterMaterial
-    second: {fileID: 2100000, guid: cea2c21227fc3ca499b7ac01b3fbdc14, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: WindmillMaterial2
-    second: {fileID: 2100000, guid: 3e2aa92d69ea4554f9bf88cbf957161a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: WindmillMaterial3
-    second: {fileID: 2100000, guid: 31b750f2d335b4f4095c692a5fc434a1, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: WindmillMaterial4
-    second: {fileID: 2100000, guid: 57b54408eb0b1f5459a4a33cdd129203, type: 2}
+  externalObjects: {}
   materials:
-    materialImportMode: 1
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -123,7 +68,7 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
-  importAnimation: 0
+  importAnimation: 1
   humanDescription:
     serializedVersion: 3
     human: []
@@ -138,11 +83,11 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
   additionalBone: 0

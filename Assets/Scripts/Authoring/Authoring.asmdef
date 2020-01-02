@@ -1,5 +1,5 @@
 {
-    "name": "Authoring",
+    "name": "Main.Authoring",
     "references": [
         "Unity.Entities",
         "Unity.Transforms",

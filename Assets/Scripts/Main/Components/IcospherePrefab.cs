@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct PlanePrefab : IComponentData
+public struct IcospherePrefab : IComponentData
 {
     public Entity prefab;
     public Entity material;

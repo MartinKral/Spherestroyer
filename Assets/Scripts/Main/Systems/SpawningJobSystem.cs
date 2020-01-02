@@ -12,7 +12,7 @@ using Unity.Collections;
 [UpdateInGroup(typeof(SimulationSystemGroup))]
 public class SpawningJobSystem : JobComponentSystem
 {
-    private PlanePrefab planePrefab;
+    private IcospherePrefab planePrefab;
     private Random randomGenerator;
 
     private BeginInitializationEntityCommandBufferSystem m_EntityCommandBufferSystem;
@@ -20,7 +20,7 @@ public class SpawningJobSystem : JobComponentSystem
     protected override void OnCreate()
     {
         base.OnCreate();
-        RequireSingletonForUpdate<PlanePrefab>();
+        RequireSingletonForUpdate<IcospherePrefab>();
         m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
         randomGenerator = new Random((uint)UnityEngine.Random.Range(1, 1000));
     }
@@ -29,8 +29,8 @@ public class SpawningJobSystem : JobComponentSystem
     {
         base.OnStartRunning();
 
-        Entity planeEntity = GetSingletonEntity<PlanePrefab>();
-        planePrefab = EntityManager.GetComponentData<PlanePrefab>(planeEntity);
+        Entity planeEntity = GetSingletonEntity<IcospherePrefab>();
+        planePrefab = EntityManager.GetComponentData<IcospherePrefab>(planeEntity);
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)

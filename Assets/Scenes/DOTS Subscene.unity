@@ -131,7 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 77829785}
   m_Layer: 0
-  m_Name: EditorReferences
+  m_Name: Editor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,7 +175,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88372052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2536783, y: -0.77205783, z: 0.107742816}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 204616152}
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 204616152}
   - component: {fileID: 204616151}
   m_Layer: 0
-  m_Name: RuntimeReferences
+  m_Name: Runtime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -601,7 +601,7 @@ GameObject:
   - component: {fileID: 1954196941}
   - component: {fileID: 1954196943}
   m_Layer: 0
-  m_Name: PlaneGenerator
+  m_Name: IcosphereGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158bc9bcdfcf2e642a0d978073887a2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlanePrefab: {fileID: 2860255093058604183, guid: 68b6c2647b6bac54587e0e5b580cb4d8,
+  IcospherePrefab: {fileID: 9064256488595117554, guid: 74e70b8282884124f988edac1fee12a4,
     type: 3}
 --- !u!4 &1954196942
 Transform:
