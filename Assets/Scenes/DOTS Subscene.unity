@@ -212,9 +212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19503b49d1d14d34e9035975bc2ba404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material1: {fileID: 2100000, guid: d7919777f6f036f40add20087c0736b0, type: 2}
-  material2: {fileID: 2100000, guid: 0090737547b6d3d4ba4818301b64eda7, type: 2}
-  material3: {fileID: 2100000, guid: cea2c21227fc3ca499b7ac01b3fbdc14, type: 2}
+  materials:
+  - {fileID: 2100000, guid: d7919777f6f036f40add20087c0736b0, type: 2}
+  - {fileID: 2100000, guid: 0090737547b6d3d4ba4818301b64eda7, type: 2}
+  - {fileID: 2100000, guid: cea2c21227fc3ca499b7ac01b3fbdc14, type: 2}
 --- !u!4 &204616152
 Transform:
   m_ObjectHideFlags: 0

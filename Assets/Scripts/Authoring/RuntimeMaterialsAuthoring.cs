@@ -8,21 +8,20 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class RuntimeMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
-    public Material material1;
-    public Material material2;
-    public Material material3;
+    public Material[] materials;
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
         dstManager.AddComponentData(entity, new RuntimeMaterialReferencesTag());
         dstManager.AddBuffer<RuntimeMaterialReference>(entity);
 
-        _ = CreateMaterialEntity(dstManager, conversionSystem, this.material1);
-        _ = CreateMaterialEntity(dstManager, conversionSystem, this.material2);
-        _ = CreateMaterialEntity(dstManager, conversionSystem, this.material3);
+        foreach (var material in materials)
+        {
+            CreateMaterialEntity(dstManager, conversionSystem, material);
+        }
     }
 
-    private Entity CreateMaterialEntity(EntityManager dstManager, GameObjectConversionSystem conversionSystem, Material material)
+    private void CreateMaterialEntity(EntityManager dstManager, GameObjectConversionSystem conversionSystem, Material material)
     {
         Entity primaryEntity = conversionSystem.GetPrimaryEntity(material);
 
@@ -30,8 +29,6 @@ public class RuntimeMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEnti
         var mat = dstManager.GetComponentData<LitMaterial>(primaryEntity);
         dstManager.AddComponentData<LitMaterial>(materialEntity, mat);
         dstManager.AddComponent<DynamicMaterial>(materialEntity);
-
-        return materialEntity;
     }
 }
 
@@ -45,10 +42,24 @@ internal class AddUIMaterialsReference : GameObjectConversionSystem
             var primaryEntity = GetPrimaryEntity(uNum);
             var buffer = DstEntityManager.GetBuffer<RuntimeMaterialReference>(primaryEntity);
 
-            var entities = GetEntities(uNum.material1);
-            if (entities.MoveNext() && entities.MoveNext())
-                buffer.Add(new RuntimeMaterialReference() { materialEntity = entities.Current });
+            foreach (var material in uNum.materials)
+            {
+                buffer.Add(new RuntimeMaterialReference() { materialEntity = GetMaterialEntity(material) });
+            }
         });
+    }
+
+    private Entity GetMaterialEntity(Material material)
+    {
+        var entities = GetEntities(material);
+        if (entities.MoveNext() && entities.MoveNext())
+        {
+            return entities.Current;
+        }
+        else
+        {
+            throw new Exception($"{material} does not have second entity. Is it created?");
+        }
     }
 }
 
@@ -59,9 +70,10 @@ internal class DeclareNumberMaterials : GameObjectConversionSystem
     {
         Entities.ForEach((RuntimeMaterialsAuthoring uNum) =>
         {
-            DeclareReferencedAsset(uNum.material1);
-            DeclareReferencedAsset(uNum.material2);
-            DeclareReferencedAsset(uNum.material3);
+            foreach (var material in uNum.materials)
+            {
+                DeclareReferencedAsset(material);
+            }
         });
     }
 }
