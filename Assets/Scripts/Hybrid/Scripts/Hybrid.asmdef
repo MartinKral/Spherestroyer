@@ -1,0 +1,25 @@
+{
+    "name": "Hybrid",
+    "references": [
+        "Unity.Entities",
+        "Unity.Transforms",
+        "Unity.Jobs",
+        "Unity.Burst",
+        "Unity.Mathematics",
+        "Unity.Rendering.Hybrid",
+        "Unity.Entities.Hybrid",
+        "Unity.Collections",
+        "Unity.Tiny.Rendering",
+        "Unity.Tiny.Core",
+        "Main"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,27 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-f5f0e92c767c6a044a8aed00381b08f1-93214019566545601-0"
+    ],
+    "Components": [{
+        "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBuildProfile, Unity.Entities.Runtime.Build",
+        "ShouldWriteDataFiles": true,
+        "EnableManagedDebugging": false,
+        "EnableMultiThreading": false,
+        "EnableBurst": true,
+        "RootAssembly": "GlobalObjectId_V1-1-308a27203b19c84478dff43c76757968-5897886265953266890-0",
+        "Target": "asmjs",
+        "Configuration": 1,
+        "Pipeline": "GlobalObjectId_V1-1-56241f83dacec1141b7d967eb30bf934-93214019566545601-0",
+        "BeeTargetOverride": null
+    }, {
+        "$type": "Unity.Platforms.Web.EmscriptenSettings, Unity.Platforms.Web",
+        "EmccArgs": [
+            "TOTAL_MEMORY=64MB"
+        ]
+    }, {
+        "$type": "Unity.Entities.Conversion.ConversionSystemFilterSettings, Unity.Entities.Hybrid",
+        "ExcludedConversionSystemAssemblies": [
+            "GlobalObjectId_V1-1-7a450cf7ca9694b5a8bfa3fd83ec635a-5897886265953266890-0"
+        ]
+    }]
+}
