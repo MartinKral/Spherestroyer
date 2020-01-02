@@ -1,5 +1,6 @@
 /*
 /*/
 !/Assets/
+!/Packages/
 !/ProjectSettings/
 !.gitignore
