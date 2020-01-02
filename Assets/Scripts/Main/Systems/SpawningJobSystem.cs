@@ -15,13 +15,13 @@ public class SpawningJobSystem : JobComponentSystem
     private IcospherePrefab planePrefab;
     private Random randomGenerator;
 
-    private BeginSimulationEntityCommandBufferSystem m_EntityCommandBufferSystem;
+    private BeginSimulationEntityCommandBufferSystem ecbs;
 
     protected override void OnCreate()
     {
         base.OnCreate();
         RequireSingletonForUpdate<IcospherePrefab>();
-        m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+        ecbs = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
         randomGenerator = new Random((uint)UnityEngine.Random.Range(1, 1000));
     }
 
@@ -35,7 +35,7 @@ public class SpawningJobSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer().ToConcurrent();
+        var commandBuffer = ecbs.CreateCommandBuffer().ToConcurrent();
         var planePrefab = this.planePrefab;
         float randomFloat = this.randomGenerator.NextFloat();
         var jobHandle = Entities
@@ -48,7 +48,7 @@ public class SpawningJobSystem : JobComponentSystem
         }).Schedule(inputDeps);
 
         // This jobs needs to be finished before hitting the buffer system
-        m_EntityCommandBufferSystem.AddJobHandleForProducer(jobHandle);
+        ecbs.AddJobHandleForProducer(jobHandle);
         return jobHandle;
     }
 }

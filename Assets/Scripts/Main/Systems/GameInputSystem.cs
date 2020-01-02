@@ -9,8 +9,8 @@ public class GameInputSystem : ComponentSystem
 
     private EntityQuery inputEntityQuery;
 
-    private BeginSimulationEntityCommandBufferSystem beginInitECB;
-    private EndSimulationEntityCommandBufferSystem endInitECB;
+    private BeginSimulationEntityCommandBufferSystem beginInitECBS;
+    private EndSimulationEntityCommandBufferSystem endInitECBS;
 
     protected override void OnCreate()
     {
@@ -18,16 +18,16 @@ public class GameInputSystem : ComponentSystem
 
         inputEntityQuery = GetEntityQuery(typeof(InputTag));
 
-        beginInitECB = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
-        endInitECB = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        beginInitECBS = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+        endInitECBS = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
 
     protected override void OnUpdate()
     {
         if (!Input.GetMouseButtonDown(0)) return;
 
-        EntityCommandBuffer beginBuffer = beginInitECB.CreateCommandBuffer();
-        EntityCommandBuffer endBuffer = endInitECB.CreateCommandBuffer();
+        EntityCommandBuffer beginBuffer = beginInitECBS.CreateCommandBuffer();
+        EntityCommandBuffer endBuffer = endInitECBS.CreateCommandBuffer();
 
         beginBuffer.AddComponent(inputEntityQuery, typeof(OnClickTag));
         endBuffer.RemoveComponent(inputEntityQuery, typeof(OnClickTag));

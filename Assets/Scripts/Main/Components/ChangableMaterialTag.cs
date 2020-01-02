@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct ChangableMaterialTag : IComponentData
+public struct ChangeMaterialTag : IComponentData
 {
 }
