@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
@@ -9,18 +10,11 @@ public struct MaterialReferences : ISharedComponentData, IEquatable<MaterialRefe
 
     public bool Equals(MaterialReferences other)
     {
-        if (Materials.Length != other.Materials.Length) return false;
-
-        for (int i = 0; i < Materials.Length; i++)
-        {
-            if (Materials[i] != other.Materials[i]) return false;
-        }
-
-        return true;
+        return EqualityComparer<Material[]>.Default.Equals(Materials, other.Materials);
     }
 
     public override int GetHashCode()
     {
-        return Materials.GetHashCode();
+        return 573613553 + EqualityComparer<Material[]>.Default.GetHashCode(Materials);
     }
 }
