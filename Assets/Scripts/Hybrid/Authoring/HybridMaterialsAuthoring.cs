@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class EditorMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
+public class HybridMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
     public Material[] Materials;
 

@@ -15,13 +15,13 @@ public class SpawningJobSystem : JobComponentSystem
     private IcospherePrefab planePrefab;
     private Random randomGenerator;
 
-    private BeginInitializationEntityCommandBufferSystem m_EntityCommandBufferSystem;
+    private BeginSimulationEntityCommandBufferSystem m_EntityCommandBufferSystem;
 
     protected override void OnCreate()
     {
         base.OnCreate();
         RequireSingletonForUpdate<IcospherePrefab>();
-        m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
+        m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
         randomGenerator = new Random((uint)UnityEngine.Random.Range(1, 1000));
     }
 

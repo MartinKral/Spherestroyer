@@ -2,7 +2,6 @@
 
 using Unity.Entities;
 using Unity.Rendering;
-using UnityEngine;
 
 public class ChangeMaterialSystem : ComponentSystem
 {
@@ -22,8 +21,6 @@ public class ChangeMaterialSystem : ComponentSystem
             renderMesh.material = materialReferences.Materials[0];
             PostUpdateCommands.SetSharedComponent(entity, renderMesh);
         });
-
-        //Logger.Log($"Mat 0: {materialReferences.Materials[0]}");
     }
 }
 
