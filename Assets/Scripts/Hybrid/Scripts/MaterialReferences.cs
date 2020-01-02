@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Entities;
 using UnityEngine;
 
+[Serializable]
 public struct MaterialReferences : ISharedComponentData, IEquatable<MaterialReferences>
 {
     public Material[] Materials;
@@ -22,6 +21,6 @@ public struct MaterialReferences : ISharedComponentData, IEquatable<MaterialRefe
 
     public override int GetHashCode()
     {
-        return Materials[0].GetHashCode();
+        return Materials.GetHashCode();
     }
 }
