@@ -9,6 +9,7 @@ using Random = Unity.Mathematics.Random;
 public class SpawningJobSystem : JobComponentSystem
 {
     private IcosphereSpawner icosphereSpawner;
+    private EntityQuery entityQuery;
     private Random randomGenerator;
 
     private BeginSimulationEntityCommandBufferSystem ecbs;
@@ -27,6 +28,7 @@ public class SpawningJobSystem : JobComponentSystem
         Entity planeEntity = GetSingletonEntity<IcosphereSpawner>();
         icosphereSpawner = EntityManager.GetComponentData<IcosphereSpawner>(planeEntity);
         randomGenerator = new Random((uint)(Time.DeltaTime * 1000));
+        entityQuery = GetEntityQuery(ComponentType.ReadOnly(typeof(OnClickTag)));
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -35,23 +37,22 @@ public class SpawningJobSystem : JobComponentSystem
         {
             ecb = ecbs.CreateCommandBuffer().ToConcurrent(),
             icosphereSpawner = icosphereSpawner,
-            positionY = randomGenerator.NextFloat() * 2,
+            positionY = randomGenerator.NextFloat() * 5,
             materialType = randomGenerator.NextInt(3)
-        }.Schedule(this, inputDeps);
-
-        // This jobs needs to be finished before hitting the buffer system
+        }.Schedule(entityQuery.CalculateEntityCount(), 1, inputDeps);
         ecbs.AddJobHandleForProducer(jobHandle);
+
         return jobHandle;
     }
 
-    private struct SpawningJob : IJobForEachWithEntity<OnClickTag>
+    private struct SpawningJob : IJobParallelFor
     {
         public EntityCommandBuffer.Concurrent ecb;
         public IcosphereSpawner icosphereSpawner;
         public float positionY;
         public int materialType;
 
-        public void Execute(Entity entity, int index, [ReadOnly] ref OnClickTag onClickTag)
+        public void Execute(int index)
         {
             Entity icosphereEntity = ecb.Instantiate(index, icosphereSpawner.prefab);
             var position = new float3(0, positionY, 0);

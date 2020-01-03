@@ -10,7 +10,7 @@
         "EnableBurst": true,
         "RootAssembly": "GlobalObjectId_V1-1-308a27203b19c84478dff43c76757968-5897886265953266890-0",
         "Target": "windows-il2cpp",
-        "Configuration": 2,
+        "Configuration": 1,
         "Pipeline": "GlobalObjectId_V1-1-56241f83dacec1141b7d967eb30bf934-93214019566545601-0",
         "BeeTargetOverride": null
     }, {

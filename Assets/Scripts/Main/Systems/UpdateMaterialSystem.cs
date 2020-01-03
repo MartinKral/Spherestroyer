@@ -22,6 +22,7 @@ public class UpdateMaterialSystem : ComponentSystem
         {
             LitMaterial newMaterial = EntityManager.GetComponentData<LitMaterial>(materials[materialId.currentMaterialId].materialEntity);
             ecb.SetComponent(meshRenderer.material, newMaterial);
+            ecb.RemoveComponent<UpdateMaterialTag>(entity);
         });
 
         ecb.Playback(EntityManager);
