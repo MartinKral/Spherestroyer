@@ -2,6 +2,7 @@
 using Unity.Entities;
 using Unity.Tiny.Rendering;
 
+[UpdateAfter(typeof(ChangeMaterialIdSystem))]
 public class UpdateMaterialSystem : ComponentSystem
 {
     protected override void OnCreate()
@@ -17,9 +18,9 @@ public class UpdateMaterialSystem : ComponentSystem
         var materials = nBuffer.ToNativeArray(Allocator.Temp);
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
-        Entities.ForEach((Entity entity, ref MeshRenderer meshRenderer, ref MaterialId materialId, ref OnClickTag onClickTag) =>
+        Entities.ForEach((Entity entity, ref MeshRenderer meshRenderer, ref MaterialId materialId, ref UpdateMaterialTag updateMaterialTag) =>
         {
-            LitMaterial newMaterial = EntityManager.GetComponentData<LitMaterial>(materials[0].materialEntity);
+            LitMaterial newMaterial = EntityManager.GetComponentData<LitMaterial>(materials[materialId.currentMaterialId].materialEntity);
             ecb.SetComponent(meshRenderer.material, newMaterial);
         });
 

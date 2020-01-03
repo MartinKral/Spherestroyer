@@ -4,13 +4,14 @@ using Unity.Mathematics;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class IcosphereGeneratorAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, IConvertGameObjectToEntity
+public class IcosphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, IConvertGameObjectToEntity
 {
-    [SerializeField] private GameObject IcospherePrefab;
+    public GameObject IcospherePrefab;
+    public float delay;
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        dstManager.AddComponentData(entity, new IcospherePrefab() { prefab = conversionSystem.GetPrimaryEntity(IcospherePrefab) });
+        dstManager.AddComponentData(entity, new IcosphereSpawner() { prefab = conversionSystem.GetPrimaryEntity(IcospherePrefab) });
     }
 
     public void DeclareReferencedPrefabs(List<GameObject> referencedPrefabs)

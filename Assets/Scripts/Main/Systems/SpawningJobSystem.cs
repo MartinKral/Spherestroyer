@@ -1,18 +1,14 @@
-﻿using System;
-using Unity.Burst;
+﻿using Unity.Collections;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
-using Unity.Tiny;
-using UnityEngine;
 using Random = Unity.Mathematics.Random;
-using Unity.Jobs;
-using Unity.Collections;
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
 public class SpawningJobSystem : JobComponentSystem
 {
-    private IcospherePrefab planePrefab;
+    private IcosphereSpawner icosphereSpawner;
     private Random randomGenerator;
 
     private BeginSimulationEntityCommandBufferSystem ecbs;
@@ -20,35 +16,48 @@ public class SpawningJobSystem : JobComponentSystem
     protected override void OnCreate()
     {
         base.OnCreate();
-        RequireSingletonForUpdate<IcospherePrefab>();
+        RequireSingletonForUpdate<IcosphereSpawner>();
         ecbs = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
-        randomGenerator = new Random((uint)UnityEngine.Random.Range(1, 1000));
     }
 
     protected override void OnStartRunning()
     {
         base.OnStartRunning();
 
-        Entity planeEntity = GetSingletonEntity<IcospherePrefab>();
-        planePrefab = EntityManager.GetComponentData<IcospherePrefab>(planeEntity);
+        Entity planeEntity = GetSingletonEntity<IcosphereSpawner>();
+        icosphereSpawner = EntityManager.GetComponentData<IcosphereSpawner>(planeEntity);
+        randomGenerator = new Random((uint)(Time.DeltaTime * 1000));
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var commandBuffer = ecbs.CreateCommandBuffer().ToConcurrent();
-        var planePrefab = this.planePrefab;
-        float randomFloat = this.randomGenerator.NextFloat();
-        var jobHandle = Entities
-            .WithAny<OnClickTag>()
-            .ForEach((Entity entity, int entityInQueryIndex) =>
+        var jobHandle = new SpawningJob()
         {
-            Entity newPlane = commandBuffer.Instantiate(entityInQueryIndex, planePrefab.prefab);
-            var position = new float3(0, randomFloat, 0);
-            commandBuffer.SetComponent(entityInQueryIndex, newPlane, new Translation { Value = position });
-        }).Schedule(inputDeps);
+            ecb = ecbs.CreateCommandBuffer().ToConcurrent(),
+            icosphereSpawner = icosphereSpawner,
+            positionY = randomGenerator.NextFloat() * 2,
+            materialType = randomGenerator.NextInt(3)
+        }.Schedule(this, inputDeps);
 
         // This jobs needs to be finished before hitting the buffer system
         ecbs.AddJobHandleForProducer(jobHandle);
         return jobHandle;
+    }
+
+    private struct SpawningJob : IJobForEachWithEntity<OnClickTag>
+    {
+        public EntityCommandBuffer.Concurrent ecb;
+        public IcosphereSpawner icosphereSpawner;
+        public float positionY;
+        public int materialType;
+
+        public void Execute(Entity entity, int index, [ReadOnly] ref OnClickTag onClickTag)
+        {
+            Entity icosphereEntity = ecb.Instantiate(index, icosphereSpawner.prefab);
+            var position = new float3(0, positionY, 0);
+            ecb.SetComponent(index, icosphereEntity, new Translation { Value = position });
+            ecb.SetComponent(index, icosphereEntity, new MaterialId { currentMaterialId = materialType });
+            ecb.AddComponent<UpdateMaterialTag>(index, icosphereEntity);
+        }
     }
 }
