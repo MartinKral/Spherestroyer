@@ -2,7 +2,7 @@
 using Unity.Entities;
 using Unity.Tiny.Rendering;
 
-public class ChangeMaterialSystem : ComponentSystem
+public class UpdateMaterialSystem : ComponentSystem
 {
     protected override void OnCreate()
     {

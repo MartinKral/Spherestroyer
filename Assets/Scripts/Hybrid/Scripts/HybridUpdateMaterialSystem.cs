@@ -3,7 +3,8 @@
 using Unity.Entities;
 using Unity.Rendering;
 
-public class HybridChangeMaterialSystem : ComponentSystem
+[UpdateAfter(typeof(ChangeMaterialIdSystem))]
+public class HybridUpdateMaterialSystem : ComponentSystem
 {
     private MaterialReferences materialReferences;
 
@@ -24,10 +25,8 @@ public class HybridChangeMaterialSystem : ComponentSystem
 
     protected override void OnUpdate()
     {
-        Entities.ForEach((Entity entity, RenderMesh renderMesh, ref MaterialId materialId, ref OnClickTag tag) =>
+        Entities.ForEach((Entity entity, RenderMesh renderMesh, ref MaterialId materialId, ref UpdateMaterialTag tag) =>
         {
-            materialId.currentMaterialId = ++materialId.currentMaterialId % 3;
-
             renderMesh.material = materialReferences.Materials[materialId.currentMaterialId];
             PostUpdateCommands.SetSharedComponent(entity, renderMesh);
         });
