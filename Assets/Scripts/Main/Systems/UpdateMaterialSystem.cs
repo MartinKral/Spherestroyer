@@ -20,9 +20,9 @@ public class UpdateMaterialSystem : ComponentSystem
         var ecb = new EntityCommandBuffer(Allocator.Temp);
         Entities.ForEach((Entity entity, ref MeshRenderer meshRenderer, ref MaterialId materialId, ref UpdateMaterialTag updateMaterialTag) =>
         {
-            LitMaterial newMaterial = EntityManager.GetComponentData<LitMaterial>(materials[materialId.currentMaterialId].materialEntity);
-            ecb.SetComponent(meshRenderer.material, newMaterial);
-            ecb.RemoveComponent<UpdateMaterialTag>(entity);
+            meshRenderer.material = materials[materialId.currentMaterialId].materialEntity;
+            //LitMaterial newMaterial = EntityManager.GetComponentData<LitMaterial>(materials[materialId.currentMaterialId].materialEntity);
+            // ecb.SetComponent(meshRenderer.material, newMaterial);
         });
 
         ecb.Playback(EntityManager);
