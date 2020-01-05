@@ -19,7 +19,7 @@ public class IcosphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefab
         {
             prefab = prefabEntity,
             delay = delay,
-            secondsUntilSpawn = delay
+            secondsUntilSpawn = 0
         });
     }
 

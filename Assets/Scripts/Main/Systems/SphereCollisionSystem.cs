@@ -45,7 +45,7 @@ public class SphereCollisionSystem : JobComponentSystem
             MaterialId spikeMaterial = MaterialIdData[spikeReference.entity];
             Translation spikeTranslation = TranslationData[spikeReference.entity];
 
-            if (translation.Value.y <= spikeTranslation.Value.y)
+            if (translation.Value.y <= spikeTranslation.Value.y + 0.5f)
             {
                 if (materialId.currentMaterialId == spikeMaterial.currentMaterialId)
                 {

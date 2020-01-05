@@ -14,13 +14,11 @@ public class SphereSpawnSystem : JobComponentSystem
 
     protected override void OnCreate()
     {
-        base.OnCreate();
         ecbs = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
     }
 
     protected override void OnStartRunning()
     {
-        base.OnStartRunning();
         randomGenerator = new Random((uint)(Time.DeltaTime * 1000));
     }
 
@@ -29,7 +27,7 @@ public class SphereSpawnSystem : JobComponentSystem
         var jobHandle = new SpawningJob()
         {
             ecb = ecbs.CreateCommandBuffer().ToConcurrent(),
-            positionY = randomGenerator.NextFloat() * 5,
+            positionY = 5,
             materialType = randomGenerator.NextInt(3),
             deltaTime = Time.DeltaTime
         }.Schedule(this, inputDeps);
@@ -42,7 +40,8 @@ public class SphereSpawnSystem : JobComponentSystem
     private struct SpawningJob : IJobForEachWithEntity<SphereSpawner>
     {
         public EntityCommandBuffer.Concurrent ecb;
-        public float positionY;
+
+        public int positionY;
         public int materialType;
         public float deltaTime;
 
