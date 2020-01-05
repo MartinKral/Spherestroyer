@@ -6,7 +6,7 @@ using Unity.Tiny.Rendering;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class RuntimeMaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
+public class MaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
     public Material[] materials;
 
@@ -37,7 +37,7 @@ internal class AddUIMaterialsReference : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((RuntimeMaterialsAuthoring uNum) =>
+        Entities.ForEach((MaterialsAuthoring uNum) =>
         {
             var primaryEntity = GetPrimaryEntity(uNum);
             var buffer = DstEntityManager.GetBuffer<RuntimeMaterialReference>(primaryEntity);
@@ -68,7 +68,7 @@ internal class DeclareNumberMaterials : GameObjectConversionSystem
 {
     protected override void OnUpdate()
     {
-        Entities.ForEach((RuntimeMaterialsAuthoring uNum) =>
+        Entities.ForEach((MaterialsAuthoring uNum) =>
         {
             foreach (var material in uNum.materials)
             {

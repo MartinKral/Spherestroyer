@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct IcosphereSpawner : IComponentData
+public struct SphereSpawner : IComponentData
 {
     public Entity prefab;
 }

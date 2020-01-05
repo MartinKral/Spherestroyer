@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct IcosphereTag : IComponentData
+public struct DestroyedIcosphereTag : IComponentData
 {
 }

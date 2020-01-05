@@ -8,7 +8,7 @@ using Random = Unity.Mathematics.Random;
 [UpdateInGroup(typeof(SimulationSystemGroup))]
 public class SpawningJobSystem : JobComponentSystem
 {
-    private IcosphereSpawner icosphereSpawner;
+    private SphereSpawner icosphereSpawner;
     private EntityQuery entityQuery;
     private Random randomGenerator;
 
@@ -17,7 +17,7 @@ public class SpawningJobSystem : JobComponentSystem
     protected override void OnCreate()
     {
         base.OnCreate();
-        RequireSingletonForUpdate<IcosphereSpawner>();
+        RequireSingletonForUpdate<SphereSpawner>();
         ecbs = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
     }
 
@@ -25,8 +25,8 @@ public class SpawningJobSystem : JobComponentSystem
     {
         base.OnStartRunning();
 
-        Entity planeEntity = GetSingletonEntity<IcosphereSpawner>();
-        icosphereSpawner = EntityManager.GetComponentData<IcosphereSpawner>(planeEntity);
+        Entity planeEntity = GetSingletonEntity<SphereSpawner>();
+        icosphereSpawner = EntityManager.GetComponentData<SphereSpawner>(planeEntity);
         randomGenerator = new Random((uint)(Time.DeltaTime * 1000));
         entityQuery = GetEntityQuery(ComponentType.ReadOnly(typeof(OnClickTag)));
     }
@@ -48,7 +48,7 @@ public class SpawningJobSystem : JobComponentSystem
     private struct SpawningJob : IJobParallelFor
     {
         public EntityCommandBuffer.Concurrent ecb;
-        public IcosphereSpawner icosphereSpawner;
+        public SphereSpawner icosphereSpawner;
         public float positionY;
         public int materialType;
 
