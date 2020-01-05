@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -6,29 +7,21 @@ using Unity.Transforms;
 using Random = Unity.Mathematics.Random;
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
-public class SpawningJobSystem : JobComponentSystem
+public class SphereSpawnSystem : JobComponentSystem
 {
-    private SphereSpawner icosphereSpawner;
-    private EntityQuery entityQuery;
     private Random randomGenerator;
-
     private BeginSimulationEntityCommandBufferSystem ecbs;
 
     protected override void OnCreate()
     {
         base.OnCreate();
-        RequireSingletonForUpdate<SphereSpawner>();
         ecbs = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
     }
 
     protected override void OnStartRunning()
     {
         base.OnStartRunning();
-
-        Entity planeEntity = GetSingletonEntity<SphereSpawner>();
-        icosphereSpawner = EntityManager.GetComponentData<SphereSpawner>(planeEntity);
         randomGenerator = new Random((uint)(Time.DeltaTime * 1000));
-        entityQuery = GetEntityQuery(ComponentType.ReadOnly(typeof(OnClickTag)));
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -36,25 +29,31 @@ public class SpawningJobSystem : JobComponentSystem
         var jobHandle = new SpawningJob()
         {
             ecb = ecbs.CreateCommandBuffer().ToConcurrent(),
-            icosphereSpawner = icosphereSpawner,
             positionY = randomGenerator.NextFloat() * 5,
-            materialType = randomGenerator.NextInt(3)
-        }.Schedule(entityQuery.CalculateEntityCount(), 1, inputDeps);
+            materialType = randomGenerator.NextInt(3),
+            deltaTime = Time.DeltaTime
+        }.Schedule(this, inputDeps);
         ecbs.AddJobHandleForProducer(jobHandle);
 
         return jobHandle;
     }
 
-    private struct SpawningJob : IJobParallelFor
+    [BurstCompile]
+    private struct SpawningJob : IJobForEachWithEntity<SphereSpawner>
     {
         public EntityCommandBuffer.Concurrent ecb;
-        public SphereSpawner icosphereSpawner;
         public float positionY;
         public int materialType;
+        public float deltaTime;
 
-        public void Execute(int index)
+        public void Execute(Entity entity, int index, ref SphereSpawner sphereSpawner)
         {
-            Entity icosphereEntity = ecb.Instantiate(index, icosphereSpawner.prefab);
+            sphereSpawner.secondsUntilSpawn -= deltaTime;
+            if (0 < sphereSpawner.secondsUntilSpawn) return;
+
+            sphereSpawner.secondsUntilSpawn = sphereSpawner.delay;
+
+            Entity icosphereEntity = ecb.Instantiate(index, sphereSpawner.prefab);
             var position = new float3(0, positionY, 0);
             ecb.SetComponent(index, icosphereEntity, new Translation { Value = position });
             ecb.SetComponent(index, icosphereEntity, new MaterialId { currentMaterialId = materialType });

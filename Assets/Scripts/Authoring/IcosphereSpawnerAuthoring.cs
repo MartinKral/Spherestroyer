@@ -15,7 +15,12 @@ public class IcosphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefab
         Entity prefabEntity = conversionSystem.GetPrimaryEntity(IcospherePrefab);
 
         dstManager.AddComponentData(prefabEntity, new SpikeReference { entity = conversionSystem.GetPrimaryEntity(spike) });
-        dstManager.AddComponentData(entity, new SphereSpawner() { prefab = prefabEntity });
+        dstManager.AddComponentData(entity, new SphereSpawner()
+        {
+            prefab = prefabEntity,
+            delay = delay,
+            secondsUntilSpawn = delay
+        });
     }
 
     public void DeclareReferencedPrefabs(List<GameObject> referencedPrefabs)

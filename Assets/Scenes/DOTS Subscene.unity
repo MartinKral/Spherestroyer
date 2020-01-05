@@ -798,7 +798,7 @@ MonoBehaviour:
   IcospherePrefab: {fileID: 9064256488595117554, guid: 74e70b8282884124f988edac1fee12a4,
     type: 3}
   spike: {fileID: 446473569}
-  delay: 0
+  delay: 1
 --- !u!4 &1954196942
 Transform:
   m_ObjectHideFlags: 0

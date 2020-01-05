@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
@@ -23,6 +24,7 @@ public class SphereCollisionSystem : JobComponentSystem
         return jobHandle;
     }
 
+    [BurstCompile]
     [ExcludeComponent(typeof(DestroyedIcosphereTag))]
     private struct SphereCollisionSystemJob : IJobForEachWithEntity<Translation, MaterialId, SpikeReference>
     {
@@ -48,11 +50,9 @@ public class SphereCollisionSystem : JobComponentSystem
                 if (materialId.currentMaterialId == spikeMaterial.currentMaterialId)
                 {
                     ecb.AddComponent<DestroyedIcosphereTag>(index, entity);
-                    Logger.Log("Sphere destroyed");
                 }
                 else
                 {
-                    Logger.Log("Player destroyed");
                 }
             }
         }

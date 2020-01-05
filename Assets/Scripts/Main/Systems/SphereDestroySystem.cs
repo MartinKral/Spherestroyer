@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using Unity.Burst;
+using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
 
@@ -21,6 +22,7 @@ public class SphereDestroySystem : JobComponentSystem
         return jobHandle;
     }
 
+    [BurstCompile]
     [RequireComponentTag(typeof(DestroyedIcosphereTag))]
     private struct DestroySphereSystemJob : IJobForEachWithEntity<Translation>
     {
