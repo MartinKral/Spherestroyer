@@ -1,9 +1,11 @@
 ﻿using Unity.Entities;
+using Unity.Jobs;
 using Unity.Tiny.Input;
 
 [AlwaysUpdateSystem]
+[AlwaysSynchronizeSystem]
 [UpdateInGroup(typeof(InitializationSystemGroup))]
-public class GameInputSystem : ComponentSystem
+public class GameInputSystem : JobComponentSystem
 {
     private InputSystem Input;
 
@@ -22,14 +24,16 @@ public class GameInputSystem : ComponentSystem
         endInitECBS = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
 
-    protected override void OnUpdate()
+    protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        if (!Input.GetMouseButtonDown(0)) return;
+        if (!Input.GetMouseButtonDown(0)) return default;
 
         EntityCommandBuffer beginBuffer = beginInitECBS.CreateCommandBuffer();
         EntityCommandBuffer endBuffer = endInitECBS.CreateCommandBuffer();
 
         beginBuffer.AddComponent(inputEntityQuery, typeof(OnClickTag));
         endBuffer.RemoveComponent(inputEntityQuery, typeof(OnClickTag));
+
+        return default;
     }
 }

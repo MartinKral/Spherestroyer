@@ -1,33 +1,32 @@
 ﻿using Unity.Collections;
 using Unity.Entities;
+using Unity.Jobs;
 using Unity.Tiny.Rendering;
 
+[AlwaysSynchronizeSystem]
 [UpdateAfter(typeof(ChangeMaterialIdSystem))]
-public class UpdateMaterialSystem : ComponentSystem
+public class UpdateMaterialSystem : JobComponentSystem
 {
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<RuntimeMaterialReferencesTag>();
     }
 
-    protected override void OnUpdate()
+    protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var materialReferencesEntity = GetSingletonEntity<RuntimeMaterialReferencesTag>();
 
         var nBuffer = EntityManager.GetBuffer<RuntimeMaterialReference>(materialReferencesEntity);
         var materials = nBuffer.ToNativeArray(Allocator.Temp);
 
-        var ecb = new EntityCommandBuffer(Allocator.Temp);
-        Entities.ForEach((Entity entity, ref MeshRenderer meshRenderer, ref MaterialId materialId, ref UpdateMaterialTag updateMaterialTag) =>
+        Entities
+            .WithAll<UpdateMaterialTag>()
+            .ForEach((Entity entity, ref MeshRenderer meshRenderer, in MaterialId materialId) =>
         {
             meshRenderer.material = materials[materialId.currentMaterialId].materialEntity;
-            //LitMaterial newMaterial = EntityManager.GetComponentData<LitMaterial>(materials[materialId.currentMaterialId].materialEntity);
-            // ecb.SetComponent(meshRenderer.material, newMaterial);
-        });
-
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
+        }).Run();
 
         materials.Dispose();
+        return default;
     }
 }
