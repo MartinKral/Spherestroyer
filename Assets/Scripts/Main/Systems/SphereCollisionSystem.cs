@@ -53,6 +53,8 @@ public class SphereCollisionSystem : JobComponentSystem
                 }
                 else
                 {
+                    Entity gameEndedEntity = ecb.CreateEntity(index);
+                    ecb.AddComponent(index, gameEndedEntity, new GameEndedTag());
                 }
             }
         }

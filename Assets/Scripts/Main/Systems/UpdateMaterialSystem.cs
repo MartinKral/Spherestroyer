@@ -14,12 +14,10 @@ public class UpdateMaterialSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        Logger.Log("HELLO WORLD");
-
         var materialReferencesEntity = GetSingletonEntity<RuntimeMaterialReferencesTag>();
 
         var nBuffer = EntityManager.GetBuffer<RuntimeMaterialReference>(materialReferencesEntity);
-        var materials = nBuffer.ToNativeArray(Allocator.Temp);
+        var materials = nBuffer.ToNativeArray(Allocator.TempJob);
 
         Entities
             .WithAll<UpdateMaterialTag>()

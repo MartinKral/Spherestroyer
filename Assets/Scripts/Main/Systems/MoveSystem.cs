@@ -6,8 +6,18 @@ using Unity.Transforms;
 
 public class MoveSystem : JobComponentSystem
 {
+    protected override void OnCreate()
+    {
+        RequireSingletonForUpdate<GameData>();
+    }
+
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
+        var gameDataEntity = GetSingletonEntity<GameData>();
+        var gameData = EntityManager.GetComponentData<GameData>(gameDataEntity);
+
+        if (gameData.IsGameFinished) return inputDeps;
+
         var jobHandle = new MoveSystemJob()
         {
             deltaTime = Time.DeltaTime

@@ -19,7 +19,8 @@ public class SphereSpawnSystem : JobComponentSystem
 
     protected override void OnStartRunning()
     {
-        randomGenerator = new Random((uint)(Time.DeltaTime * 1000));
+        randomGenerator = new Random();
+        randomGenerator.InitState();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -47,12 +48,12 @@ public class SphereSpawnSystem : JobComponentSystem
 
         public void Execute(Entity entity, int index, ref SphereSpawner sphereSpawner)
         {
-            sphereSpawner.secondsUntilSpawn -= deltaTime;
-            if (0 < sphereSpawner.secondsUntilSpawn) return;
+            sphereSpawner.SecondsUntilSpawn -= deltaTime;
+            if (0 < sphereSpawner.SecondsUntilSpawn) return;
 
-            sphereSpawner.secondsUntilSpawn = sphereSpawner.delay;
+            sphereSpawner.SecondsUntilSpawn = sphereSpawner.Delay;
 
-            Entity icosphereEntity = ecb.Instantiate(index, sphereSpawner.prefab);
+            Entity icosphereEntity = ecb.Instantiate(index, sphereSpawner.Prefab);
             var position = new float3(0, positionY, 0);
             ecb.SetComponent(index, icosphereEntity, new Translation { Value = position });
             ecb.SetComponent(index, icosphereEntity, new MaterialId { currentMaterialId = materialType });

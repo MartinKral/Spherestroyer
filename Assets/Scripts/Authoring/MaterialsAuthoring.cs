@@ -30,18 +30,3 @@ internal class AddUIMaterialsReference : GameObjectConversionSystem
         });
     }
 }
-
-[UpdateInGroup(typeof(GameObjectDeclareReferencedObjectsGroup))]
-internal class DeclareNumberMaterials : GameObjectConversionSystem
-{
-    protected override void OnUpdate()
-    {
-        Entities.ForEach((MaterialsAuthoring materialsAuth) =>
-        {
-            foreach (var material in materialsAuth.materials)
-            {
-                DeclareReferencedAsset(materialsAuth);
-            }
-        });
-    }
-}

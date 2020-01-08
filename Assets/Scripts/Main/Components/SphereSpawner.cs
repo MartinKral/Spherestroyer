@@ -3,7 +3,7 @@
 [GenerateAuthoringComponent]
 public struct SphereSpawner : IComponentData
 {
-    public Entity prefab;
-    public float delay;
-    public float secondsUntilSpawn;
+    public Entity Prefab;
+    public float Delay;
+    public float SecondsUntilSpawn;
 }
