@@ -4,12 +4,14 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class MaterialsAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
-    public Material[] materials;
+    public Material[] gameMaterials;
+    public Material[] uiMaterials;
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        dstManager.AddComponentData(entity, new RuntimeMaterialReferencesTag());
-        dstManager.AddBuffer<RuntimeMaterialReference>(entity);
+        dstManager.AddComponentData(entity, new MaterialReferencesTag());
+        dstManager.AddBuffer<GameMaterialReference>(entity);
+        dstManager.AddBuffer<UIMaterialReference>(entity);
     }
 }
 
@@ -21,12 +23,38 @@ internal class AddUIMaterialsReference : GameObjectConversionSystem
         Entities.ForEach((MaterialsAuthoring materialsAuth) =>
         {
             var primaryEntity = GetPrimaryEntity(materialsAuth);
-            var buffer = DstEntityManager.GetBuffer<RuntimeMaterialReference>(primaryEntity);
 
-            foreach (var material in materialsAuth.materials)
+            var gameMaterialsBuffer = DstEntityManager.GetBuffer<GameMaterialReference>(primaryEntity);
+            foreach (var material in materialsAuth.gameMaterials)
             {
-                buffer.Add(new RuntimeMaterialReference() { materialEntity = GetPrimaryEntity(material) });
+                gameMaterialsBuffer.Add(new GameMaterialReference() { materialEntity = GetPrimaryEntity(material) });
             }
+
+            var uiMaterialsBuffer = DstEntityManager.GetBuffer<UIMaterialReference>(primaryEntity);
+            foreach (var material in materialsAuth.uiMaterials)
+            {
+                uiMaterialsBuffer.Add(new UIMaterialReference() { materialEntity = GetPrimaryEntity(material) });
+            }
+        });
+    }
+}
+
+[UpdateInGroup(typeof(GameObjectDeclareReferencedObjectsGroup))]
+internal class DeclareNumberMaterials : GameObjectConversionSystem
+{
+    protected override void OnUpdate()
+    {
+        Entities.ForEach((MaterialsAuthoring uNum) =>
+        {
+            foreach (Material mat in uNum.uiMaterials)
+            {
+                DeclareReferencedAsset(mat);
+            }
+
+            /*foreach (Material mat in uNum.gameMaterials)
+            {
+                DeclareReferencedAsset(mat);
+            }*/
         });
     }
 }

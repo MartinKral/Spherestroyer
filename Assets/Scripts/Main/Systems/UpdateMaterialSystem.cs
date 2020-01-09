@@ -9,14 +9,14 @@ public class UpdateMaterialSystem : JobComponentSystem
 {
     protected override void OnCreate()
     {
-        RequireSingletonForUpdate<RuntimeMaterialReferencesTag>();
+        RequireSingletonForUpdate<MaterialReferencesTag>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var materialReferencesEntity = GetSingletonEntity<RuntimeMaterialReferencesTag>();
+        var materialReferencesEntity = GetSingletonEntity<MaterialReferencesTag>();
 
-        var nBuffer = EntityManager.GetBuffer<RuntimeMaterialReference>(materialReferencesEntity);
+        var nBuffer = EntityManager.GetBuffer<GameMaterialReference>(materialReferencesEntity);
         var materials = nBuffer.ToNativeArray(Allocator.TempJob);
 
         Entities
