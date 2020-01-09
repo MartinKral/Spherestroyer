@@ -5,6 +5,7 @@ using Unity.Jobs;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
+[UpdateBefore(typeof(SphereDestructionSystem))]
 public class ParticlesSpawnSystem : JobComponentSystem
 {
     private EntityQuery entityQuery;
@@ -23,7 +24,8 @@ public class ParticlesSpawnSystem : JobComponentSystem
         var translations = entityQuery.ToComponentDataArray<Translation>(Allocator.TempJob);
         var materialIds = entityQuery.ToComponentDataArray<MaterialId>(Allocator.TempJob);
 
-        Entities.ForEach((in ParticlesSpawner particlesSpawner) =>
+        Entities
+            .ForEach((in ParticlesSpawner particlesSpawner) =>
         {
             for (int i = 0; i < translations.Length; i++)
             {

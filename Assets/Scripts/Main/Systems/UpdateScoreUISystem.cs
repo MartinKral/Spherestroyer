@@ -22,12 +22,19 @@ public class UpdateScoreUISystem : JobComponentSystem
         var nBuffer = EntityManager.GetBuffer<UIMaterialReference>(materialReferencesEntity);
         var materials = nBuffer.ToNativeArray(Allocator.TempJob);
 
+        var ecb = new EntityCommandBuffer(Allocator.Temp);
+
         Entities
-            .ForEach((ref MeshRenderer meshRenderer, in ScorePart scorePart) =>
+            .WithAll<UpdateScoreTag, ActivatedTag>()
+            .ForEach((Entity entity, ref MeshRenderer meshRenderer, in ScorePart scorePart) =>
             {
                 int digit = (int)((float)gameData.score / scorePart.Divisor);
                 meshRenderer.material = materials[digit % 10].materialEntity;
+                ecb.RemoveComponent<ActivatedTag>(entity);
             }).Run();
+
+        ecb.Playback(EntityManager);
+        ecb.Dispose();
 
         materials.Dispose();
         return default;

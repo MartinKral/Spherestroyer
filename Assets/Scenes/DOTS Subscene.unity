@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 27679417}
   - component: {fileID: 27679416}
   - component: {fileID: 27679419}
+  - component: {fileID: 27679420}
   m_Layer: 0
   m_Name: ScoreHundreds
   m_TagString: Untagged
@@ -214,6 +215,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Divisor: 100
+--- !u!114 &27679420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27679415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5fb98fb24f03f24898e8b9a3128eb70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &77829784
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +829,7 @@ GameObject:
   - component: {fileID: 1026385741}
   - component: {fileID: 1026385740}
   - component: {fileID: 1026385743}
+  - component: {fileID: 1026385744}
   m_Layer: 0
   m_Name: ScoreUnits
   m_TagString: Untagged
@@ -897,6 +911,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Divisor: 1
+--- !u!114 &1026385744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026385739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5fb98fb24f03f24898e8b9a3128eb70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1107420621
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,6 +935,7 @@ GameObject:
   - component: {fileID: 1107420623}
   - component: {fileID: 1107420622}
   - component: {fileID: 1107420625}
+  - component: {fileID: 1107420626}
   m_Layer: 0
   m_Name: ScoreTens
   m_TagString: Untagged
@@ -990,6 +1017,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Divisor: 10
+--- !u!114 &1107420626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107420621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5fb98fb24f03f24898e8b9a3128eb70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1133950497
 GameObject:
   m_ObjectHideFlags: 0
@@ -1035,6 +1074,7 @@ GameObject:
   - component: {fileID: 1527805005}
   - component: {fileID: 1527805004}
   - component: {fileID: 1527805007}
+  - component: {fileID: 1527805008}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1138,6 +1178,28 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1527805008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527805003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 432f7339a81c8a748be9352714c037c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Intensity:
+    x: 0.03
+    y: 0.03
+    z: 0.03
+  Duration: 0.3
+  DurationLeft: 0.3
+  DefaultTranslation:
+    x: 0
+    y: 0
+    z: 0
 --- !u!1 &1954196940
 GameObject:
   m_ObjectHideFlags: 0
