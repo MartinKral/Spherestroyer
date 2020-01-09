@@ -1,10 +1,7 @@
-﻿using System;
-using Unity.Burst;
+﻿using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using Unity.Tiny;
-using UnityEngine;
 using Unity.Jobs;
 
 public class RotationSystem : JobComponentSystem
@@ -13,21 +10,23 @@ public class RotationSystem : JobComponentSystem
     {
         var job = new RotateJob
         {
-            deltaTime = (float)Time.DeltaTime
+            deltaTime = Time.DeltaTime
         };
         return job.Schedule(this, inputDeps);
     }
 
     [BurstCompile]
-    public struct RotateJob : IJobForEach<RotateY, Rotation>
+    public struct RotateJob : IJobForEach<Rotate, Rotation>
     {
         public float deltaTime;
 
-        public void Execute(ref RotateY rotate, ref Rotation rotation)
+        public void Execute(ref Rotate rotate, ref Rotation rotation)
         {
-            rotation.Value = math.mul(
-                     math.normalize(rotation.Value),
-                     quaternion.AxisAngle(math.up(), rotate.RadiansPerSecond * deltaTime));
+            quaternion qx = quaternion.RotateX(rotate.radiansPerSecond.x * deltaTime);
+            quaternion qy = quaternion.RotateY(rotate.radiansPerSecond.y * deltaTime);
+            quaternion qz = quaternion.RotateZ(rotate.radiansPerSecond.z * deltaTime);
+
+            rotation.Value = math.mul(math.normalize(rotation.Value), math.mul(qx, math.mul(qy, qz)));
         }
     }
 }

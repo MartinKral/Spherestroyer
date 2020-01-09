@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -3912435069910862871}
   - component: {fileID: 4984348801048945353}
   - component: {fileID: 3687039300884750175}
+  - component: {fileID: -2415183744198084934}
   m_Layer: 0
   m_Name: Icosphere
   m_TagString: Untagged
@@ -108,7 +109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ad4a0696945e06468526901e7d61d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RadiansPerSecond: -1
+  radiansPerSecond:
+    x: 0
+    y: 0
+    z: 0
 --- !u!114 &-3912435069910862871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,3 +153,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d0d5c12f415fb418aa238d7a7b8057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2415183744198084934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9064256488595117554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98db3e3fbb49afe4689e8f0c26c5e39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinMaxX:
+    x: -1
+    y: 1
+  MinMaxY:
+    x: -1
+    y: 1
+  MinMaxZ:
+    x: -1
+    y: 1

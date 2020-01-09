@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct UpdateMaterialTag : IComponentData
+public struct ParticleShardTag : IComponentData
 {
 }

@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 
-public class RandomMoveSystem : JobComponentSystem
+public class RandomRotateSystem : JobComponentSystem
 {
     private Random randomGenerator;
 
@@ -23,7 +23,7 @@ public class RandomMoveSystem : JobComponentSystem
     {
         _ = randomGenerator.NextInt();
 
-        var jobHandle = new RandomMoveSystemJob()
+        var jobHandle = new RandomRotateSystemJob()
         {
             randomGenerator = randomGenerator,
             ecb = ecbs.CreateCommandBuffer().ToConcurrent()
@@ -32,18 +32,22 @@ public class RandomMoveSystem : JobComponentSystem
     }
 
     [BurstCompile]
-    private struct RandomMoveSystemJob : IJobForEachWithEntity<Move, RandomMove>
+    private struct RandomRotateSystemJob : IJobForEachWithEntity<Rotate, RandomRotate>
     {
         public Random randomGenerator;
         public EntityCommandBuffer.Concurrent ecb;
 
-        public void Execute(Entity entity, int index, ref Move move, ref RandomMove randomMove)
+        public void Execute(Entity entity, int index, ref Rotate rotate, ref RandomRotate randomRotate)
         {
-            move.speedX = randomGenerator.NextFloat(randomMove.MinMaxX.x, randomMove.MinMaxX.y);
-            move.speedY = randomGenerator.NextFloat(randomMove.MinMaxY.x, randomMove.MinMaxY.y);
-            move.speedZ = randomGenerator.NextFloat(randomMove.MinMaxZ.x, randomMove.MinMaxZ.y);
+            float3 randomRadiansPerSecond = new float3(
+                randomGenerator.NextFloat(randomRotate.MinMaxX.x, randomRotate.MinMaxX.y),
+                randomGenerator.NextFloat(randomRotate.MinMaxY.x, randomRotate.MinMaxY.y),
+                randomGenerator.NextFloat(randomRotate.MinMaxZ.x, randomRotate.MinMaxZ.y)
+                );
 
-            ecb.RemoveComponent<RandomMove>(index, entity);
+            rotate.radiansPerSecond = randomRadiansPerSecond;
+
+            ecb.RemoveComponent<RandomRotate>(index, entity);
         }
     }
 }
