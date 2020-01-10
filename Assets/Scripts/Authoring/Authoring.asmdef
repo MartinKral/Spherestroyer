@@ -11,7 +11,8 @@
         "Unity.Collections",
         "Unity.Tiny.Rendering",
         "Unity.Tiny.Core",
-        "Main"
+        "Main",
+        "Unity.Tiny.Audio"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

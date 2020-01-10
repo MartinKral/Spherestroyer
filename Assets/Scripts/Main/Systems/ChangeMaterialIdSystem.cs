@@ -20,7 +20,7 @@ public class ChangeMaterialIdSystem : JobComponentSystem
         return jobHandle;
     }
 
-    [RequireComponentTag(typeof(OnClickTag))]
+    [RequireComponentTag(typeof(OnInputTag))]
     private struct ChangeMaterialIdSystemJob : IJobForEachWithEntity<MaterialId>
     {
         public EntityCommandBuffer.Concurrent ecb;

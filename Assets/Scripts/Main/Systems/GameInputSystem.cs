@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using Unity.Jobs;
+using Unity.Tiny.Audio;
 using Unity.Tiny.Input;
 
 [AlwaysUpdateSystem]
@@ -31,8 +32,11 @@ public class GameInputSystem : JobComponentSystem
         EntityCommandBuffer beginBuffer = beginInitECBS.CreateCommandBuffer();
         EntityCommandBuffer endBuffer = endInitECBS.CreateCommandBuffer();
 
-        beginBuffer.AddComponent(inputEntityQuery, typeof(OnClickTag));
-        endBuffer.RemoveComponent(inputEntityQuery, typeof(OnClickTag));
+        beginBuffer.AddComponent(inputEntityQuery, typeof(OnInputTag));
+        endBuffer.RemoveComponent(inputEntityQuery, typeof(OnInputTag));
+
+        Entity soundManagerEntity = GetSingletonEntity<SoundManagerTag>();
+        EntityManager.AddComponent<AudioSourceStart>(soundManagerEntity);
 
         return default;
     }
