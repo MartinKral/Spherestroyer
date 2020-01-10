@@ -2,5 +2,5 @@
 
 public struct SpikeReference : IComponentData
 {
-    public Entity entity;
+    public Entity Entity;
 }

@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct GameEndedTag : IComponentData
+public struct DestroyedTag : IComponentData
 {
 }

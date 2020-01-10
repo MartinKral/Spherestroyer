@@ -5,6 +5,7 @@ using Unity.Jobs;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
+[UpdateAfter(typeof(DestructionBufferSystem))]
 [UpdateBefore(typeof(SphereDestructionSystem))]
 public class ParticlesSpawnSystem : JobComponentSystem
 {
@@ -13,7 +14,7 @@ public class ParticlesSpawnSystem : JobComponentSystem
     protected override void OnCreate()
     {
         entityQuery = GetEntityQuery(
-            ComponentType.ReadOnly(typeof(DestroyedIcosphereTag)),
+            ComponentType.ReadOnly(typeof(DestroyedTag)),
             ComponentType.ReadOnly(typeof(Translation)),
             ComponentType.ReadOnly(typeof(MaterialId)));
     }

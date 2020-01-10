@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
+[UpdateAfter(typeof(DestructionBufferSystem))]
 public class SphereDestructionSystem : JobComponentSystem
 {
     private EntityQuery shakeTarget;
@@ -24,7 +25,7 @@ public class SphereDestructionSystem : JobComponentSystem
         var gameData = GetSingleton<GameData>();
 
         Entities
-            .WithAll<DestroyedIcosphereTag>()
+            .WithAll<DestroyedTag, SphereTag>()
             .WithoutBurst()
             .ForEach((Entity entity, in Translation translation) =>
             {

@@ -1,7 +1,5 @@
-﻿using Unity.Burst;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Jobs;
-using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
 public class EndGameSystem : JobComponentSystem
@@ -21,13 +19,19 @@ public class EndGameSystem : JobComponentSystem
         var ecb = ecbs.CreateCommandBuffer();
 
         Entities
-            .WithAll<GameEndedTag>()
             .WithoutBurst()
-            .ForEach((Entity e) =>
+            .ForEach((Entity entity, ref GameEnd gameEnd) =>
             {
-                ecb.DestroyEntity(e);
-                gameData.IsGameFinished = true;
-                SetSingleton(gameData);
+                if (0 < gameEnd.TimeToEnd)
+                {
+                    gameEnd.TimeToEnd -= Time.DeltaTime;
+                }
+                else
+                {
+                    ecb.DestroyEntity(entity);
+                    gameData.IsGameFinished = true;
+                    SetSingleton(gameData);
+                }
             }).Run();
 
         return default;

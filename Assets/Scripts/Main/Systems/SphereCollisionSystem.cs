@@ -3,14 +3,15 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
+using UnityEngine;
 
 public class SphereCollisionSystem : JobComponentSystem
 {
-    private EndSimulationEntityCommandBufferSystem ecbs;
+    private DestructionBufferSystem ecbs;
 
     protected override void OnCreate()
     {
-        ecbs = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        ecbs = World.GetOrCreateSystem<DestructionBufferSystem>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -24,8 +25,9 @@ public class SphereCollisionSystem : JobComponentSystem
         return jobHandle;
     }
 
-    [BurstCompile]
-    [ExcludeComponent(typeof(DestroyedIcosphereTag))]
+    //[BurstCompile]
+    [RequireComponentTag(typeof(SphereTag))]
+    [ExcludeComponent(typeof(DestroyedTag))]
     private struct SphereCollisionSystemJob : IJobForEachWithEntity<Translation, MaterialId, SpikeReference>
     {
         public EntityCommandBuffer.Concurrent ecb;
@@ -39,22 +41,21 @@ public class SphereCollisionSystem : JobComponentSystem
             [ReadOnly] ref MaterialId materialId,
             [ReadOnly] ref SpikeReference spikeReference)
         {
-            if (!MaterialIdData.Exists(spikeReference.entity)) throw new System.Exception($"Spike should have {typeof(MaterialId)}");
-            if (!TranslationData.Exists(spikeReference.entity)) throw new System.Exception($"Spike should have {typeof(Translation)}");
+            if (!MaterialIdData.Exists(spikeReference.Entity)) return; // The entity is destroyed
+            if (!TranslationData.Exists(spikeReference.Entity)) return;
 
-            MaterialId spikeMaterial = MaterialIdData[spikeReference.entity];
-            Translation spikeTranslation = TranslationData[spikeReference.entity];
+            MaterialId spikeMaterial = MaterialIdData[spikeReference.Entity];
+            Translation spikeTranslation = TranslationData[spikeReference.Entity];
 
             if (translation.Value.y <= spikeTranslation.Value.y + 0.5f)
             {
                 if (materialId.currentMaterialId == spikeMaterial.currentMaterialId)
                 {
-                    ecb.AddComponent<DestroyedIcosphereTag>(index, entity);
+                    ecb.AddComponent<DestroyedTag>(index, entity);
                 }
                 else
                 {
-                    Entity gameEndedEntity = ecb.CreateEntity(index);
-                    ecb.AddComponent(index, gameEndedEntity, new GameEndedTag());
+                    ecb.AddComponent<DestroyedTag>(index, spikeReference.Entity);
                 }
             }
         }
