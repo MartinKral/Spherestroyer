@@ -1,6 +1,7 @@
 ﻿using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
+using Unity.Tiny.Audio;
 
 [AlwaysSynchronizeSystem]
 public class TouchSymbolSystem : JobComponentSystem
@@ -10,8 +11,14 @@ public class TouchSymbolSystem : JobComponentSystem
         var ecb = new EntityCommandBuffer(Allocator.Temp);
         Entities
             .WithAll<TouchSymbolTag, OnInputTag>()
+            .WithoutBurst()
             .ForEach((Entity entity) =>
             {
+                Entity startGameEntity = ecb.CreateEntity();
+                ecb.AddComponent<StartGameTag>(startGameEntity);
+
+                // OnInputTag needs to be removed manually, since this will get disabled immediately
+                ecb.RemoveComponent<OnInputTag>(entity);
                 ecb.AddComponent<Disabled>(entity);
             }).Run();
 

@@ -3,7 +3,6 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
-using UnityEngine;
 
 public class SphereCollisionSystem : JobComponentSystem
 {
@@ -12,20 +11,25 @@ public class SphereCollisionSystem : JobComponentSystem
     protected override void OnCreate()
     {
         ecbs = World.GetOrCreateSystem<DestructionBufferSystem>();
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
+        var gameData = GetSingleton<GameData>();
+        if (gameData.IsGameFinished) return inputDeps;
+
         var jobHandle = new SphereCollisionSystemJob()
         {
             ecb = ecbs.CreateCommandBuffer().ToConcurrent(),
             MaterialIdData = GetComponentDataFromEntity<MaterialId>(true),
-            TranslationData = GetComponentDataFromEntity<Translation>(true)
+            TranslationData = GetComponentDataFromEntity<Translation>(true),
+            DisabledData = GetComponentDataFromEntity<Disabled>(true)
         }.Schedule(this, inputDeps);
         return jobHandle;
     }
 
-    //[BurstCompile]
+    [BurstCompile]
     [RequireComponentTag(typeof(SphereTag))]
     [ExcludeComponent(typeof(DestroyedTag))]
     private struct SphereCollisionSystemJob : IJobForEachWithEntity<Translation, MaterialId, SpikeReference>
@@ -33,6 +37,7 @@ public class SphereCollisionSystem : JobComponentSystem
         public EntityCommandBuffer.Concurrent ecb;
         [ReadOnly] public ComponentDataFromEntity<MaterialId> MaterialIdData;
         [ReadOnly] public ComponentDataFromEntity<Translation> TranslationData;
+        [ReadOnly] public ComponentDataFromEntity<Disabled> DisabledData;
 
         public void Execute(
             Entity entity,
@@ -41,7 +46,8 @@ public class SphereCollisionSystem : JobComponentSystem
             [ReadOnly] ref MaterialId materialId,
             [ReadOnly] ref SpikeReference spikeReference)
         {
-            if (!MaterialIdData.Exists(spikeReference.Entity)) return; // The entity is destroyed
+            if (DisabledData.Exists(spikeReference.Entity)) return; // The entity is disabled
+            if (!MaterialIdData.Exists(spikeReference.Entity)) return;
             if (!TranslationData.Exists(spikeReference.Entity)) return;
 
             MaterialId spikeMaterial = MaterialIdData[spikeReference.Entity];

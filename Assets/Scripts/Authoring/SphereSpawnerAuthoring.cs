@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Unity.Entities;
-using Unity.Mathematics;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class IcosphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, IConvertGameObjectToEntity
+public class SphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, IConvertGameObjectToEntity
 {
     public GameObject IcospherePrefab;
     public GameObject spike;
@@ -14,6 +13,8 @@ public class IcosphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefab
     {
         Entity prefabEntity = conversionSystem.GetPrimaryEntity(IcospherePrefab);
 
+        dstManager.AddComponent(entity, typeof(Disabled));
+        dstManager.AddComponent(entity, typeof(EnableOnStartTag));
         dstManager.AddComponentData(prefabEntity, new SpikeReference { Entity = conversionSystem.GetPrimaryEntity(spike) });
         dstManager.AddComponentData(entity, new SphereSpawner()
         {

@@ -16,7 +16,8 @@ public class RandomRotateSystem : JobComponentSystem
 
     protected override void OnStartRunning()
     {
-        randomGenerator = new Random((uint)(Time.DeltaTime * 1000));
+        randomGenerator = new Random();
+        randomGenerator.InitState();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)

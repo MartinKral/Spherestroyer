@@ -22,14 +22,15 @@ public class SpikeDestructionSystem : JobComponentSystem
 
                 for (int i = 0; i < childArray.Length; i++)
                 {
-                    ecb.DestroyEntity(childArray[i].Value);
+                    ecb.AddComponent<Disabled>(childArray[i].Value);
                 }
                 childArray.Dispose();
 
                 Entity gameEndedEntity = ecb.CreateEntity();
-                ecb.AddComponent(gameEndedEntity, new GameEnd() { TimeToEnd = 2 });
+                ecb.AddComponent(gameEndedEntity, new GameEnd() { TimeToEnd = 1 });
 
-                ecb.DestroyEntity(entity);
+                ecb.RemoveComponent<DestroyedTag>(entity);
+                ecb.AddComponent<Disabled>(entity);
             }).Run();
 
         ecb.Playback(EntityManager);

@@ -35,9 +35,6 @@ public class GameInputSystem : JobComponentSystem
         beginBuffer.AddComponent(inputEntityQuery, typeof(OnInputTag));
         endBuffer.RemoveComponent(inputEntityQuery, typeof(OnInputTag));
 
-        Entity soundManagerEntity = GetSingletonEntity<SoundManagerTag>();
-        EntityManager.AddComponent<AudioSourceStart>(soundManagerEntity);
-
         return default;
     }
 }
