@@ -8,5 +8,5 @@ change materials at runtime, use two systems
 to be added only after the first input from the user.
 
 ## Misc
-- IJobForEach works in editor with Tag components, but not in DOTS runtime >> replace with Entity.WithAll<T>.ForEach
+- `IJobForEach<T>` works in editor with Tag components, but not in DOTS runtime >> replace with Entities.WithAll<T>.ForEach
 - Remember to always use `RequireSingletonForUpdate<T>()` in `OnStartRunning()` / `OnCreate()` when using singleton
