@@ -35,6 +35,9 @@ public class GameInputSystem : JobComponentSystem
         beginBuffer.AddComponent(inputEntityQuery, typeof(OnInputTag));
         endBuffer.RemoveComponent(inputEntityQuery, typeof(OnInputTag));
 
+        JsInteractor.OpenURL("https://www.y8.com/");
+        JsInteractor.Hello();
+
         return default;
     }
 }
