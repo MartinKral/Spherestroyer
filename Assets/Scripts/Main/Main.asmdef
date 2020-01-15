@@ -14,7 +14,7 @@
         "Unity.Tiny.Core",
         "Unity.Tiny.Rendering",
         "Unity.Tiny.Audio",
-        "JsInteractor"
+        "URLOpener"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
