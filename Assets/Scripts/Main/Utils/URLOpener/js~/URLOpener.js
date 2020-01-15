@@ -4,11 +4,15 @@ mergeInto(LibraryManager.library, {
         var gameCanvas = document.getElementById("UT_CANVAS");  
 
         if (gameCanvas != null)  {
-            gameCanvas.onmouseup = function()
+            var endInteractFunction = function()
             {    
                 window.open(url, "_blank");
-                gameCanvas.onmouseup = null;                
+                gameCanvas.onmouseup = null;  
+                gameCanvas.ontouchend = null;              
             }
+
+            gameCanvas.ontouchend = endInteractFunction;
+            gameCanvas.onmouseup = endInteractFunction;
         } else {
             console.error("UT_CANVAS not found, was it renamed?");
         }

@@ -47,8 +47,8 @@ public class GameInputSystem : JobComponentSystem
 
     private bool IsInputInRect(float minX, float maxX, float minY, float maxY)
     {
-        var posX = Input.GetInputPosition().x;
-        var posY = Input.GetInputPosition().y;
+        float posX = Input.GetInputPosition().x;
+        float posY = Input.GetInputPosition().y;
 
         var displayInfo = GetSingleton<DisplayInfo>();
 
