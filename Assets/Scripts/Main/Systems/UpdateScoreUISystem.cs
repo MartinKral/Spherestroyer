@@ -11,13 +11,11 @@ public class UpdateScoreUISystem : JobComponentSystem
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<MaterialReferencesTag>();
-        RequireSingletonForUpdate<GameData>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var materialReferencesEntity = GetSingletonEntity<MaterialReferencesTag>();
-        var gameData = GetSingleton<GameData>();
 
         var nBuffer = EntityManager.GetBuffer<UIMaterialReference>(materialReferencesEntity);
         var materials = nBuffer.ToNativeArray(Allocator.TempJob);
@@ -25,10 +23,10 @@ public class UpdateScoreUISystem : JobComponentSystem
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
         Entities
-            .WithAll<UpdateScoreTag, ActivatedTag>()
+            .WithAll<ActivatedTag>()
             .ForEach((Entity entity, ref MeshRenderer meshRenderer, in ScorePart scorePart) =>
             {
-                int digit = (int)((float)gameData.score / scorePart.Divisor);
+                int digit = (int)((float)scorePart.TargetScore / scorePart.Divisor);
                 meshRenderer.material = materials[digit % 10].materialEntity;
                 ecb.RemoveComponent<ActivatedTag>(entity);
             }).Run();

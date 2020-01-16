@@ -37,6 +37,7 @@ public class EndGameSystem : JobComponentSystem
                     ComponentType.ReadOnly(typeof(Disabled)));
 
                 ecb.RemoveComponent(touchSymbolQuery, typeof(Disabled));
+
                 ecb.DestroyEntity(entity);
             }).Run();
 

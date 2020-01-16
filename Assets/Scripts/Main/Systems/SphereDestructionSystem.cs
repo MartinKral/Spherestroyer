@@ -14,7 +14,7 @@ public class SphereDestructionSystem : JobComponentSystem
     protected override void OnCreate()
     {
         shakeTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(Shake)));
-        uiUpdateTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(UpdateScoreTag)));
+        uiUpdateTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(ScoreTag)));
 
         RequireSingletonForUpdate<GameData>();
     }

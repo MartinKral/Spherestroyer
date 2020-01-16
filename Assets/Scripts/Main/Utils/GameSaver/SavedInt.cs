@@ -24,6 +24,8 @@
         Value = stringValue.ToInt();
     }
 
+    public static implicit operator int(SavedInt savedInt) => savedInt.value;
+
     private void Save()
     {
         LocalStorage.SetLocalStorageItem(id, Value.ToStringExtension());

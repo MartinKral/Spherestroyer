@@ -70,7 +70,7 @@ public class StartGameSystem : JobComponentSystem
 
     private void UpdateScoreUI(EntityCommandBuffer ecb)
     {
-        EntityQuery uiQuery = GetEntityQuery(ComponentType.ReadOnly(typeof(UpdateScoreTag)));
+        EntityQuery uiQuery = GetEntityQuery(ComponentType.ReadOnly(typeof(ScoreTag)));
         ecb.AddComponent(uiQuery, typeof(ActivatedTag));
     }
 }
