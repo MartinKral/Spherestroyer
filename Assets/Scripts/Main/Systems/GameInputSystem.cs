@@ -1,8 +1,6 @@
-﻿using System;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Jobs;
 using Unity.Tiny;
-using Unity.Tiny.Audio;
 using Unity.Tiny.Input;
 
 [AlwaysUpdateSystem]
@@ -51,7 +49,6 @@ public class GameInputSystem : JobComponentSystem
         float posY = Input.GetInputPosition().y;
 
         var displayInfo = GetSingleton<DisplayInfo>();
-
         float targetRatio = 1920.0f / 1080.0f; // internal aspect ratio
         float currentRatio = (float)displayInfo.width / displayInfo.height;
 
