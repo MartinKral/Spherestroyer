@@ -17,9 +17,6 @@ public class TouchSymbolSystem : JobComponentSystem
                 Entity startGameEntity = ecb.CreateEntity();
                 ecb.AddComponent<StartGameTag>(startGameEntity);
 
-                Entity updateHighscoreEntity = ecb.CreateEntity();
-                ecb.AddComponent<UpdateHighscoreTag>(updateHighscoreEntity);
-
                 // OnInputTag needs to be removed manually, since this will get disabled immediately
                 ecb.RemoveComponent<OnInputTag>(entity);
                 ecb.AddComponent<Disabled>(entity);

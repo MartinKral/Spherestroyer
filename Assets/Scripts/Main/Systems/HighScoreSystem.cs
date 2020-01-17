@@ -1,10 +1,8 @@
-﻿using Unity.Entities;
-using Unity.Transforms;
+﻿using Unity.Collections;
+using Unity.Entities;
 using Unity.Jobs;
-using Unity.Collections;
 
 [AlwaysSynchronizeSystem]
-[UpdateBefore(typeof(StartGameSystem))]
 public class HighScoreSystem : JobComponentSystem
 {
     private readonly SavedInt savedHighscore = new SavedInt("spherestroyer-highscore");

@@ -1,4 +1,5 @@
-﻿using Unity.Burst;
+﻿using System;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -25,11 +26,13 @@ public class SphereSpawnSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
+        randomGenerator.NextFloat();
+
         var jobHandle = new SpawningJob()
         {
             ecb = ecbs.CreateCommandBuffer().ToConcurrent(),
             positionY = 5,
-            materialType = randomGenerator.NextInt(3),
+            randomGenerator = randomGenerator,
             deltaTime = Time.DeltaTime
         }.Schedule(this, inputDeps);
         ecbs.AddJobHandleForProducer(jobHandle);
@@ -42,21 +45,55 @@ public class SphereSpawnSystem : JobComponentSystem
     {
         public EntityCommandBuffer.Concurrent ecb;
 
+        public Random randomGenerator;
         public int positionY;
-        public int materialType;
         public float deltaTime;
 
-        public void Execute(Entity entity, int index, ref SphereSpawner sphereSpawner)
+        public void Execute(Entity entity, int index, ref SphereSpawner spawner)
         {
-            sphereSpawner.SecondsUntilSpawn -= deltaTime;
-            if (0 < sphereSpawner.SecondsUntilSpawn) return;
+            spawner.SecondsUntilSpawn -= deltaTime;
+            if (0 < spawner.SecondsUntilSpawn) return;
 
-            sphereSpawner.SecondsUntilSpawn = sphereSpawner.Delay;
+            spawner.TimesUpgraded += randomGenerator.NextFloat() < spawner.ChanceToUpgrade ? 1 : 0;
 
-            Entity icosphereEntity = ecb.Instantiate(index, sphereSpawner.Prefab);
+            var nextDelay = 1 / (spawner.SpheresPerSecond + spawner.TimesUpgraded * spawner.SpawnRatePerUpgrade);
+            spawner.SecondsUntilSpawn = nextDelay;
+
             var position = new float3(0, positionY, 0);
+            var materialId = randomGenerator.NextInt(3);
+
+            if (!TrySpawnBurst(spawner))
+            {
+                SpawnRandomSphereAtPosition(position, materialId, index, spawner);
+            }
+            else
+            {
+                spawner.SecondsUntilSpawn = nextDelay * 3;
+                position.y += 2;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    var burstSpherePosition = position;
+                    burstSpherePosition.y += 1.2f * i;
+
+                    var burstSphereMaterial = (materialId + 1 * i) % 3;
+                    SpawnRandomSphereAtPosition(burstSpherePosition, burstSphereMaterial, index, spawner);
+                }
+            }
+        }
+
+        private bool TrySpawnBurst(SphereSpawner spawner)
+        {
+            if (spawner.TimesUpgraded < 3) return false;
+            return randomGenerator.NextFloat() < spawner.ChanceToBurst;
+        }
+
+        private void SpawnRandomSphereAtPosition(float3 position, int materialId, int index, in SphereSpawner spawner)
+        {
+            Entity icosphereEntity = ecb.Instantiate(index, spawner.Prefab);
             ecb.SetComponent(index, icosphereEntity, new Translation { Value = position });
-            ecb.SetComponent(index, icosphereEntity, new MaterialId { currentMaterialId = materialType });
+            ecb.SetComponent(index, icosphereEntity, new MaterialId { currentMaterialId = materialId });
+            ecb.SetComponent(index, icosphereEntity, new Move { speedY = -1 - 0.1f * spawner.TimesUpgraded });
             ecb.AddComponent<UpdateMaterialTag>(index, icosphereEntity);
         }
     }

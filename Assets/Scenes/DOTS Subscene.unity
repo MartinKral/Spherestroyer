@@ -2054,7 +2054,10 @@ MonoBehaviour:
   IcospherePrefab: {fileID: 9064256488595117554, guid: 74e70b8282884124f988edac1fee12a4,
     type: 3}
   spike: {fileID: 446473569}
-  delay: 2
+  SpheresPerSecond: 0.3
+  ChanceToUpgrade: 0.3
+  SpawnRatePerUpgrade: 0.05
+  ChanceToBurst: 0.1
 --- !u!4 &1954196942
 Transform:
   m_ObjectHideFlags: 0

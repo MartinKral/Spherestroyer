@@ -7,10 +7,20 @@ public class EndGameSystem : JobComponentSystem
 {
     private EndSimulationEntityCommandBufferSystem ecbs;
 
+    private EntityQuery disabledTouchSymbolEQ;
+    private EntityQuery sphereSpawnerEQ;
+
     protected override void OnCreate()
     {
-        RequireSingletonForUpdate<GameData>();
         ecbs = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+
+        disabledTouchSymbolEQ = GetEntityQuery(
+            ComponentType.ReadOnly(typeof(TouchSymbolTag)),
+            ComponentType.ReadOnly(typeof(Disabled)));
+
+        sphereSpawnerEQ = GetEntityQuery(ComponentType.ReadOnly(typeof(SphereSpawner)));
+
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -32,11 +42,11 @@ public class EndGameSystem : JobComponentSystem
                 gameData.IsGameFinished = true;
                 SetSingleton(gameData);
 
-                EntityQuery touchSymbolQuery = GetEntityQuery(
-                    ComponentType.ReadOnly(typeof(TouchSymbolTag)),
-                    ComponentType.ReadOnly(typeof(Disabled)));
+                ecb.RemoveComponent(disabledTouchSymbolEQ, typeof(Disabled));
+                ecb.AddComponent(sphereSpawnerEQ, typeof(ResetTag));
 
-                ecb.RemoveComponent(touchSymbolQuery, typeof(Disabled));
+                Entity updateHighscoreEntity = ecb.CreateEntity();
+                ecb.AddComponent<UpdateHighscoreTag>(updateHighscoreEntity);
 
                 ecb.DestroyEntity(entity);
             }).Run();
