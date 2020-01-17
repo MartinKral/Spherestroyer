@@ -16,7 +16,7 @@ public class MoveSystem : JobComponentSystem
         var gameDataEntity = GetSingletonEntity<GameData>();
         var gameData = EntityManager.GetComponentData<GameData>(gameDataEntity);
 
-        if (gameData.IsGameFinished) return inputDeps;
+        if (!gameData.IsGameActive) return inputDeps;
 
         var jobHandle = new MoveSystemJob()
         {

@@ -17,7 +17,7 @@ public class SphereCollisionSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var gameData = GetSingleton<GameData>();
-        if (gameData.IsGameFinished) return inputDeps;
+        if (!gameData.IsGameActive) return inputDeps;
 
         var jobHandle = new SphereCollisionSystemJob()
         {

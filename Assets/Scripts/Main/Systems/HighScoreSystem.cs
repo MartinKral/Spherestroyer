@@ -1,6 +1,7 @@
 ﻿using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
+using Unity.Tiny.Audio;
 
 [AlwaysSynchronizeSystem]
 public class HighScoreSystem : JobComponentSystem
@@ -33,6 +34,7 @@ public class HighScoreSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var gameData = GetSingleton<GameData>();
+        var soundManager = GetSingleton<SoundManager>();
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
@@ -45,6 +47,7 @@ public class HighScoreSystem : JobComponentSystem
                 {
                     ecb.RemoveComponent(disabledHighscoreUi, typeof(Disabled));
                     ecb.AddComponent(highScoreUi, typeof(ActivatedTag));
+                    ecb.AddComponent<AudioSourceStart>(soundManager.HighscoreAS);
                     savedHighscore.Value = gameData.score;
                 }
                 ecb.DestroyEntity(entity);

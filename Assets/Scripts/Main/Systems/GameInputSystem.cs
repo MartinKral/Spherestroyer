@@ -29,16 +29,17 @@ public class GameInputSystem : JobComponentSystem
     {
         if (!Input.GetMouseButtonDown(0)) return default;
 
+        if (IsInputInRect(0.1f, 0.21f, 0.78f, 0.88f)) // Box with Y8 branding
+        {
+            URLOpener.OpenURL("https://www.y8.com/");
+            return default;
+        };
+
         EntityCommandBuffer beginBuffer = beginInitECBS.CreateCommandBuffer();
         EntityCommandBuffer endBuffer = endInitECBS.CreateCommandBuffer();
 
         beginBuffer.AddComponent(inputEntityQuery, typeof(OnInputTag));
         endBuffer.RemoveComponent(inputEntityQuery, typeof(OnInputTag));
-
-        if (IsInputInRect(0.1f, 0.21f, 0.78f, 0.88f)) // Box with Y8 branding
-        {
-            URLOpener.OpenURL("https://www.y8.com/");
-        };
 
         return default;
     }

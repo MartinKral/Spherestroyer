@@ -2,6 +2,7 @@
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
+using Unity.Tiny.Audio;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
@@ -11,6 +12,7 @@ public class SpikeDestructionSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var ecb = new EntityCommandBuffer(Allocator.Temp);
+        var soundManager = GetSingleton<SoundManager>();
 
         Entities
             .WithAll<DestroyedTag, SpikeTag>()
@@ -28,6 +30,9 @@ public class SpikeDestructionSystem : JobComponentSystem
 
                 Entity gameEndedEntity = ecb.CreateEntity();
                 ecb.AddComponent(gameEndedEntity, new GameEnd() { TimeToEnd = 1 });
+
+                ecb.AddComponent<AudioSourceStop>(soundManager.MusicAS);
+                ecb.AddComponent<AudioSourceStart>(soundManager.EndAS);
 
                 ecb.RemoveComponent<DestroyedTag>(entity);
                 ecb.AddComponent<Disabled>(entity);

@@ -16,8 +16,6 @@ public class SphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, 
     {
         Entity prefabEntity = conversionSystem.GetPrimaryEntity(IcospherePrefab);
 
-        dstManager.AddComponent(entity, typeof(Disabled));
-        dstManager.AddComponent(entity, typeof(EnableOnStartTag));
         dstManager.AddComponentData(prefabEntity, new SpikeReference { Entity = conversionSystem.GetPrimaryEntity(spike) });
         dstManager.AddComponentData(entity, new SphereSpawner()
         {

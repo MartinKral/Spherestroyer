@@ -3,6 +3,6 @@
 [GenerateAuthoringComponent]
 public struct GameData : IComponentData
 {
-    public bool IsGameFinished;
+    public bool IsGameActive;
     public int score;
 }

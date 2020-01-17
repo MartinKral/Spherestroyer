@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Tiny.Audio;
@@ -9,7 +10,7 @@ public class StartGameSystem : JobComponentSystem
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<GameData>();
-        RequireSingletonForUpdate<SoundManagerTag>();
+        RequireSingletonForUpdate<SoundManager>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -21,6 +22,7 @@ public class StartGameSystem : JobComponentSystem
             .ForEach((Entity entity) =>
             {
                 ResetGameData();
+                ResetSpawner();
 
                 ActivateEntities(ecb);
                 ActivateSounds(ecb);
@@ -35,10 +37,18 @@ public class StartGameSystem : JobComponentSystem
         return default;
     }
 
+    private void ResetSpawner()
+    {
+        var sphereSpawner = GetSingleton<SphereSpawner>();
+        sphereSpawner.TimesUpgraded = 0;
+        sphereSpawner.SecondsUntilSpawn = 0;
+        SetSingleton(sphereSpawner);
+    }
+
     private void ResetGameData()
     {
         var gameData = GetSingleton<GameData>();
-        gameData.IsGameFinished = false;
+        gameData.IsGameActive = true;
         gameData.score = 0;
         SetSingleton(gameData);
     }
@@ -53,8 +63,8 @@ public class StartGameSystem : JobComponentSystem
 
     private void ActivateSounds(EntityCommandBuffer ecb)
     {
-        Entity soundManagerEntity = GetSingletonEntity<SoundManagerTag>();
-        ecb.AddComponent<AudioSourceStart>(soundManagerEntity);
+        var soundManager = GetSingleton<SoundManager>();
+        ecb.AddComponent<AudioSourceStart>(soundManager.MusicAS);
     }
 
     private void DestroyAllSpheres(EntityCommandBuffer ecb)

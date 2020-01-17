@@ -8,6 +8,7 @@ public struct SphereSpawner : IComponentData
     public float ChanceToUpgrade;
     public float SpawnRatePerUpgrade;
     public float ChanceToBurst;
+
     public int TimesUpgraded;
     public float SecondsUntilSpawn;
 }

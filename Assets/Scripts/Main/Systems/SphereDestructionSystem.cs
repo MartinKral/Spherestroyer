@@ -2,6 +2,7 @@
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Tiny.Audio;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
@@ -17,12 +18,14 @@ public class SphereDestructionSystem : JobComponentSystem
         uiUpdateTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(ScoreTag)));
 
         RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<SoundManager>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var ecb = new EntityCommandBuffer(Allocator.Temp);
         var gameData = GetSingleton<GameData>();
+        var soundManager = GetSingleton<SoundManager>();
 
         Entities
             .WithAll<DestroyedTag, SphereTag>()
@@ -34,6 +37,8 @@ public class SphereDestructionSystem : JobComponentSystem
 
                 ecb.AddComponent(shakeTarget, typeof(ActivatedTag));
                 ecb.AddComponent(uiUpdateTarget, typeof(ActivatedTag));
+
+                ecb.AddComponent<AudioSourceStart>(soundManager.SuccessAS);
 
                 ecb.DestroyEntity(entity);
             }).Run();
