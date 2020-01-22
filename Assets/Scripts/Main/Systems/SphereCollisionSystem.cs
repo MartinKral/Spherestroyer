@@ -12,6 +12,7 @@ public class SphereCollisionSystem : JobComponentSystem
     {
         ecbs = World.GetOrCreateSystem<DestructionBufferSystem>();
         RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<SpikeTag>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -19,39 +20,41 @@ public class SphereCollisionSystem : JobComponentSystem
         var gameData = GetSingleton<GameData>();
         if (!gameData.IsGameActive) return inputDeps;
 
+        var spikeEntity = GetSingletonEntity<SpikeTag>();
+
         var jobHandle = new SphereCollisionSystemJob()
         {
             ecb = ecbs.CreateCommandBuffer().ToConcurrent(),
             MaterialIdData = GetComponentDataFromEntity<MaterialId>(true),
             TranslationData = GetComponentDataFromEntity<Translation>(true),
-            DisabledData = GetComponentDataFromEntity<Disabled>(true)
+            SpikeEntity = spikeEntity
         }.Schedule(this, inputDeps);
+
+        ecbs.AddJobHandleForProducer(jobHandle);
         return jobHandle;
     }
 
     [BurstCompile]
     [RequireComponentTag(typeof(SphereTag))]
     [ExcludeComponent(typeof(DestroyedTag))]
-    private struct SphereCollisionSystemJob : IJobForEachWithEntity<Translation, MaterialId, SpikeReference>
+    private struct SphereCollisionSystemJob : IJobForEachWithEntity<Translation, MaterialId>
     {
         public EntityCommandBuffer.Concurrent ecb;
         [ReadOnly] public ComponentDataFromEntity<MaterialId> MaterialIdData;
         [ReadOnly] public ComponentDataFromEntity<Translation> TranslationData;
-        [ReadOnly] public ComponentDataFromEntity<Disabled> DisabledData;
+        [ReadOnly] public Entity SpikeEntity;
 
         public void Execute(
             Entity entity,
             int index,
             [ReadOnly] ref Translation translation,
-            [ReadOnly] ref MaterialId materialId,
-            [ReadOnly] ref SpikeReference spikeReference)
+            [ReadOnly] ref MaterialId materialId)
         {
-            if (DisabledData.Exists(spikeReference.Entity)) return; // The entity is disabled
-            if (!MaterialIdData.Exists(spikeReference.Entity)) return;
-            if (!TranslationData.Exists(spikeReference.Entity)) return;
+            if (!MaterialIdData.Exists(SpikeEntity)) return;
+            if (!TranslationData.Exists(SpikeEntity)) return;
 
-            MaterialId spikeMaterial = MaterialIdData[spikeReference.Entity];
-            Translation spikeTranslation = TranslationData[spikeReference.Entity];
+            MaterialId spikeMaterial = MaterialIdData[SpikeEntity];
+            Translation spikeTranslation = TranslationData[SpikeEntity];
 
             if (translation.Value.y <= spikeTranslation.Value.y + 0.5f)
             {
@@ -61,7 +64,7 @@ public class SphereCollisionSystem : JobComponentSystem
                 }
                 else
                 {
-                    ecb.AddComponent<DestroyedTag>(index, spikeReference.Entity);
+                    ecb.AddComponent<DestroyedTag>(index, SpikeEntity);
                 }
             }
         }

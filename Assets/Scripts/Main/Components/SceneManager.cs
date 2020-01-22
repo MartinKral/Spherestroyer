@@ -3,5 +3,7 @@
 [GenerateAuthoringComponent]
 public struct SceneManager : IComponentData
 {
-    public SceneType CurrentScene;
+    public SceneType CurrentSceneType;
+    public Entity GameplayScene;
+    public Entity MenuScene;
 }

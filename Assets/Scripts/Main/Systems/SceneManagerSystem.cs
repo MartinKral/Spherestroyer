@@ -6,53 +6,67 @@ using Unity.Collections;
 using System;
 
 [AlwaysSynchronizeSystem]
+[UpdateInGroup(typeof(InitializationSystemGroup))]
 public class SceneManagerSystem : JobComponentSystem
 {
-    private EntityQuery eq;
-
-    protected override void OnCreate()
-    {
-        RequireSingletonForUpdate<Camera>();
-
-        EntityQueryDesc eqDesc = new EntityQueryDesc()
-        {
-            None = new ComponentType[] {
-                typeof(DontDestroyOnLoadTag)
-            }
-        };
-
-        eq = GetEntityQuery(eqDesc);
-    }
-
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
-        var cameraEntity = GetSingletonEntity<Camera>();
-        var cameraTranslation = EntityManager.GetComponentData<Translation>(cameraEntity);
-
         Entities
           .WithoutBurst()
+          .WithStructuralChanges()
           .ForEach((Entity entity, ref SceneManager sceneManager, in ChangeScene changeScene) =>
           {
-              sceneManager.CurrentScene = changeScene.Value;
+              DestroySceneEntities();
+              sceneManager.CurrentSceneType = changeScene.Value;
 
-              if (sceneManager.CurrentScene == SceneType.Gameplay)
+              if (sceneManager.CurrentSceneType == SceneType.Gameplay)
               {
-                  cameraTranslation.Value.x = 0;
+                  EntityManager.Instantiate(sceneManager.GameplayScene);
               }
-              else if (sceneManager.CurrentScene == SceneType.Menu)
+              else if (sceneManager.CurrentSceneType == SceneType.Menu)
               {
-                  cameraTranslation.Value.x = 10;
+                  EntityManager.Instantiate(sceneManager.MenuScene);
               }
 
-              ecb.SetComponent(cameraEntity, cameraTranslation);
               ecb.RemoveComponent<ChangeScene>(entity);
-              //ecb.DestroyEntity(eq);
           }).Run();
 
         ecb.Playback(EntityManager);
         ecb.Dispose();
         return default;
+    }
+
+    private void DestroySceneEntities()
+    {
+        EntityQuery eq = GetEntityQuery(ComponentType.ReadOnly<ScenePrefabTag>());
+        var scenePrefabs = eq.ToEntityArray(Allocator.TempJob);
+
+        for (int i = 0; i < scenePrefabs.Length; i++)
+        {
+            DestroyChildRecursively(scenePrefabs[i]);
+            EntityManager.DestroyEntity(scenePrefabs[i]);
+        }
+
+        scenePrefabs.Dispose();
+    }
+
+    private void DestroyChildRecursively(Entity entityParent)
+    {
+        if (!EntityManager.HasComponent<Child>(entityParent))
+        {
+            EntityManager.DestroyEntity(entityParent);
+            return;
+        }
+
+        var buffer = EntityManager.GetBuffer<Child>(entityParent);
+        var childArray = buffer.ToNativeArray(Allocator.Temp);
+
+        for (int i = 0; i < childArray.Length; i++)
+        {
+            DestroyChildRecursively(childArray[i].Value);
+        }
+        childArray.Dispose();
     }
 }

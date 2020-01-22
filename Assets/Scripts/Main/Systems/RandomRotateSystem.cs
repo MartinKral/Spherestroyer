@@ -29,6 +29,8 @@ public class RandomRotateSystem : JobComponentSystem
             randomGenerator = randomGenerator,
             ecb = ecbs.CreateCommandBuffer().ToConcurrent()
         }.Schedule(this, inputDeps);
+        ecbs.AddJobHandleForProducer(jobHandle);
+
         return jobHandle;
     }
 
