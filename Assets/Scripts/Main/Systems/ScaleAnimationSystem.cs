@@ -15,14 +15,14 @@ public class ScaleAnimationSystem : JobComponentSystem
     }
 
     [BurstCompile]
-    private struct ScaleAnimationSystemJob : IJobForEach<Scale, ScaleAnimation>
+    private struct ScaleAnimationSystemJob : IJobForEach<NonUniformScale, ScaleAnimation>
     {
         public float DeltaTime;
 
-        public void Execute(ref Scale scale, ref ScaleAnimation scaleAnimation)
+        public void Execute(ref NonUniformScale scale, ref ScaleAnimation scaleAnimation)
         {
-            if ((scaleAnimation.MaxScale <= scale.Value) && (scaleAnimation.IsIncreasing)) scaleAnimation.IsIncreasing = false;
-            if ((scale.Value <= scaleAnimation.MinScale) && (!scaleAnimation.IsIncreasing)) scaleAnimation.IsIncreasing = true;
+            if (scaleAnimation.MaxScale <= scale.Value.x) scaleAnimation.IsIncreasing = false;
+            if (scale.Value.x <= scaleAnimation.MinScale) scaleAnimation.IsIncreasing = true;
 
             float scalePerFrame = (scaleAnimation.MaxScale - scaleAnimation.MinScale) * DeltaTime / scaleAnimation.Duration;
             if (scaleAnimation.IsIncreasing)

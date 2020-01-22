@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using Unity.Jobs;
+using Unity.Mathematics;
 using Unity.Tiny;
 using Unity.Tiny.Input;
 
@@ -29,7 +30,7 @@ public class GameInputSystem : JobComponentSystem
     {
         if (!Input.GetMouseButtonDown(0)) return default;
 
-        if (IsInputInRect(0.1f, 0.21f, 0.78f, 0.88f)) // Box with Y8 branding
+        if (IsInputInRect(Input.GetInputPosition(), 0.1f, 0.21f, 0.78f, 0.88f)) // Box with Y8 branding
         {
             URLOpener.OpenURL("https://www.y8.com/");
             return default;
@@ -44,10 +45,10 @@ public class GameInputSystem : JobComponentSystem
         return default;
     }
 
-    private bool IsInputInRect(float minX, float maxX, float minY, float maxY)
+    private bool IsInputInRect(float2 point, float minX, float maxX, float minY, float maxY)
     {
-        float posX = Input.GetInputPosition().x;
-        float posY = Input.GetInputPosition().y;
+        float posX = point.x;
+        float posY = point.y;
 
         var displayInfo = GetSingleton<DisplayInfo>();
         float targetRatio = 1920.0f / 1080.0f; // internal aspect ratio

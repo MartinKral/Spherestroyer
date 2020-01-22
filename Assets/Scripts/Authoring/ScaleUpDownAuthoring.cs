@@ -2,7 +2,7 @@
 using Unity.Transforms;
 using UnityEngine;
 
-public class TouchSymbolAuthoring : MonoBehaviour, IConvertGameObjectToEntity
+public class ScaleUpDownAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
     [Range(0, 2)] public float MinScale;
     [Range(0, 3)] public float MaxScale;
@@ -10,7 +10,7 @@ public class TouchSymbolAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
-        dstManager.AddComponentData(entity, new Scale() { Value = MinScale });
+        dstManager.AddComponentData(entity, new NonUniformScale() { Value = MinScale });
         dstManager.AddComponentData(entity, new ScaleAnimation()
         {
             Duration = TransitionDuration,
