@@ -21,11 +21,11 @@ public class SceneManagerSystem : JobComponentSystem
               DestroySceneEntities();
               sceneManager.CurrentSceneType = changeScene.Value;
 
-              if (sceneManager.CurrentSceneType == SceneType.Gameplay)
+              if (sceneManager.CurrentSceneType == SceneName.Gameplay)
               {
                   EntityManager.Instantiate(sceneManager.GameplayScene);
               }
-              else if (sceneManager.CurrentSceneType == SceneType.Menu)
+              else if (sceneManager.CurrentSceneType == SceneName.Menu)
               {
                   EntityManager.Instantiate(sceneManager.MenuScene);
               }

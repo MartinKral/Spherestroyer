@@ -18,7 +18,7 @@ The library should have `.js` instead of `.jslib`
 - The game is blocking event propagation, listen for JS events on canvas level.
 
 ### Misc
-- `IJobForEach<T>` works in editor with Tag components, but not in DOTS runtime >> replace with Entities.WithAll<T>.ForEach
+- `IJobForEach<T>` works in editor even with only Tag components, but not in DOTS runtime >> replace with Entities.WithAll<T>.ForEach
 - Remember to always use `RequireSingletonForUpdate<T>()` in `OnStartRunning()` / `OnCreate()` when using singleton
 - Uncheck `Use GUIDs` on `asm.def` files, otherwise build will fail.
 - Component `NonUniformScale` , which is added automatically for entities with scale other than 1, is used instead of component

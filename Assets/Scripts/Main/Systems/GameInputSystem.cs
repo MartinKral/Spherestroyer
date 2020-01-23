@@ -1,15 +1,13 @@
 ﻿using Unity.Entities;
 using Unity.Jobs;
-using Unity.Mathematics;
-using Unity.Tiny;
-using Unity.Tiny.Input;
+using Unity.Tiny.Audio;
 
 [AlwaysUpdateSystem]
 [AlwaysSynchronizeSystem]
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public class GameInputSystem : JobComponentSystem
 {
-    private InputSystem Input;
+    private InputWrapperSystem inputSystem;
 
     private EntityQuery inputEntityQuery;
 
@@ -18,68 +16,29 @@ public class GameInputSystem : JobComponentSystem
 
     protected override void OnCreate()
     {
-        Input = World.GetExistingSystem<InputSystem>();
+        inputSystem = World.GetOrCreateSystem<InputWrapperSystem>();
 
         inputEntityQuery = GetEntityQuery(typeof(InputTag));
 
         beginInitECBS = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
         endInitECBS = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+
+        RequireSingletonForUpdate<SoundManager>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        if (!Input.GetMouseButtonDown(0)) return default;
-
-        if (IsInputInRect(Input.GetInputPosition(), 0.1f, 0.21f, 0.78f, 0.88f)) // Box with Y8 branding
-        {
-            URLOpener.OpenURL("https://www.y8.com/");
-            return default;
-        };
+        if (!inputSystem.IsTouchOrButtonDown()) return default;
 
         EntityCommandBuffer beginBuffer = beginInitECBS.CreateCommandBuffer();
         EntityCommandBuffer endBuffer = endInitECBS.CreateCommandBuffer();
+        var soundManager = GetSingleton<SoundManager>();
+
+        endBuffer.AddComponent<AudioSourceStart>(soundManager.InputAS);
 
         beginBuffer.AddComponent(inputEntityQuery, typeof(OnInputTag));
         endBuffer.RemoveComponent(inputEntityQuery, typeof(OnInputTag));
 
         return default;
-    }
-
-    private bool IsInputInRect(float2 point, float minX, float maxX, float minY, float maxY)
-    {
-        float posX = point.x;
-        float posY = point.y;
-
-        var displayInfo = GetSingleton<DisplayInfo>();
-        float targetRatio = 1920.0f / 1080.0f; // internal aspect ratio
-        float currentRatio = (float)displayInfo.width / displayInfo.height;
-
-        float ratioDifference = targetRatio / currentRatio;
-        float playableCanvasWidth = displayInfo.width;
-        float playableCanvasHeight = displayInfo.height;
-
-        if (targetRatio < currentRatio)
-        {
-            playableCanvasWidth = displayInfo.width * ratioDifference;
-            float boundingBoxWidth = (displayInfo.width - playableCanvasWidth) / 2;
-
-            posX -= boundingBoxWidth;
-        }
-        else
-        {
-            playableCanvasHeight = displayInfo.height / ratioDifference;
-            float boundingBoxHeight = (displayInfo.height - playableCanvasHeight) / 2;
-
-            posY -= boundingBoxHeight;
-        }
-
-        float percentualPosX = posX / playableCanvasWidth;
-        float percentualPosY = posY / playableCanvasHeight;
-
-        return
-            (minX <= percentualPosX) &&
-            (percentualPosX <= maxX) &&
-            (minY <= percentualPosY) &&
-            (percentualPosY <= maxY);
     }
 }

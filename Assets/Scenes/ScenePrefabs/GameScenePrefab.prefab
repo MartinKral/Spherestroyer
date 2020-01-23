@@ -371,6 +371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3489470454909449515}
   - component: {fileID: 3680474177775835107}
+  - component: {fileID: 6364238216579939134}
   m_Layer: 0
   m_Name: GameScenePrefab
   m_TagString: Untagged
@@ -409,6 +410,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fc3fb3af1148bc4cbda854cac347e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6364238216579939134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3489470454909449512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab8b8666478bf7c43a5e5f931402d278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3489470454932977086
@@ -468,6 +481,7 @@ GameObject:
   - component: {fileID: 3489470454976129147}
   - component: {fileID: 3489470454976129149}
   - component: {fileID: 3489470454976129146}
+  - component: {fileID: 269540521834840366}
   m_Layer: 0
   m_Name: Branding
   m_TagString: Untagged
@@ -483,8 +497,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489470454976129144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.08, y: 2.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -3.5, y: 2.95, z: 0}
+  m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 3489470455262969730}
   m_RootOrder: 3
@@ -536,6 +550,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &269540521834840366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3489470454976129144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a6fcf23eb9bbb499f57f8dc69ec936, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+  minPoint: {x: -3.58, y: 2.2699256, z: 0.6082246}
+  maxPoint: {x: -2.58, y: 2.7528887, z: 0.73763406}
 --- !u!1 &3489470455089566819
 GameObject:
   m_ObjectHideFlags: 0

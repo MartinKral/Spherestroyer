@@ -1,16 +1,15 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using AudioClip = UnityEngine.AudioClip;
 
 namespace IDnet.Game
 {
     public class SoundManagerAuthoring : MonoBehaviour, IConvertGameObjectToEntity
     {
-        public GameObject MusicAS;
-        public GameObject SuccessAS;
-        public GameObject InputAS;
-        public GameObject EndAS;
-        public GameObject HighscoreAS;
+        public AudioSource MusicAS;
+        public AudioSource SuccessAS;
+        public AudioSource InputAS;
+        public AudioSource EndAS;
+        public AudioSource HighscoreAS;
 
         public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
         {
@@ -22,7 +21,6 @@ namespace IDnet.Game
                 EndAS = conversionSystem.GetPrimaryEntity(EndAS),
                 HighscoreAS = conversionSystem.GetPrimaryEntity(HighscoreAS)
             });
-            dstManager.AddComponent<InputTag>(entity);
         }
     }
 }

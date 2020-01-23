@@ -3,5 +3,5 @@
 [GenerateAuthoringComponent]
 public struct ChangeScene : IComponentData
 {
-    public SceneType Value;
+    public SceneName Value;
 }

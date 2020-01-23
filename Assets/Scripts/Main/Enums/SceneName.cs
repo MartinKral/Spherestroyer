@@ -1,4 +1,4 @@
-﻿public enum SceneType
+﻿public enum SceneName
 {
     Menu,
     Gameplay
