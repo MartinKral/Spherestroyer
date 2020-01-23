@@ -4,7 +4,6 @@ using Unity.Entities;
 using UnityEditor;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
     public ButtonType Type;
@@ -16,8 +15,8 @@ public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
     public float maxX;
     public float maxY;
 
-    private Vector3 minPoint;
-    private Vector3 maxPoint;
+    public Vector3 minPoint;
+    public Vector3 maxPoint;
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
@@ -39,10 +38,10 @@ public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
         yield return null;
         yield return null;
 
-        CalculateMinMaxPoints();
+        CalculateValues();
     }
 
-    private void CalculateMinMaxPoints()
+    private void CalculateValues()
     {
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;
@@ -53,10 +52,7 @@ public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
                 "Buttons will not work properly");
         }
 
-        // TransformPoint takes the scale into account, so works even for 2:1 textures or similar
-        Vector3 offset = new Vector3(0.5f, 0.5f, 0);
-        minPoint = transform.TransformPoint(-offset);
-        maxPoint = transform.TransformPoint(offset);
+        CalculateMinMaxPoints();
 
         var minScreenPoint = Camera.main.WorldToScreenPoint(minPoint);
         var maxScreenPoint = Camera.main.WorldToScreenPoint(maxPoint);
@@ -65,6 +61,14 @@ public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
         minY = minScreenPoint.y / screenHeight;
         maxX = maxScreenPoint.x / screenWidth;
         maxY = maxScreenPoint.y / screenHeight;
+    }
+
+    private void CalculateMinMaxPoints()
+    {
+        // TransformPoint takes the scale into account, so works even for 2:1 textures or similar
+        Vector3 offset = new Vector3(0.5f, 0.5f, 0);
+        minPoint = transform.TransformPoint(-offset);
+        maxPoint = transform.TransformPoint(offset);
     }
 
     private void OnDrawGizmos()

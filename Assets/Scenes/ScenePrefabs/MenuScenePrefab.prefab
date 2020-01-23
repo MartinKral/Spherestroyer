@@ -93,10 +93,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
-  minX: 0.05526
+  minX: 0.055260148
   minY: 0.85646874
   maxX: 0.1664451
   maxY: 0.9552998
+  minPoint: {x: -4, y: 2.6079998, z: 0.6988113}
+  maxPoint: {x: -3, y: 3.0909626, z: 0.8282208}
 --- !u!1 &7900574124099986636
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +244,8 @@ MonoBehaviour:
   minY: 0.19430053
   maxX: 0.5722702
   maxY: 0.45126128
+  minPoint: {x: -0.65, y: -0.6278518, z: -0.16823234}
+  maxPoint: {x: 0.65, y: 0.6278518, z: 0.16823234}
 --- !u!1 &7900574124262998613
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +379,8 @@ MonoBehaviour:
   minY: 0.050007105
   maxX: 0.832443
   maxY: 0.18837065
+  minPoint: {x: 2.2900002, y: -1.3329777, z: -0.3571702}
+  maxPoint: {x: 2.99, y: -0.65682954, z: -0.1759969}
 --- !u!1 &7900574124660323469
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,7 +589,7 @@ GameObject:
   - component: {fileID: 7900574124973452213}
   - component: {fileID: 7900574124973429835}
   - component: {fileID: 7900574124973429834}
-  - component: {fileID: 8733331992740399183}
+  - component: {fileID: 1367748755314797634}
   m_Layer: 0
   m_Name: SoundBtn
   m_TagString: Untagged
@@ -652,7 +658,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &8733331992740399183
+--- !u!114 &1367748755314797634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -669,6 +675,8 @@ MonoBehaviour:
   minY: 0.050007105
   maxX: 0.93918055
   maxY: 0.18837065
+  minPoint: {x: 3.25, y: -1.3329777, z: -0.3571702}
+  maxPoint: {x: 3.9499998, y: -0.65682954, z: -0.1759969}
 --- !u!1 &7900574125079012118
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,3 +831,5 @@ MonoBehaviour:
   minY: 0.050007105
   maxX: 0.13864885
   maxY: 0.18837065
+  minPoint: {x: -3.9499998, y: -1.3329777, z: -0.3571702}
+  maxPoint: {x: -3.25, y: -0.65682954, z: -0.1759969}
