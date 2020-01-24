@@ -10,7 +10,6 @@ public class StartGameSystem : JobComponentSystem
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<GameData>();
-        RequireSingletonForUpdate<SoundManager>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -63,8 +62,7 @@ public class StartGameSystem : JobComponentSystem
 
     private void ActivateSounds(EntityCommandBuffer ecb)
     {
-        var soundManager = GetSingleton<SoundManager>();
-        ecb.AddComponent<AudioSourceStart>(soundManager.MusicAS);
+        ecb.AddComponent<StartMusicTag>(ecb.CreateEntity());
     }
 
     private void DestroyAllSpheres(EntityCommandBuffer ecb)

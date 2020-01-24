@@ -27,4 +27,17 @@ public class LocalStorage
     }
 }
 
+#else
+public class LocalStorage
+{
+    public static string GetLocalStorageItem(string key)
+    {
+        return "0";
+    }
+
+    public static void SetLocalStorageItem(string key, string value)
+    {
+    }
+}
+
 #endif

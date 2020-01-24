@@ -38,7 +38,7 @@ public class SphereDestructionSystem : JobComponentSystem
                 ecb.AddComponent(shakeTarget, typeof(ActivatedTag));
                 ecb.AddComponent(uiUpdateTarget, typeof(ActivatedTag));
 
-                ecb.AddComponent<AudioSourceStart>(soundManager.SuccessAS);
+                ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.Success });
 
                 ecb.DestroyEntity(entity);
             }).Run();

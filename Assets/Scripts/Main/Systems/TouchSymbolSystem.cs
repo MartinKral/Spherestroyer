@@ -14,8 +14,7 @@ public class TouchSymbolSystem : JobComponentSystem
             .WithoutBurst()
             .ForEach((Entity entity) =>
             {
-                Entity startGameEntity = ecb.CreateEntity();
-                ecb.AddComponent<StartGameTag>(startGameEntity);
+                ecb.AddComponent<StartGameTag>(ecb.CreateEntity());
 
                 // OnInputTag needs to be removed manually, since this will get disabled immediately
                 ecb.RemoveComponent<OnInputTag>(entity);

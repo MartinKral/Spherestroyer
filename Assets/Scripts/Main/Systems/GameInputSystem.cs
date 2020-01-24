@@ -22,8 +22,6 @@ public class GameInputSystem : JobComponentSystem
 
         beginInitECBS = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
         endInitECBS = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-
-        RequireSingletonForUpdate<SoundManager>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -32,9 +30,8 @@ public class GameInputSystem : JobComponentSystem
 
         EntityCommandBuffer beginBuffer = beginInitECBS.CreateCommandBuffer();
         EntityCommandBuffer endBuffer = endInitECBS.CreateCommandBuffer();
-        var soundManager = GetSingleton<SoundManager>();
 
-        endBuffer.AddComponent<AudioSourceStart>(soundManager.InputAS);
+        endBuffer.AddComponent(endBuffer.CreateEntity(), new SoundRequest { Value = SoundType.Input });
 
         beginBuffer.AddComponent(inputEntityQuery, typeof(OnInputTag));
         endBuffer.RemoveComponent(inputEntityQuery, typeof(OnInputTag));

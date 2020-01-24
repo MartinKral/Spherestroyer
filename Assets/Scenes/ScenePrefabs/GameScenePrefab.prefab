@@ -371,7 +371,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3489470454909449515}
   - component: {fileID: 3680474177775835107}
-  - component: {fileID: 6364238216579939134}
   m_Layer: 0
   m_Name: GameScenePrefab
   m_TagString: Untagged
@@ -410,18 +409,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fc3fb3af1148bc4cbda854cac347e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6364238216579939134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3489470454909449512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab8b8666478bf7c43a5e5f931402d278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3489470454932977086
@@ -497,7 +484,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489470454976129144}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 2.95, z: 0}
+  m_LocalPosition: {x: -3.8, y: 2.9, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 3489470455262969730}
@@ -563,8 +550,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
-  minPoint: {x: -3.58, y: 2.2699256, z: 0.6082246}
-  maxPoint: {x: -2.58, y: 2.7528887, z: 0.73763406}
+  minX: 0.021904677
+  minY: 0.84658563
+  maxX: 0.13308966
+  maxY: 0.9454167
+  worldMinPoint: {x: -4.3, y: 2.5597036, z: 0.68587035}
+  worldMaxPoint: {x: -3.3, y: 3.0426664, z: 0.81527984}
 --- !u!1 &3489470455089566819
 GameObject:
   m_ObjectHideFlags: 0

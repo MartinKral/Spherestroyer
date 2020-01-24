@@ -1,7 +1,6 @@
 ﻿using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
-using Unity.Tiny.Audio;
 
 [AlwaysSynchronizeSystem]
 public class HighScoreSystem : JobComponentSystem
@@ -15,10 +14,10 @@ public class HighScoreSystem : JobComponentSystem
 
     protected override void OnCreate()
     {
-        highScoreUi = GetEntityQuery(ComponentType.ReadOnly(typeof(HighscoreTag)));
+        highScoreUi = GetEntityQuery(ComponentType.ReadOnly<HighscoreTag>());
         disabledHighscoreUi = GetEntityQuery(
-            ComponentType.ReadOnly(typeof(HighscoreTag)),
-            ComponentType.ReadOnly(typeof(Disabled)));
+            ComponentType.ReadOnly<HighscoreTag>(),
+            ComponentType.ReadOnly<Disabled>());
 
         RequireSingletonForUpdate<GameData>();
     }
@@ -28,13 +27,13 @@ public class HighScoreSystem : JobComponentSystem
         if (savedHighscore == 0)
         {
             EntityManager.AddComponent(highScoreUi, typeof(Disabled));
+            Logger.Log("Disabling highscore");
         }
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var gameData = GetSingleton<GameData>();
-        var soundManager = GetSingleton<SoundManager>();
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
@@ -47,12 +46,11 @@ public class HighScoreSystem : JobComponentSystem
                 {
                     ecb.RemoveComponent(disabledHighscoreUi, typeof(Disabled));
                     ecb.AddComponent(highScoreUi, typeof(ActivatedTag));
-                    ecb.AddComponent<AudioSourceStart>(soundManager.HighscoreAS);
+                    ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.Highscore });
                     savedHighscore.Value = gameData.score;
                 }
                 ecb.DestroyEntity(entity);
             }).Run();
-
         ecb.Playback(EntityManager);
         ecb.Dispose();
         return default;

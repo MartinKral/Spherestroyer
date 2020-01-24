@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7900574124094518213}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 2.95, z: 0}
+  m_LocalPosition: {x: -3.8, y: 2.9, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 7900574124262998634}
@@ -93,12 +93,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
-  minX: 0.055260148
-  minY: 0.85646874
-  maxX: 0.1664451
-  maxY: 0.9552998
-  worldMinPoint: {x: -4, y: 2.6079998, z: 0.6988113}
-  worldMaxPoint: {x: -3, y: 3.0909626, z: 0.8282208}
+  minX: 0.021904677
+  minY: 0.84658563
+  maxX: 0.13308966
+  maxY: 0.9454167
+  worldMinPoint: {x: -4.3, y: 2.5597036, z: 0.68587035}
+  worldMaxPoint: {x: -3.3, y: 3.0426664, z: 0.81527984}
 --- !u!1 &7900574124099986636
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7900574124126258639}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_Children: []
   m_Father: {fileID: 7900574124262998634}
@@ -241,11 +241,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   minX: 0.4277298
-  minY: 0.19430053
+  minY: 0.27336535
   maxX: 0.5722702
-  maxY: 0.45126128
-  worldMinPoint: {x: -0.65, y: -0.6278518, z: -0.16823234}
-  worldMaxPoint: {x: 0.65, y: 0.6278518, z: 0.16823234}
+  maxY: 0.5303261
+  worldMinPoint: {x: -0.65, y: -0.24148144, z: -0.06470474}
+  worldMaxPoint: {x: 0.65, y: 1.0142221, z: 0.27175993}
 --- !u!1 &7900574124262998613
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7900574124632988365}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.64, y: -1.03, z: 0}
+  m_LocalPosition: {x: 3, y: -1, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 7900574124262998634}
@@ -375,12 +375,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 2
-  minX: 0.7546136
-  minY: 0.050007105
-  maxX: 0.832443
-  maxY: 0.18837065
-  worldMinPoint: {x: 2.2900002, y: -1.3329777, z: -0.3571702}
-  worldMaxPoint: {x: 2.99, y: -0.65682954, z: -0.1759969}
+  minX: 0.7946402
+  minY: 0.055936962
+  maxX: 0.8724696
+  maxY: 0.19430053
+  worldMinPoint: {x: 2.65, y: -1.3039999, z: -0.34940565}
+  worldMaxPoint: {x: 3.35, y: -0.6278518, z: -0.16823234}
 --- !u!1 &7900574124660323469
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,7 +605,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7900574124973452212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.6, y: -1.03, z: 0}
+  m_LocalPosition: {x: 3.9, y: -1, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 7900574124262998634}
@@ -671,12 +671,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 3
-  minX: 0.86135113
-  minY: 0.050007105
-  maxX: 0.93918055
-  maxY: 0.18837065
-  worldMinPoint: {x: 0, y: 0, z: 0}
-  worldMaxPoint: {x: 0, y: 0, z: 0}
+  minX: 0.8947066
+  minY: 0.055936962
+  maxX: 0.9725361
+  maxY: 0.19430053
+  worldMinPoint: {x: 3.5500002, y: -1.3039999, z: -0.34940565}
+  worldMaxPoint: {x: 4.25, y: -0.6278518, z: -0.16823234}
 --- !u!1 &7900574125079012118
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,7 +687,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7900574125079012119}
   - component: {fileID: 8282273993887029616}
-  - component: {fileID: 6769847717611259400}
   m_Layer: 0
   m_Name: MenuScenePrefab
   m_TagString: Untagged
@@ -722,18 +721,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc3fb3af1148bc4cbda854cac347e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6769847717611259400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7900574125079012118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5feba654b4e73f349812723fb2ea891d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7900574125977343858
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,7 +748,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7900574125977343858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.6, y: -1.03, z: 0}
+  m_LocalPosition: {x: -3.9, y: -1, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 7900574124262998634}
@@ -827,9 +814,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 4
-  minX: 0.060819447
-  minY: 0.050007105
-  maxX: 0.13864885
-  maxY: 0.18837065
-  worldMinPoint: {x: -3.9499998, y: -1.3329777, z: -0.3571702}
-  worldMaxPoint: {x: -3.25, y: -0.65682954, z: -0.1759969}
+  minX: 0.027463883
+  minY: 0.055936962
+  maxX: 0.10529336
+  maxY: 0.19430053
+  worldMinPoint: {x: -4.25, y: -1.3039999, z: -0.34940565}
+  worldMaxPoint: {x: -3.5500002, y: -0.6278518, z: -0.16823234}

@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct DontDestroyOnLoadTag : IComponentData
+public struct ToggleSoundsTag : IComponentData
 {
 }
