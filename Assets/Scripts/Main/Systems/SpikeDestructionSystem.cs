@@ -17,14 +17,14 @@ public class SpikeDestructionSystem : JobComponentSystem
             .WithoutBurst()
             .ForEach((Entity entity) =>
             {
-                var buffer = EntityManager.GetBuffer<Child>(entity);
-                var childArray = buffer.ToNativeArray(Allocator.Temp);
+                var buffer = EntityManager.GetBuffer<LinkedEntityGroup>(entity);
+                var linkedEntityGroup = buffer.ToNativeArray(Allocator.Temp);
 
-                for (int i = 0; i < childArray.Length; i++)
+                for (int i = 0; i < linkedEntityGroup.Length; i++)
                 {
-                    ecb.AddComponent<Disabled>(childArray[i].Value);
+                    ecb.AddComponent<Disabled>(linkedEntityGroup[i].Value);
                 }
-                childArray.Dispose();
+                linkedEntityGroup.Dispose();
 
                 ecb.AddComponent(ecb.CreateEntity(), new GameEnd() { TimeToEnd = 1 });
 
@@ -32,7 +32,6 @@ public class SpikeDestructionSystem : JobComponentSystem
                 ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.End });
 
                 ecb.RemoveComponent<DestroyedTag>(entity);
-                ecb.AddComponent<Disabled>(entity);
             }).Run();
 
         ecb.Playback(EntityManager);

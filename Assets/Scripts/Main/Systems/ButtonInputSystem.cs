@@ -5,6 +5,7 @@ using System;
 using Unity.Collections;
 
 [AlwaysSynchronizeSystem]
+[UpdateInGroup(typeof(InitializationSystemGroup))]
 public class ButtonInputSystem : JobComponentSystem
 {
     private InputWrapperSystem inputSystem;
@@ -19,6 +20,7 @@ public class ButtonInputSystem : JobComponentSystem
         if (!inputSystem.IsTouchOrButtonDown()) return default;
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
+
         Entities
             .WithoutBurst()
             .ForEach((Entity entity, in Button button) =>
@@ -71,11 +73,16 @@ public class ButtonInputSystem : JobComponentSystem
     private void ClickOnSoundBtn(EntityCommandBuffer ecb)
     {
         Logger.Log("Click on sound btn");
+
+        ecb.AddComponent<ToggleSoundsTag>(ecb.CreateEntity());
+        ecb.AddComponent<UpdateMenuUITag>(ecb.CreateEntity());
     }
 
     private void ClickOnMusicBtn(EntityCommandBuffer ecb)
     {
         Logger.Log("Click on music btn");
+        ecb.AddComponent<ToggleMusicTag>(ecb.CreateEntity());
+        ecb.AddComponent<UpdateMenuUITag>(ecb.CreateEntity());
     }
 
     private void ClickOnBrandingBtn()

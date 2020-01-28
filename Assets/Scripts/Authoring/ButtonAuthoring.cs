@@ -4,6 +4,7 @@ using Unity.Entities;
 using UnityEditor;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class ButtonAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 {
     public ButtonType Type;

@@ -11,6 +11,7 @@ to be added only after the first input from the user (browser restriction).
 ### UI Hack
 - Since there is no UI yet, you can use quad with texture as a substitute. URP unlit transparent material with
 `Render Face: Both` otherwise it is not visible during DOTS runtime
+- If you want multiple layers, make sure that the object you wish on top is sibling, lower in hierarchy, and has material with lower priority
 
 ### JS interaction
 - To interact with JS, the folder `js~` and the .cs script with extern functions must be in the root folder with `asm.def`.

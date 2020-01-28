@@ -107,7 +107,7 @@ public class SoundManagerSystem : JobComponentSystem
                     ecb.AddComponent<AudioSourceStop>(soundManager.MusicAS);
                 }
 
-                ecb.RemoveComponent<ToggleMusicTag>(entity);
+                ecb.DestroyEntity(entity);
             }).Run();
     }
 
@@ -120,7 +120,8 @@ public class SoundManagerSystem : JobComponentSystem
             {
                 soundManager.IsSoundEnabled = !soundManager.IsSoundEnabled;
                 SetSingleton(soundManager);
-                ecb.RemoveComponent<ToggleSoundsTag>(entity);
+
+                ecb.DestroyEntity(entity);
             }).Run();
     }
 }

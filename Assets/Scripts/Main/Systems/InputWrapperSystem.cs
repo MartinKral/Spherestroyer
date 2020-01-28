@@ -53,7 +53,6 @@ public class InputWrapperSystem : JobComponentSystem
         percentualPosY = UnityEngine.Input.mousePosition.y / UnityEngine.Screen.height;
 #endif
 
-        Logger.Log($"X: {percentualPosX}, Y: {percentualPosY}");
         return
             (minMaxRect.MinX <= percentualPosX) &&
             (percentualPosX <= minMaxRect.MaxX) &&
