@@ -43,7 +43,7 @@ public class EndGameSystem : JobComponentSystem
                 SetSingleton(gameData);
 
                 Logger.Log($"Does not work under debug. Child reparenting is causing issues (?)");
-                ecb.RemoveComponent(disabledTouchSymbolEQ, typeof(Disabled));
+                //ecb.RemoveComponent(disabledTouchSymbolEQ, typeof(Disabled));
                 ecb.AddComponent<UpdateHighscoreTag>(ecb.CreateEntity());
                 ecb.DestroyEntity(entity);
             }).Run();

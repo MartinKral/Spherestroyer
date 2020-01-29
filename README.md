@@ -22,5 +22,6 @@ The library should have `.js` instead of `.jslib`
 - `IJobForEach<T>` works in editor even with only Tag components, but not in DOTS runtime >> replace with Entities.WithAll<T>.ForEach
 - Remember to always use `RequireSingletonForUpdate<T>()` in `OnStartRunning()` / `OnCreate()` when using singleton
 - Uncheck `Use GUIDs` on `asm.def` files, otherwise build will fail.
+- Don't use spaces in folder names, otherwise build will fail.
 - Component `NonUniformScale` , which is added automatically for entities with scale other than 1, is used instead of component
 `Scale` by internal systems. Make authoring script add `NonUniformScale` and use that in your systems instead of `Scale` so it works for both cases.

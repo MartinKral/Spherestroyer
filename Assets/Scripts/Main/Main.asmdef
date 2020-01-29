@@ -16,7 +16,8 @@
         "Unity.Tiny.Audio",
         "URLOpener",
         "GameSaver",
-        "Extensions"
+        "Extensions",
+        "Y8"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

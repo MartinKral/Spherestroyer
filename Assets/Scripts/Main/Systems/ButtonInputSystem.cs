@@ -8,6 +8,7 @@ using Unity.Collections;
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public class ButtonInputSystem : JobComponentSystem
 {
+    public static Y8.APIController y8Api = new Y8.APIController("5e22f7f4e694aabc7e4d0ee2");
     private InputWrapperSystem inputSystem;
 
     protected override void OnCreate()
@@ -18,6 +19,8 @@ public class ButtonInputSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         if (!inputSystem.IsTouchOrButtonDown()) return default;
+
+        Logger.Log($"Is logged in: {y8Api.IsLoggedIn()}");
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
@@ -68,6 +71,7 @@ public class ButtonInputSystem : JobComponentSystem
     private void ClickOnHighscore()
     {
         Logger.Log("Click on highscore btn");
+        y8Api.ShowHighscore("Leaderboard");
     }
 
     private void ClickOnSoundBtn(EntityCommandBuffer ecb)
