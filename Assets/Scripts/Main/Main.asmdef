@@ -17,7 +17,8 @@
         "URLOpener",
         "GameSaver",
         "Extensions",
-        "Y8"
+        "Y8",
+        "Logger"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

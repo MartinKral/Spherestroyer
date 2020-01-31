@@ -1,7 +1,7 @@
 {
-    "name": "Y8",
+    "name": "Logger",
     "references": [
-        "Logger"
+        "Unity.Tiny.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
