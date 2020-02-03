@@ -1,5 +1,9 @@
-﻿public class API
+﻿using System;
+
+public class API
 {
+    public bool IsLoggedIn { get; private set; }
+
     public API(string appId)
     {
         ExternalAPI.Init(appId);
@@ -8,10 +12,11 @@
         ExternalAPI.WithCallback(ExternalAPI.Callback);
     }
 
-    public bool IsLoggedIn()
-    {
-        return ExternalAPI.IsLoggedIn();
-    }
+    /* [MonoPInvokeCallback(typeof(Action<string>))]
+     public static void Callback(string callbackType)
+     {
+         Logger.Log($"C# function callback from JS {callbackType}");
+     }*/
 
     public void ShowHighscore(string tableId)
     {

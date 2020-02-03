@@ -4,11 +4,6 @@ using System.Runtime.InteropServices;
 public static class ExternalAPI
 {
 #if UNITY_WEBGL
-    [MonoPInvokeCallback(typeof(Action))]
-    public static void Callback()
-    {
-        Logger.Log("C# function callback from JS");
-    }
 
     [DllImport("__Internal")]
     public static extern void WithCallback(Action action);
@@ -24,6 +19,12 @@ public static class ExternalAPI
 
     [DllImport("__Internal")]
     internal static extern void SaveHighscore(string tableId, int score);
+
+    [MonoPInvokeCallback(typeof(Action))]
+     public static void Callback()
+     {
+         Logger.Log($"C# function callback from JS ");
+     }
 
 #else
 

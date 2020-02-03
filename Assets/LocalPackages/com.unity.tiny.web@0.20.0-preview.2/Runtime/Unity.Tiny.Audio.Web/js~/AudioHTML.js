@@ -230,15 +230,15 @@ mergeInto(LibraryManager.library, {
 
         
        
-        if (this.audioSources[audioSourceIdx] === undefined){
+        if (!this.audioSources[audioSourceIdx]){
             // store audio source node
             this.audioSources[audioSourceIdx] = sourceNode;            
             
         } else {
             // stop audio source node if it is already playing
-            this.audioSources[audioSourceIdx].stop();
-            
-        }        
+           this.audioSources[audioSourceIdx].stop();            
+        }           
+        
         
         sourceNode.onended = function (event) {
             sourceNode.stop();

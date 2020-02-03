@@ -18,8 +18,6 @@ public class ButtonInputSystem : JobComponentSystem
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
-        ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.Input });
-
         Entities
             .WithoutBurst()
             .ForEach((Entity entity, in Button button) =>
