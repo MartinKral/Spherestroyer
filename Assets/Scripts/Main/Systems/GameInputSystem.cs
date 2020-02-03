@@ -1,9 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Jobs;
 
-//[AlwaysUpdateSystem]
 [AlwaysSynchronizeSystem]
-[UpdateAfter(typeof(InputWrapperSystem))]
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public class GameInputSystem : JobComponentSystem
 {

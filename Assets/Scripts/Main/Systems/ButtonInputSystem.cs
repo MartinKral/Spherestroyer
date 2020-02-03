@@ -3,8 +3,6 @@ using Unity.Entities;
 using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
-[UpdateAfter(typeof(InputWrapperSystem))]
-[UpdateInGroup(typeof(InitializationSystemGroup))]
 public class ButtonInputSystem : JobComponentSystem
 {
     private InputWrapperSystem inputSystem;
@@ -20,7 +18,6 @@ public class ButtonInputSystem : JobComponentSystem
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
-        // AUDIO??
         ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.Input });
 
         Entities
@@ -70,7 +67,6 @@ public class ButtonInputSystem : JobComponentSystem
     private void ClickOnHighscore()
     {
         Logger.Log("Click on highscore btn");
-        //y8Api.ShowHighscore("Leaderboard");
         Y8.Api.ShowHighscore("Leaderboard");
     }
 

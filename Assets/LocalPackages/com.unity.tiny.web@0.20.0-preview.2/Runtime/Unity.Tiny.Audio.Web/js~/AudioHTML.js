@@ -236,12 +236,12 @@ mergeInto(LibraryManager.library, {
             
         } else {
             // stop audio source node if it is already playing
-            this.audioSources[audioSourceIdx].stop(audioSourceIdx, true);
+            this.audioSources[audioSourceIdx].stop();
             
         }        
         
         sourceNode.onended = function (event) {
-            sourceNode.stop(audioSourceIdx, false);
+            sourceNode.stop();
             sourceNode.isPlaying = false;
         };
 
