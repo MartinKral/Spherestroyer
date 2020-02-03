@@ -1,11 +1,10 @@
-﻿using Unity.Entities;
-using Unity.Transforms;
+﻿using Unity.Collections;
+using Unity.Entities;
 using Unity.Jobs;
-using System;
-using Unity.Collections;
 
 [AlwaysSynchronizeSystem]
-[AlwaysUpdateSystem]
+[UpdateAfter(typeof(InputWrapperSystem))]
+[UpdateInGroup(typeof(InitializationSystemGroup))]
 public class ButtonInputSystem : JobComponentSystem
 {
     private InputWrapperSystem inputSystem;
@@ -20,6 +19,9 @@ public class ButtonInputSystem : JobComponentSystem
         if (!inputSystem.IsTouchOrButtonDown()) return default;
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
+
+        // AUDIO??
+        ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.Input });
 
         Entities
             .WithoutBurst()

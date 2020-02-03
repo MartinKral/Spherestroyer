@@ -4,6 +4,7 @@
 change materials at runtime, use two systems
 
 ### Audio
+- There is a bug where if you play web audio clip, it also calls window.stop() https://forum.unity.com/threads/tiny-3rd-party-api-requests-iframes-bug.819057/#post-5437542
 - To run an audio, use `AudioSourceStart`. `Play On Awake` is adding this component automatically, but it needs
 to be added only after the first input from the user (browser restriction).
 - It seems that import settings do not reduce the final file size(?). Import optimized sound file

@@ -10,7 +10,7 @@ public static class ExternalAPI
     }
 
     [DllImport("__Internal")]
-    public static extern void ProvideCallback(Action action);
+    public static extern void WithCallback(Action action);
 
     [DllImport("__Internal")]
     internal static extern void ShowHighscore(string tableId);

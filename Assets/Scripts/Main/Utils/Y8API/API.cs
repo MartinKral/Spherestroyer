@@ -5,7 +5,7 @@
         ExternalAPI.Init(appId);
 
         /// This is just to test calling C# from JS for later implementation
-        ExternalAPI.ProvideCallback(ExternalAPI.Callback);
+        ExternalAPI.WithCallback(ExternalAPI.Callback);
     }
 
     public bool IsLoggedIn()

@@ -9,7 +9,6 @@ https://forum.unity.com/threads/tiny-3rd-party-api-requests-iframes-bug.819057/
 
 
 var Y8lib = {
-    $ExternalAPI: {},
     $y8_global: {
         isLoggedIn: false,
         isInitialized: false,
@@ -23,7 +22,7 @@ var Y8lib = {
             return new Promise(resolve => setTimeout(resolve, 300));
         },
         ShowHighscore: async function(tableId){
-            await this.delay();
+            //await this.delay();
             ID.GameAPI.Leaderboards.list({table: tableId}); 
         },
 
@@ -86,13 +85,11 @@ var Y8lib = {
         y8_global.ShowHighscore(tableId);
     },
 
-    ProvideCallback: function(obj)
+    WithCallback: function(obj)
     {
-        console.log("ProvideCallback");
+        console.log("WithCallback");
         console.log(obj);
-        ExternalAPI.callback = obj;
         dynCall_v(obj);
-        //dynCall('v', obj, 0);
     },
 
     SaveHighscore: async function(tableId_p, score) {
@@ -102,7 +99,6 @@ var Y8lib = {
 
 }
 
-autoAddDeps(Y8lib, '$ExternalAPI');
 autoAddDeps(Y8lib, '$y8_global');
 mergeInto(LibraryManager.library, Y8lib);
 

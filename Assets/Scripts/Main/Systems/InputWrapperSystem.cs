@@ -3,6 +3,8 @@ using Unity.Jobs;
 using Unity.Tiny;
 using Unity.Tiny.Input;
 
+[AlwaysSynchronizeSystem]
+[UpdateInGroup(typeof(InitializationSystemGroup))]
 public class InputWrapperSystem : JobComponentSystem
 {
     private InputSystem Input;
@@ -67,6 +69,6 @@ public class InputWrapperSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        return inputDeps;
+        return default;
     }
 }
