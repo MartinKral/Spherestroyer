@@ -1,0 +1,13 @@
+{
+    "name": "Unity.Tiny.Web",
+    "references": [
+      "Unity.Collections",
+      "Unity.Entities",
+      "Unity.Mathematics",
+      "Unity.Tiny.Core"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [ "WebGL" ],
+    "allowUnsafeCode": true,
+    "defineConstraints": ["UNITY_DOTSPLAYER"]
+}
