@@ -10,36 +10,16 @@ https://forum.unity.com/threads/tiny-3rd-party-api-requests-iframes-bug.819057/
 
 var Y8lib = {
     $y8_global: {
-        isLoggedIn: false,
-        isInitialized: false,
+        isLoggedIn: false,       
         loginCallback: function (response) {
             if (response) {
                 console.log(response);
                 if (response.status == "ok") this.isLoggedIn = true;
             }
-        },
-        delay: async function() {
-            return new Promise(resolve => setTimeout(resolve, 300));
-        },
-        ShowHighscore: async function(tableId){
-            //await this.delay();
-            ID.GameAPI.Leaderboards.list({table: tableId}); 
-        },
-
-        SaveHighscore: async function (tableId, score) {
-            await this.delay();
-            ID.GameAPI.Leaderboards.save(
-                {
-                    table: tableId,
-                    points: score
-                },
-                (response)=> {console.log(response)});
-
         }
-
     },
 
-    Init: function(appId_p){
+    Init: function(appId_p, successCallback){
         var appId = UTF8ToString(appId_p);
 
         var d = document;
@@ -54,7 +34,7 @@ var Y8lib = {
         
         window.idAsyncInit = function(){
             ID.Event.subscribe('id.init', function() { // SDK initialized
-                y8_global.isInitialized = true;
+                dynCall_v(successCallback);
 
                 ID.getLoginStatus(function(data) { // Try Autologin
                     console.log(data);
@@ -82,11 +62,11 @@ var Y8lib = {
 
     ShowHighscore: function(tableId_p) {
         var tableId = UTF8ToString(tableId_p);
-        y8_global.ShowHighscore(tableId);
+        ID.GameAPI.Leaderboards.list({table: tableId}); 
     },
 
     WithCallback: function(obj)
-    {
+    {       
         console.log("WithCallback");
         console.log(obj);
         dynCall_v(obj);
@@ -94,7 +74,12 @@ var Y8lib = {
 
     SaveHighscore: async function(tableId_p, score) {
         var tableId = UTF8ToString(tableId_p);
-        y8_global.SaveHighscore(tableId, score);
+        ID.GameAPI.Leaderboards.save(
+            {
+                table: tableId,
+                points: score
+            },
+            (response)=> {console.log(response)});
     }
 
 }
