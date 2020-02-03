@@ -26,5 +26,3 @@ The library should have `.js` instead of `.jslib`
 - Don't use spaces in folder names, otherwise build will fail.
 - Component `NonUniformScale` , which is added automatically for entities with scale other than 1, is used instead of component
 `Scale` by internal systems. Make authoring script add `NonUniformScale` and use that in your systems instead of `Scale` so it works for both cases.
-- Removing a `Disabled` component via unrelated EntityQuery works in Debug only if the query is created in the same frame the component is removed (not in OnCreate where you would usually create queries).
-It works correctly in Release either way.

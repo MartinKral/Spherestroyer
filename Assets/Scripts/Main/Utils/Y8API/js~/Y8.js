@@ -1,25 +1,24 @@
-/*
-y8_global is a global js object.
-
-- Calling the GameAPI directly from library does not work, even with delay (iframe is downloaded, but without additional data)
-- Calling the GameAPI without delay also does not work (perhaps it needs to wait for another frame?)
-https://forum.unity.com/threads/tiny-3rd-party-api-requests-iframes-bug.819057/
-
-*/
-
-
 var Y8lib = {
     $y8_global: {
-        isLoggedIn: false,       
-        loginCallback: function (response) {
-            if (response) {
-                console.log(response);
-                if (response.status == "ok") this.isLoggedIn = true;
-            }
-        }
+        Callback: function (callbackType, callback) {            
+            var bufferSize = lengthBytesUTF8(callbackType) + 1;
+            var buffer = _malloc(bufferSize);
+            stringToUTF8(callbackType, buffer, bufferSize);
+            dynCall_vi(callback, buffer);
+        },
+        Login: function(callback) {
+            ID.login((response) => {
+                if (response) {     
+                    console.log(response);           
+                    if (response.status == "ok"){
+                        y8_global.Callback("login", callback);
+                    }
+                }
+            });
+        },
     },
 
-    Init: function(appId_p, successCallback){
+    Init: function(appId_p, callback){
         var appId = UTF8ToString(appId_p);
 
         var d = document;
@@ -34,13 +33,13 @@ var Y8lib = {
         
         window.idAsyncInit = function(){
             ID.Event.subscribe('id.init', function() { // SDK initialized
-                dynCall_v(successCallback);
+                y8_global.Callback("init", callback);
 
                 ID.getLoginStatus(function(data) { // Try Autologin
                     console.log(data);
-                    if (data.status == 'not_linked') ID.login(y8_global.LoginCallback);
+                    if (data.status == 'not_linked') y8_global.Login(callback);
                     if (data.status == 'ok'){                        
-                        y8_global.isLoggedIn = true;
+                        y8_global.Callback("login", callback);
 
                     }    
                 });
@@ -52,27 +51,14 @@ var Y8lib = {
         }
     },
 
-    Login: function() {
-        ID.login(y8_global.LoginCallback);
-    },
 
-    IsLoggedIn: function() {
-        return y8_global.isLoggedIn;
-    },
-
-    ShowHighscore: function(tableId_p) {
+    ShowHighscore: function(tableId_p, callback) {
         var tableId = UTF8ToString(tableId_p);
         ID.GameAPI.Leaderboards.list({table: tableId}); 
     },
 
-    WithCallback: function(obj)
-    {       
-        console.log("WithCallback");
-        console.log(obj);
-        dynCall_v(obj);
-    },
 
-    SaveHighscore: async function(tableId_p, score) {
+    SaveHighscore: async function(tableId_p, score, callback) {
         var tableId = UTF8ToString(tableId_p);
         ID.GameAPI.Leaderboards.save(
             {

@@ -1,33 +1,23 @@
-﻿using System;
-
-public class API
+﻿public class API
 {
-    public static bool IsInitialized { get; private set; }
-    public bool IsLoggedIn { get; private set; }
-
-    ///public delegate void CallbackDelegate(string )
+    public bool IsInitialized { get; set; }
+    public bool IsLoggedIn { get; set; }
 
     public API(string appId)
     {
-        ExternalAPI.Init(appId, SuccessCallback);
-    }
-
-    [MonoPInvokeCallback(typeof(Action))]
-    public static void SuccessCallback()
-    {
-        Logger.Log($"Y8 initialized");
-        IsInitialized = true;
+        ExternalAPI.Init(appId, ExternalAPI.JsCallback);
     }
 
     public void ShowHighscore(string tableId)
     {
         if (!IsInitialized) return;
-        ExternalAPI.ShowHighscore(tableId);
+        ExternalAPI.ShowHighscore(tableId, ExternalAPI.JsCallback);
     }
 
     public void SaveHighscore(string tableId, int score)
     {
         if (!IsInitialized) return;
-        ExternalAPI.SaveHighscore(tableId, score);
+        if (!IsLoggedIn) return;
+        ExternalAPI.SaveHighscore(tableId, score, ExternalAPI.JsCallback);
     }
 }

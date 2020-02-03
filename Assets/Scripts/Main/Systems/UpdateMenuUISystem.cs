@@ -1,59 +1,69 @@
-﻿using Unity.Entities;
+﻿using Unity.Collections;
+using Unity.Entities;
 using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
 [UpdateAfter(typeof(SoundManagerSystem))]
 public class UpdateMenuUISystem : JobComponentSystem
 {
-    private EntityQuery soundCrossIconEQ;
-    private EntityQuery musicCrossIconEQ;
-
     protected override void OnCreate()
     {
-        EntityQueryDesc soundBtnDesc = new EntityQueryDesc()
-        {
-            All = new ComponentType[] { ComponentType.ReadOnly<SoundBtnCrossIconTag>() },
-            Options = EntityQueryOptions.IncludeDisabled
-        };
-
-        soundCrossIconEQ = GetEntityQuery(soundBtnDesc);
-
-        EntityQueryDesc musicBtnDesc = new EntityQueryDesc()
-        {
-            All = new ComponentType[] { ComponentType.ReadOnly<MusicBtnCrossIconTag>() },
-            Options = EntityQueryOptions.IncludeDisabled
-        };
-
-        musicCrossIconEQ = GetEntityQuery(musicBtnDesc);
+        RequireSingletonForUpdate<SoundManager>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var soundManager = GetSingleton<SoundManager>();
 
+        var ecb = new EntityCommandBuffer(Allocator.Temp);
+
         Entities
             .WithAll<UpdateMenuUITag>() // UpdateMenuUITag
             .WithoutBurst()
-            .WithStructuralChanges()
             .ForEach((Entity entity) =>
             {
-                ToggleSoundCrossIcon(in soundManager);
-                ToggleMusicCrossIcon(in soundManager);
-                EntityManager.DestroyEntity(entity);
+                ToggleSoundCrossIcon(ecb, soundManager.IsSoundEnabled);
+                ToggleMusicCrossIcon(ecb, soundManager.IsMusicEnabled);
+                ecb.DestroyEntity(entity);
             }).Run();
+
+        ecb.Playback(EntityManager);
+        ecb.Dispose();
 
         return default;
     }
 
-    private void ToggleSoundCrossIcon(in SoundManager soundManager)
+    private void ToggleSoundCrossIcon(EntityCommandBuffer ecb, bool isSoundEnabled)
     {
-        var soundCrossE = soundCrossIconEQ.GetSingletonEntity();
-        EntityManager.SetEnabled(soundCrossE, !soundManager.IsSoundEnabled);
+        if (!isSoundEnabled)
+        {
+            var eq = GetEntityQuery(
+                 ComponentType.ReadOnly(typeof(Disabled)),
+                 ComponentType.ReadOnly(typeof(SoundBtnCrossIconTag)));
+            ecb.RemoveComponent(eq, typeof(Disabled));
+        }
+        else
+        {
+            var eq = GetEntityQuery(
+                 ComponentType.ReadOnly(typeof(SoundBtnCrossIconTag)));
+            ecb.AddComponent(eq, typeof(Disabled));
+        }
     }
 
-    private void ToggleMusicCrossIcon(in SoundManager soundManager)
+    private void ToggleMusicCrossIcon(EntityCommandBuffer ecb, bool isMusicEnabled)
     {
-        var musicCrossE = musicCrossIconEQ.GetSingletonEntity();
-        EntityManager.SetEnabled(musicCrossE, !soundManager.IsMusicEnabled);
+        if (!isMusicEnabled)
+        {
+            var eq = GetEntityQuery(
+                 ComponentType.ReadOnly(typeof(Disabled)),
+                 ComponentType.ReadOnly(typeof(MusicBtnCrossIconTag)));
+            ecb.RemoveComponent(eq, typeof(Disabled));
+        }
+        else
+        {
+            var eq = GetEntityQuery(
+                 ComponentType.ReadOnly(typeof(MusicBtnCrossIconTag)));
+            ecb.AddComponent(eq, typeof(Disabled));
+        }
     }
 }
