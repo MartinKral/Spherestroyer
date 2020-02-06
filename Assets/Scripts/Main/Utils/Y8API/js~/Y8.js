@@ -65,7 +65,14 @@ var Y8lib = {
                 table: tableId,
                 points: score
             },
-            (response)=> {console.log(response)});
+            (response)=> {
+                console.log(response);
+                if (response.success) {
+                    y8_global.Callback("score-success", callback);
+                } else {
+                    y8_global.Callback("score-fail", callback);
+                }
+            });
     }
 
 }

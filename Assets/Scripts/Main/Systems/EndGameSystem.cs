@@ -46,7 +46,7 @@ public class EndGameSystem : JobComponentSystem
     {
         EntityQuery disabledTouchSymbol = GetEntityQuery(
                  ComponentType.ReadOnly(typeof(Disabled)),
-                 ComponentType.ReadOnly(typeof(TouchSymbolTag)));
+                 ComponentType.ReadOnly(typeof(HideableSymbolTag)));
         ecb.RemoveComponent(disabledTouchSymbol, typeof(Disabled));
     }
 }

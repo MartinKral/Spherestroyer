@@ -10,14 +10,40 @@
 
     public void ShowHighscore(string tableId)
     {
-        if (!IsInitialized) return;
+        if (!TryInitialized()) return;
         ExternalAPI.ShowHighscore(tableId, ExternalAPI.JsCallback);
     }
 
     public void SaveHighscore(string tableId, int score)
     {
-        if (!IsInitialized) return;
-        if (!IsLoggedIn) return;
+        if (!TryInitialized()) return;
+        if (!TryLoggedIn()) return;
         ExternalAPI.SaveHighscore(tableId, score, ExternalAPI.JsCallback);
+    }
+
+    private bool TryInitialized()
+    {
+        if (!IsInitialized)
+        {
+            Logger.Log("[Y8] Not initialized");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    private bool TryLoggedIn()
+    {
+        if (!IsLoggedIn)
+        {
+            Logger.Log("[Y8] Not logged in");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }

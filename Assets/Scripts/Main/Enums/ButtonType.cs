@@ -1,8 +1,9 @@
 ﻿public enum ButtonType
 {
-    Play,
+    GoToPlay,
     Branding,
     Music,
     Sound,
-    Highscore
+    Highscore,
+    GoToMenu
 }

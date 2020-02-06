@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 429450900253512350}
   - component: {fileID: -8810388028510183563}
   - component: {fileID: -522492573041719707}
+  - component: {fileID: 3380534592856308991}
   m_Layer: 0
   m_Name: ParticleShard
   m_TagString: Untagged
@@ -234,5 +235,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 416eb84286a15764d92e49a2f28ca2f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3380534592856308991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8144158310528592839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc3fb3af1148bc4cbda854cac347e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

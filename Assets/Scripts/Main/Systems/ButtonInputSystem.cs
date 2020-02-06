@@ -37,8 +37,12 @@ public class ButtonInputSystem : JobComponentSystem
     {
         switch (type)
         {
-            case ButtonType.Play:
+            case ButtonType.GoToPlay:
                 ClickOnPlayBtn(ecb);
+                break;
+
+            case ButtonType.GoToMenu:
+                ClickOnMenuBtn(ecb);
                 break;
 
             case ButtonType.Branding:
@@ -96,6 +100,17 @@ public class ButtonInputSystem : JobComponentSystem
         ecb.AddComponent(sceneManagerEntity, new ChangeScene()
         {
             Value = SceneName.Gameplay
+        });
+    }
+
+    private void ClickOnMenuBtn(EntityCommandBuffer ecb)
+    {
+        Logger.Log("Click on menu btn");
+        Entity sceneManagerEntity = GetSingletonEntity<SceneManager>();
+
+        ecb.AddComponent(sceneManagerEntity, new ChangeScene()
+        {
+            Value = SceneName.Menu
         });
     }
 }

@@ -11,14 +11,21 @@ public static class ExternalAPI
     {
         Logger.Log($"[Y8]{callbackType}");
 
-        if (callbackType == "init")
+        // Dictionary not available
+        switch (callbackType)
         {
-            Y8.Api.IsInitialized = true;
-        }
+            case "init":
+                Y8.Api.IsInitialized = true;
+                break;
 
-        if (callbackType == "login")
-        {
-            Y8.Api.IsInitialized = true;
+            case "login":
+                Y8.Api.IsLoggedIn = true;
+                break;
+
+            case "score-success":
+            case "score-fail":
+            default:
+                break;
         }
     }
 
