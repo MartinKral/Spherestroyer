@@ -1,7 +1,9 @@
-﻿public class API
+﻿using System;
+
+public class API
 {
-    public bool IsInitialized { get; set; }
-    public bool IsLoggedIn { get; set; }
+    public bool IsInitialized { get; set; } = false;
+    public bool IsLoggedIn { get; set; } = false;
 
     public API(string appId)
     {
@@ -10,40 +12,42 @@
 
     public void ShowHighscore(string tableId)
     {
-        if (!TryInitialized()) return;
+        if (!TryIsInitialized()) return;
+
         ExternalAPI.ShowHighscore(tableId, ExternalAPI.JsCallback);
     }
 
     public void SaveHighscore(string tableId, int score)
     {
-        if (!TryInitialized()) return;
-        if (!TryLoggedIn()) return;
+        if (!TryIsInitialized()) return;
+        if (!TryIsLoggedIn()) return;
+
         ExternalAPI.SaveHighscore(tableId, score, ExternalAPI.JsCallback);
     }
 
-    private bool TryInitialized()
+    private bool TryIsInitialized()
     {
-        if (!IsInitialized)
+        if (IsInitialized)
         {
-            Logger.Log("[Y8] Not initialized");
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            Logger.Log("[Y8] Is not initialized");
+            return false;
         }
     }
 
-    private bool TryLoggedIn()
+    private bool TryIsLoggedIn()
     {
-        if (!IsLoggedIn)
+        if (IsLoggedIn)
         {
-            Logger.Log("[Y8] Not logged in");
-            return false;
+            return true;
         }
         else
         {
-            return true;
+            Logger.Log("[Y8] Is not logged in");
+            return false;
         }
     }
 }

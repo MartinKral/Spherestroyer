@@ -58,7 +58,7 @@ var Y8lib = {
     },
 
 
-    SaveHighscore: async function(tableId_p, score, callback) {
+    SaveHighscore: function(tableId_p, score, callback) {
         var tableId = UTF8ToString(tableId_p);
         ID.GameAPI.Leaderboards.save(
             {

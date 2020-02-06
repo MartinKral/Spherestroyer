@@ -49,7 +49,9 @@ public class HighScoreSystem : JobComponentSystem
                     ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.Highscore });
                     savedHighscore.Value = gameData.score;
                 }
+
                 Y8.Api.SaveHighscore("Leaderboard", gameData.score);
+
                 ecb.DestroyEntity(entity);
             }).Run();
         ecb.Playback(EntityManager);

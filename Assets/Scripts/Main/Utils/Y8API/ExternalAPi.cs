@@ -49,15 +49,15 @@ public static class ExternalAPI
     {
     }
 
-    public static void ShowHighscore(string tableId, Callback callback)
+    internal static void ShowHighscore(string tableId, Callback callback)
     {
     }
 
-    public static void Init(string appId, Callback callback)
+    internal static void Init(string appId, Callback callback)
     {
     }
 
-    public static void SaveHighscore(string tableId, int score, Callback callback)
+    internal static void SaveHighscore(string tableId, int score, Callback callback)
     {
     }
 }
