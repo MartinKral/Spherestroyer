@@ -79,7 +79,7 @@ public class SphereSpawnSystem : JobComponentSystem
         Entity icosphereEntity = ecb.Instantiate(spawner.Prefab);
         ecb.SetComponent(icosphereEntity, new Translation { Value = position });
         ecb.SetComponent(icosphereEntity, new MaterialId { currentMaterialId = materialId });
-        ecb.SetComponent(icosphereEntity, new Move { speedY = -1 - 0.1f * spawner.TimesUpgraded });
+        ecb.SetComponent(icosphereEntity, new Move { speedY = -1.2f - 0.1f * spawner.TimesUpgraded });
         ecb.AddComponent<UpdateMaterialTag>(icosphereEntity);
     }
 }

@@ -26,5 +26,5 @@ The library should have `.js` instead of `.jslib`
 - Don't use spaces in folder names, otherwise build will fail.
 - Component `NonUniformScale` , which is added automatically for entities with scale other than 1, is used instead of component
 `Scale` by internal systems. Make authoring script add `NonUniformScale` and use that in your systems instead of `Scale` so it works for both cases.
-- Do not use async functions in Library (Works in Debug, Release build breaks with `FormatException: Input string was not in a correct format.`).
+- Do not use async functions in js Library (Works in Debug, Release build breaks with `FormatException: Input string was not in a correct format.`).
 Workaround is to create global object with async function

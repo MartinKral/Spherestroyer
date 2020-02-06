@@ -1913,7 +1913,7 @@ MonoBehaviour:
   SpheresPerSecond: 0.3
   ChanceToUpgrade: 0.35
   SpawnRatePerUpgrade: 0.05
-  ChanceToBurst: 0.1
+  ChanceToBurst: 0.12
 --- !u!1 &7452554821664827737
 GameObject:
   m_ObjectHideFlags: 0
