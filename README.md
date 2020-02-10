@@ -3,6 +3,8 @@ Open sourced with the courtesy of [Y8.com](https://www.y8.com)
 You can play the game here:
 [Spherestroyer Y8](https://www.y8.com/games/spherestroyer)
 
+If you want to publish this game on your website, please credit [Y8.com](https://www.y8.com). Otherwise, feel free to reuse any parts.
+
 ## Useful(?) bits:
 - [Logger](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Utils/Logger/Logger.cs)
 - [How to open URL](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/URLOpener)
