@@ -1,3 +1,16 @@
+Open sourced with the courtesy of [Y8.com](https://www.y8.com)
+
+You can play the game here:
+[Spherestroyer Y8](https://www.y8.com/games/spherestroyer)
+
+## Useful(?) bits:
+- [Logger](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Utils/Logger/Logger.cs)
+- [How to open URL](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/URLOpener)
+- ["PlayerPrefs"](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/GameSaver)
+- ["Callback from JS library"](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/Y8API)
+- [Shake](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/ShakeSystem.cs) >> Added to camera entity acts as screen shake
+- Temporary authoring for buttons [1](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Authoring/ButtonAuthoring.cs) [2](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/InputWrapperSystem.cs) [3](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/ButtonInputSystem.cs) >> add quad to the scene, add ButtonAuthoring, place it where you want and press "regenerate"
+
 ## Unity Tiny gotchas:
 ### Materials:
 - Tiny is using `Unity.Tiny.Rendering.MeshRenderer` while Editor is using `Unity.Rendering.RenderMesh`. If you want to
@@ -28,3 +41,7 @@ The library should have `.js` instead of `.jslib`
 `Scale` by internal systems. Make authoring script add `NonUniformScale` and use that in your systems instead of `Scale` so it works for both cases.
 - Do not use async functions in js Library (Works in Debug, Release build breaks with `FormatException: Input string was not in a correct format.`).
 Workaround is to create global object with async function
+
+## Missing:
+- In editor the game is not updating score, screen shake and sounds (would require hybrid systems) - build dot.net to test everything if required
+- The sounds are not part of this repository
