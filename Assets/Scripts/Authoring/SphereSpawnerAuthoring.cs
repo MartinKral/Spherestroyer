@@ -7,9 +7,13 @@ public class SphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, 
 {
     public GameObject IcospherePrefab;
     public GameObject spike;
+    public float SpawnPositionY;
+    public float InitialSpeed;
     public float SpheresPerSecond;
     public float ChanceToUpgrade;
+    public float SpeedPerUpgrade;
     public float SpawnRatePerUpgrade;
+    public float MinUpgradesToBurst;
     public float ChanceToBurst;
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
@@ -20,9 +24,13 @@ public class SphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, 
         dstManager.AddComponentData(entity, new SphereSpawner()
         {
             Prefab = prefabEntity,
+            SpawnPositionY = SpawnPositionY,
+            InitialSpeed = InitialSpeed,
             SpheresPerSecond = SpheresPerSecond,
             ChanceToUpgrade = ChanceToUpgrade,
+            SpeedPerUpgrade = SpeedPerUpgrade,
             SpawnRatePerUpgrade = SpawnRatePerUpgrade,
+            MinUpgradesToBurst = MinUpgradesToBurst,
             ChanceToBurst = ChanceToBurst,
             SecondsUntilSpawn = 0,
             TimesUpgraded = 0

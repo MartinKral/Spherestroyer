@@ -1,12 +1,15 @@
 ﻿using Unity.Entities;
 
-[GenerateAuthoringComponent]
 public struct SphereSpawner : IComponentData
 {
     public Entity Prefab;
+    public float SpawnPositionY;
+    public float InitialSpeed;
     public float SpheresPerSecond;
     public float ChanceToUpgrade;
     public float SpawnRatePerUpgrade;
+    public float SpeedPerUpgrade;
+    public float MinUpgradesToBurst;
     public float ChanceToBurst;
 
     public int TimesUpgraded;

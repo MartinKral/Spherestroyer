@@ -8,13 +8,13 @@ public class MoveSystem : JobComponentSystem
 {
     protected override void OnCreate()
     {
-        RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<GameState>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var gameDataEntity = GetSingletonEntity<GameData>();
-        var gameData = EntityManager.GetComponentData<GameData>(gameDataEntity);
+        var gameDataEntity = GetSingletonEntity<GameState>();
+        var gameData = EntityManager.GetComponentData<GameState>(gameDataEntity);
 
         if (!gameData.IsGameActive) return inputDeps;
 

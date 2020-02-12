@@ -19,7 +19,7 @@ public class HighScoreSystem : JobComponentSystem
             ComponentType.ReadOnly<HighscoreTag>(),
             ComponentType.ReadOnly<Disabled>());
 
-        RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<GameState>();
     }
 
     protected override void OnStartRunning()
@@ -33,7 +33,7 @@ public class HighScoreSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var gameData = GetSingleton<GameData>();
+        var gameData = GetSingleton<GameState>();
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 

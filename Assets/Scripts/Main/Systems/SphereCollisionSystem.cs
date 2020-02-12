@@ -7,17 +7,23 @@ using Unity.Transforms;
 public class SphereCollisionSystem : JobComponentSystem
 {
     private DestructionBufferSystem ecbs;
+    private float collisionOffsetY;
 
     protected override void OnCreate()
     {
         ecbs = World.GetOrCreateSystem<DestructionBufferSystem>();
-        RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<GameState>();
         RequireSingletonForUpdate<SpikeTag>();
+    }
+
+    protected override void OnStartRunning()
+    {
+        collisionOffsetY = GameSettings.Instance.Data.Sphere.collisionOffsetY;
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var gameData = GetSingleton<GameData>();
+        var gameData = GetSingleton<GameState>();
         if (!gameData.IsGameActive) return inputDeps;
 
         var spikeEntity = GetSingletonEntity<SpikeTag>();
@@ -27,7 +33,8 @@ public class SphereCollisionSystem : JobComponentSystem
             ecb = ecbs.CreateCommandBuffer().ToConcurrent(),
             MaterialIdData = GetComponentDataFromEntity<MaterialId>(true),
             TranslationData = GetComponentDataFromEntity<Translation>(true),
-            SpikeEntity = spikeEntity
+            SpikeEntity = spikeEntity,
+            collisionOffsetY = collisionOffsetY
         }.Schedule(this, inputDeps);
 
         ecbs.AddJobHandleForProducer(jobHandle);
@@ -43,6 +50,7 @@ public class SphereCollisionSystem : JobComponentSystem
         [ReadOnly] public ComponentDataFromEntity<MaterialId> MaterialIdData;
         [ReadOnly] public ComponentDataFromEntity<Translation> TranslationData;
         [ReadOnly] public Entity SpikeEntity;
+        [ReadOnly] public float collisionOffsetY;
 
         public void Execute(
             Entity entity,
@@ -56,7 +64,7 @@ public class SphereCollisionSystem : JobComponentSystem
             MaterialId spikeMaterial = MaterialIdData[SpikeEntity];
             Translation spikeTranslation = TranslationData[SpikeEntity];
 
-            if (translation.Value.y <= spikeTranslation.Value.y + 0.5f)
+            if (translation.Value.y <= spikeTranslation.Value.y + collisionOffsetY)
             {
                 if (materialId.currentMaterialId == spikeMaterial.currentMaterialId)
                 {

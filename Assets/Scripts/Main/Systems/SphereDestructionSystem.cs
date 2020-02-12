@@ -17,14 +17,14 @@ public class SphereDestructionSystem : JobComponentSystem
         shakeTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(Shake)));
         uiUpdateTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(ScoreTag)));
 
-        RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<GameState>();
         RequireSingletonForUpdate<SoundManager>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var ecb = new EntityCommandBuffer(Allocator.Temp);
-        var gameData = GetSingleton<GameData>();
+        var gameData = GetSingleton<GameState>();
         var soundManager = GetSingleton<SoundManager>();
 
         Entities

@@ -12,6 +12,10 @@ public class ButtonInputSystem : JobComponentSystem
         inputSystem = World.GetOrCreateSystem<InputWrapperSystem>();
     }
 
+    protected override void OnStartRunning()
+    {
+    }
+
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         if (!inputSystem.IsTouchOrButtonDown()) return default;

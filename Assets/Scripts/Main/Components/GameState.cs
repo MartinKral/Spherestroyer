@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct GameData : IComponentData
+public struct GameState : IComponentData
 {
     public bool IsGameActive;
     public int score;

@@ -15,16 +15,15 @@ public class SphereSpawnSystem : JobComponentSystem
     {
         randomGenerator = new Random();
         randomGenerator.InitState();
-        RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<GameState>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        if (!GetSingleton<GameData>().IsGameActive) return default;
+        if (!GetSingleton<GameState>().IsGameActive) return default;
 
         randomGenerator.NextFloat();
 
-        float positionY = 5;
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
         Entities
@@ -39,7 +38,7 @@ public class SphereSpawnSystem : JobComponentSystem
                 var nextDelay = 1 / (spawner.SpheresPerSecond + spawner.TimesUpgraded * spawner.SpawnRatePerUpgrade);
                 spawner.SecondsUntilSpawn = nextDelay;
 
-                var position = new float3(0, positionY, 0);
+                var position = new float3(0, spawner.SpawnPositionY, 0);
                 var materialId = randomGenerator.NextInt(3);
 
                 if (!CanSpawnSphereBurst(spawner))
@@ -70,7 +69,7 @@ public class SphereSpawnSystem : JobComponentSystem
 
     private bool CanSpawnSphereBurst(SphereSpawner spawner)
     {
-        if (spawner.TimesUpgraded < 3) return false;
+        if (spawner.TimesUpgraded < spawner.MinUpgradesToBurst) return false;
         return randomGenerator.NextFloat() < spawner.ChanceToBurst;
     }
 
@@ -79,7 +78,11 @@ public class SphereSpawnSystem : JobComponentSystem
         Entity icosphereEntity = ecb.Instantiate(spawner.Prefab);
         ecb.SetComponent(icosphereEntity, new Translation { Value = position });
         ecb.SetComponent(icosphereEntity, new MaterialId { currentMaterialId = materialId });
-        ecb.SetComponent(icosphereEntity, new Move { speedY = -1.2f - 0.1f * spawner.TimesUpgraded });
+        ecb.SetComponent(icosphereEntity, new Move
+        {
+            speedY = -spawner.InitialSpeed - spawner.SpeedPerUpgrade * spawner.TimesUpgraded
+        });
+
         ecb.AddComponent<UpdateMaterialTag>(icosphereEntity);
     }
 }

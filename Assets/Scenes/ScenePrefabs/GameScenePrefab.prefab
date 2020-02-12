@@ -1830,7 +1830,7 @@ GameObject:
   - component: {fileID: 3489470456607455369}
   - component: {fileID: 3489470456607455368}
   m_Layer: 0
-  m_Name: GameData
+  m_Name: GameState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1910,9 +1910,13 @@ MonoBehaviour:
   IcospherePrefab: {fileID: 9064256488595117554, guid: 74e70b8282884124f988edac1fee12a4,
     type: 3}
   spike: {fileID: 3489470454831857960}
+  SpawnPositionY: 5
+  InitialSpeed: 1.2
   SpheresPerSecond: 0.3
   ChanceToUpgrade: 0.35
+  SpeedPerUpgrade: 0.1
   SpawnRatePerUpgrade: 0.05
+  MinUpgradesToBurst: 3
   ChanceToBurst: 0.12
 --- !u!1 &7452554821664827737
 GameObject:

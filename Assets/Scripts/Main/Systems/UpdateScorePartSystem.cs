@@ -14,12 +14,12 @@ public class UpdateScorePartSystem : JobComponentSystem
     protected override void OnCreate()
     {
         highScoreSystem = World.GetOrCreateSystem<HighScoreSystem>();
-        RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<GameState>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var gameData = GetSingleton<GameData>();
+        var gameData = GetSingleton<GameState>();
 
         Entities
             .WithAll<ScoreTag, ActivatedTag>()

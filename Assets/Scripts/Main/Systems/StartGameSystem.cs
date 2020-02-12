@@ -7,7 +7,7 @@ public class StartGameSystem : JobComponentSystem
 {
     protected override void OnCreate()
     {
-        RequireSingletonForUpdate<GameData>();
+        RequireSingletonForUpdate<GameState>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -44,7 +44,7 @@ public class StartGameSystem : JobComponentSystem
 
     private void ResetGameData()
     {
-        var gameData = GetSingleton<GameData>();
+        var gameData = GetSingleton<GameState>();
         gameData.IsGameActive = true;
         gameData.score = 0;
         SetSingleton(gameData);
