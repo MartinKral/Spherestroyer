@@ -243,15 +243,15 @@ mergeInto(LibraryManager.library, {
         sourceNode.loop = loop;
 
         // stop audio source node if it is already playing
-        this.stop(audioSourceIdx, true);
+        //this.stop(audioSourceIdx, true);
 
         // store audio source node
         this.audioSources[audioSourceIdx] = sourceNode;
 
         // on ended event
-        var self = this;
+        //var self = this;
         sourceNode.onended = function (event) {
-            self.stop(audioSourceIdx, false);
+            //self.stop(audioSourceIdx, false);
             //console.log("onended callback");
             sourceNode.isPlaying = false;
         };
