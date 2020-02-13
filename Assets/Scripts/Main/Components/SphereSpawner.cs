@@ -11,6 +11,10 @@ public struct SphereSpawner : IComponentData
     public float SpeedPerUpgrade;
     public float MinUpgradesToBurst;
     public float ChanceToBurst;
+    public float ChanceToSkipSpawnPerUpgrade;
+    public float MaxChanceToSkipSpawn;
+    public int UpgradesToSkipSpawn;
+    public float SkipSpawnDuration;
 
     public int TimesUpgraded;
     public float SecondsUntilSpawn;

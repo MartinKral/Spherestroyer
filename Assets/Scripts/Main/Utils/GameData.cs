@@ -1,7 +1,8 @@
 ﻿using System;
+using Unity.Entities;
 
 [Serializable]
-public struct GameData
+public struct GameData : IComponentData
 {
     public AnimationSettings Animation;
     public SphereSettings Sphere;

@@ -1911,13 +1911,17 @@ MonoBehaviour:
     type: 3}
   spike: {fileID: 3489470454831857960}
   SpawnPositionY: 5
-  InitialSpeed: 1.2
+  InitialSpeed: 1.7
   SpheresPerSecond: 0.3
-  ChanceToUpgrade: 0.35
-  SpeedPerUpgrade: 0.1
+  ChanceToUpgrade: 0.4
+  SpeedPerUpgrade: 0.2
   SpawnRatePerUpgrade: 0.05
-  MinUpgradesToBurst: 3
-  ChanceToBurst: 0.12
+  MinUpgradesToBurst: 1
+  ChanceToBurst: 0.15
+  ChanceToSkipSpherePerUpgrade: 0.05
+  MaxChanceToSkipSpawn: 0.5
+  UpgradesToSkipSphere: 3
+  SkipSpawnDuration: 1.5
 --- !u!1 &7452554821664827737
 GameObject:
   m_ObjectHideFlags: 0

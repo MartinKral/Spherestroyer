@@ -1,4 +1,5 @@
-﻿using Unity.Collections;
+﻿using System;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
@@ -32,6 +33,11 @@ public class SphereSpawnSystem : JobComponentSystem
             {
                 spawner.SecondsUntilSpawn -= Time.DeltaTime;
                 if (0 < spawner.SecondsUntilSpawn) return;
+                if (TrySkipSpawn(spawner))
+                {
+                    spawner.SecondsUntilSpawn = spawner.SkipSpawnDuration;
+                    return;
+                }
 
                 spawner.TimesUpgraded += randomGenerator.NextFloat() < spawner.ChanceToUpgrade ? 1 : 0;
 
@@ -65,6 +71,23 @@ public class SphereSpawnSystem : JobComponentSystem
         ecb.Dispose();
 
         return default;
+    }
+
+    private bool TrySkipSpawn(SphereSpawner spawner)
+    {
+        if (spawner.TimesUpgraded < spawner.UpgradesToSkipSpawn) return false;
+        float chanceToSkipSpawn = spawner.ChanceToSkipSpawnPerUpgrade * spawner.TimesUpgraded;
+        chanceToSkipSpawn = math.min(spawner.MaxChanceToSkipSpawn, chanceToSkipSpawn);
+
+        if (randomGenerator.NextFloat() < chanceToSkipSpawn)
+        {
+            Logger.Log("Skipping spawn");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private bool CanSpawnSphereBurst(SphereSpawner spawner)

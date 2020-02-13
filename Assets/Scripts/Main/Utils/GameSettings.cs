@@ -1,22 +1,17 @@
 ﻿public class GameSettings
 {
-    public static GameSettings Instance { get; private set; }
-    public GameData Data { get; }
-
-    private GameSettings(GameData gameData)
-    {
-        Data = gameData;
-    }
+    public static GameSettings Instance { get; } = new GameSettings();
+    public GameData Data { get; private set; }
 
     public static void Init(GameData gameData)
     {
-        if (Instance == null)
+        if (Instance.Data.Equals(default(GameData)))
         {
-            Instance = new GameSettings(gameData);
+            Instance.Data = gameData;
         }
         else
         {
-            Logger.Log("GameSettings already initialized");
+            Logger.Log("Game data already initialized");
         }
     }
 }

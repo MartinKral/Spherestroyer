@@ -6,19 +6,14 @@ using Unity.Transforms;
 
 public class SphereCollisionSystem : JobComponentSystem
 {
+    private readonly float collisionOffsetY = 0.5f;
     private DestructionBufferSystem ecbs;
-    private float collisionOffsetY;
 
     protected override void OnCreate()
     {
         ecbs = World.GetOrCreateSystem<DestructionBufferSystem>();
         RequireSingletonForUpdate<GameState>();
         RequireSingletonForUpdate<SpikeTag>();
-    }
-
-    protected override void OnStartRunning()
-    {
-        collisionOffsetY = GameSettings.Instance.Data.Sphere.collisionOffsetY;
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)

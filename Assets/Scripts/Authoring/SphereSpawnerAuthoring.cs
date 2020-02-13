@@ -15,6 +15,10 @@ public class SphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, 
     public float SpawnRatePerUpgrade;
     public float MinUpgradesToBurst;
     public float ChanceToBurst;
+    public float ChanceToSkipSpherePerUpgrade;
+    public float MaxChanceToSkipSpawn;
+    public int UpgradesToSkipSphere;
+    public float SkipSpawnDuration;
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
@@ -32,6 +36,10 @@ public class SphereSpawnerAuthoring : MonoBehaviour, IDeclareReferencedPrefabs, 
             SpawnRatePerUpgrade = SpawnRatePerUpgrade,
             MinUpgradesToBurst = MinUpgradesToBurst,
             ChanceToBurst = ChanceToBurst,
+            ChanceToSkipSpawnPerUpgrade = ChanceToSkipSpherePerUpgrade,
+            MaxChanceToSkipSpawn = MaxChanceToSkipSpawn,
+            UpgradesToSkipSpawn = UpgradesToSkipSphere,
+            SkipSpawnDuration = SkipSpawnDuration,
             SecondsUntilSpawn = 0,
             TimesUpgraded = 0
         });
