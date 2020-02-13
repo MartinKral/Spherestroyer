@@ -18,7 +18,8 @@
         "GameSaver",
         "Extensions",
         "Y8",
-        "Logger"
+        "Logger",
+        "Unity.Tiny.Animation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
