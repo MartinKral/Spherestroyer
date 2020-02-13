@@ -1,8 +1,8 @@
 Open sourced with the courtesy of [Y8.com](https://www.y8.com)
 
 You can play the game here:
-[Spherestroyer Y8](https://www.y8.com/games/spherestroyer)
-[Spherestroyer PunyGames](https://punygames.com/play/spherestroyer)
+- [Spherestroyer Y8](https://www.y8.com/games/spherestroyer)
+- [Spherestroyer PunyGames](https://punygames.com/play/spherestroyer)
 
 If you want to publish a reskin of this game on your website, please credit [Y8.com](https://www.y8.com). Otherwise, feel free to reuse any parts.
 
