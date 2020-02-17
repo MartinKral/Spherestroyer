@@ -15,6 +15,7 @@ public class InputSoundSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
+        Logger.Log("In input sound system");
         if (!inputSystem.IsTouchOrButtonDown()) return default;
 
         EntityManager.AddComponentData(EntityManager.CreateEntity(), new SoundRequest { Value = SoundType.Input });
