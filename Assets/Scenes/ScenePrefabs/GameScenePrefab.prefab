@@ -250,7 +250,6 @@ GameObject:
   - component: {fileID: 3489470454796838411}
   - component: {fileID: 3489470454796838413}
   - component: {fileID: 3489470454796838412}
-  - component: {fileID: 3489470454796838415}
   - component: {fileID: 3489470454796838414}
   m_Layer: 0
   m_Name: spike_Last
@@ -345,18 +344,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentMaterialId: 2
---- !u!114 &3489470454796838415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3489470454796838409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11d0d5c12f415fb418aa238d7a7b8057, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3489470454796838414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1440,7 +1427,6 @@ GameObject:
   - component: {fileID: 3489470455564699699}
   - component: {fileID: 3489470455564699701}
   - component: {fileID: 3489470455564699700}
-  - component: {fileID: 3489470455564699703}
   - component: {fileID: 3489470455564699702}
   m_Layer: 0
   m_Name: spike_Next
@@ -1535,18 +1521,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentMaterialId: 1
---- !u!114 &3489470455564699703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3489470455564699697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11d0d5c12f415fb418aa238d7a7b8057, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3489470455564699702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1933,7 +1907,6 @@ GameObject:
   - component: {fileID: 8767375347681591597}
   - component: {fileID: 1701198640514108623}
   - component: {fileID: 4419788787558843069}
-  - component: {fileID: 7452554821664827736}
   - component: {fileID: 7452554821664827738}
   - component: {fileID: 7452554821664827741}
   - component: {fileID: 7452554821664827739}
@@ -2005,18 +1978,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &7452554821664827736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7452554821664827737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11d0d5c12f415fb418aa238d7a7b8057, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7452554821664827738
 MonoBehaviour:
   m_ObjectHideFlags: 0
