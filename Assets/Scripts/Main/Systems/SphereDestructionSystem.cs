@@ -18,20 +18,20 @@ public class SphereDestructionSystem : JobComponentSystem
         uiUpdateTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(ScoreTag)));
 
         RequireSingletonForUpdate<GameState>();
-        RequireSingletonForUpdate<SoundManager>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var ecb = new EntityCommandBuffer(Allocator.Temp);
         var gameData = GetSingleton<GameState>();
-        var soundManager = GetSingleton<SoundManager>();
 
+        Logger.Log("In Sphere Destruction System");
         Entities
             .WithAll<DestroyedTag, SphereTag>()
             .WithoutBurst()
-            .ForEach((Entity entity, in Translation translation) =>
+            .ForEach((Entity entity) =>
             {
+                Logger.Log("Increasing score");
                 gameData.score++;
                 SetSingleton(gameData);
 
