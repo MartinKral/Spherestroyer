@@ -6,12 +6,12 @@
         "Unity.Jobs",
         "Unity.Burst",
         "Unity.Mathematics",
-        "Unity.Rendering.Hybrid",
         "Unity.Entities.Hybrid",
         "Unity.Collections",
         "Unity.Tiny.Rendering",
         "Unity.Tiny.Core",
-        "Main"
+        "Main",
+        "Unity.Rendering.Hybrid"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
