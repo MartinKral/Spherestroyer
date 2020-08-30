@@ -13,7 +13,7 @@ If you want to publish a reskin of this game on your website, please credit [Y8.
 - [Callback from JS library](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/Y8API)
 - [Shake](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/ShakeSystem.cs) >> Added to camera entity acts as screen shake
 - Temporary authoring for buttons [1](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Authoring/ButtonAuthoring.cs) [2](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/InputWrapperSystem.cs) [3](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/ButtonInputSystem.cs) >> add quad to the scene, add ButtonAuthoring, place it where you want and press "regenerate"
-- ["Unit" tests](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Tests)
+- ["Unit" tests](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Tests) (0.29 - unit tests no longer work)
 
 ## Unity Tiny gotchas:
 
