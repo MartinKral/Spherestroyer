@@ -16,12 +16,8 @@ If you want to publish a reskin of this game on your website, please credit [Y8.
 - ["Unit" tests](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Tests)
 
 ## Unity Tiny gotchas:
-### Materials:
-- Tiny is using `Unity.Tiny.Rendering.MeshRenderer` while Editor is using `Unity.Rendering.RenderMesh`. If you want to
-change materials at runtime, use two systems
 
 ### Audio
-- There is a bug where if you play web audio clip, it also calls window.stop() https://forum.unity.com/threads/tiny-3rd-party-api-requests-iframes-bug.819057/#post-5437542
 - To run an audio, use `AudioSourceStart`. `Play On Awake` is adding this component automatically, but it needs
 to be added only after the first input from the user (browser restriction).
 - It seems that import settings do not reduce the final file size(?). Import optimized sound file
@@ -37,7 +33,6 @@ The library should have `.js` instead of `.jslib`
 - The game is blocking event propagation, listen for JS events on canvas level.
 
 ### Misc
-- `IJobForEach<T>` works in editor even with only Tag components, but not in DOTS runtime >> replace with Entities.WithAll<T>.ForEach
 - Remember to always use `RequireSingletonForUpdate<T>()` in `OnStartRunning()` / `OnCreate()` when using singleton
 - Uncheck `Use GUIDs` on `asm.def` files, otherwise build will fail.
 - Don't use spaces in folder names, otherwise build will fail.
@@ -47,5 +42,4 @@ The library should have `.js` instead of `.jslib`
 Workaround is to create global object with async function
 
 ## Missing:
-- In editor the game is not updating score, screen shake and sounds (would require hybrid systems) - build dot.net to test everything if required
 - The sounds are not part of this repository

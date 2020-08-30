@@ -4,37 +4,26 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
 
-public class MoveSystem : JobComponentSystem
+public class MoveSystem : SystemBase
 {
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<GameState>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var gameDataEntity = GetSingletonEntity<GameState>();
         var gameData = EntityManager.GetComponentData<GameState>(gameDataEntity);
 
-        if (!gameData.IsGameActive) return inputDeps;
+        if (!gameData.IsGameActive) return;
 
-        var jobHandle = new MoveSystemJob()
-        {
-            deltaTime = Time.DeltaTime
-        }.Schedule(this, inputDeps);
-        return jobHandle;
-    }
-
-    [BurstCompile]
-    private struct MoveSystemJob : IJobForEach<Translation, Move>
-    {
-        public float deltaTime;
-
-        public void Execute(ref Translation translation, [ReadOnly] ref Move move)
+        float deltaTime = Time.DeltaTime;
+        Entities.ForEach((ref Translation translation, in Move move) =>
         {
             translation.Value.x += move.speedX * deltaTime;
             translation.Value.y += move.speedY * deltaTime;
             translation.Value.z += move.speedZ * deltaTime;
-        }
+        }).Run();
     }
 }

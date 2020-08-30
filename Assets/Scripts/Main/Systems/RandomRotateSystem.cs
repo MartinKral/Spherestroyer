@@ -3,16 +3,9 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 
-public class RandomRotateSystem : JobComponentSystem
+public class RandomRotateSystem : SystemBase
 {
     private Random randomGenerator;
-
-    private EndSimulationEntityCommandBufferSystem ecbs;
-
-    protected override void OnCreate()
-    {
-        ecbs = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-    }
 
     protected override void OnStartRunning()
     {
@@ -20,37 +13,21 @@ public class RandomRotateSystem : JobComponentSystem
         randomGenerator.InitState();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         _ = randomGenerator.NextInt();
 
-        var jobHandle = new RandomRotateSystemJob()
-        {
-            randomGenerator = randomGenerator,
-            ecb = ecbs.CreateCommandBuffer().ToConcurrent()
-        }.Schedule(this, inputDeps);
-        ecbs.AddJobHandleForProducer(jobHandle);
-
-        return jobHandle;
-    }
-
-    [BurstCompile]
-    private struct RandomRotateSystemJob : IJobForEachWithEntity<Rotate, RandomRotate>
-    {
-        public Random randomGenerator;
-        public EntityCommandBuffer.Concurrent ecb;
-
-        public void Execute(Entity entity, int index, ref Rotate rotate, ref RandomRotate randomRotate)
+        Entities.ForEach((ref Entity entity, ref Rotate rotate, in RandomRotate randomRotate) =>
         {
             float3 randomRadiansPerSecond = new float3(
-                randomGenerator.NextFloat(randomRotate.MinMaxX.x, randomRotate.MinMaxX.y),
-                randomGenerator.NextFloat(randomRotate.MinMaxY.x, randomRotate.MinMaxY.y),
-                randomGenerator.NextFloat(randomRotate.MinMaxZ.x, randomRotate.MinMaxZ.y)
-                );
+               randomGenerator.NextFloat(randomRotate.MinMaxX.x, randomRotate.MinMaxX.y),
+               randomGenerator.NextFloat(randomRotate.MinMaxY.x, randomRotate.MinMaxY.y),
+               randomGenerator.NextFloat(randomRotate.MinMaxZ.x, randomRotate.MinMaxZ.y)
+               );
 
             rotate.radiansPerSecond = randomRadiansPerSecond;
 
-            ecb.RemoveComponent<RandomRotate>(index, entity);
-        }
+            EntityManager.RemoveComponent<RandomRotate>(entity);
+        }).WithStructuralChanges().Run();
     }
 }

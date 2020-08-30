@@ -5,13 +5,11 @@ using Unity.Tiny.Audio;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
-[UpdateAfter(typeof(DestructionBufferSystem))]
-public class SpikeDestructionSystem : JobComponentSystem
+[UpdateAfter(typeof(SphereCollisionSystem))]
+public class SpikeDestructionSystem : SystemBase
 {
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        var ecb = new EntityCommandBuffer(Allocator.Temp);
-
         Entities
             .WithAll<DestroyedTag, SpikeTag>()
             .WithoutBurst()
@@ -22,20 +20,16 @@ public class SpikeDestructionSystem : JobComponentSystem
 
                 for (int i = 0; i < linkedEntityGroup.Length; i++)
                 {
-                    ecb.AddComponent<Disabled>(linkedEntityGroup[i].Value);
+                    EntityManager.AddComponent<Disabled>(linkedEntityGroup[i].Value);
                 }
                 linkedEntityGroup.Dispose();
 
-                ecb.AddComponent(ecb.CreateEntity(), new GameEnd() { TimeToEnd = 1 });
+                EntityManager.AddComponentData(EntityManager.CreateEntity(), new GameEnd() { TimeToEnd = 1 });
 
-                ecb.AddComponent<StopMusicTag>(ecb.CreateEntity());
-                ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.End });
+                EntityManager.AddComponent<StopMusicTag>(EntityManager.CreateEntity());
+                EntityManager.AddComponentData(EntityManager.CreateEntity(), new SoundRequest { Value = SoundType.End });
 
-                ecb.RemoveComponent<DestroyedTag>(entity);
-            }).Run();
-
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
-        return default;
+                EntityManager.RemoveComponent<DestroyedTag>(entity);
+            }).WithStructuralChanges().Run();
     }
 }

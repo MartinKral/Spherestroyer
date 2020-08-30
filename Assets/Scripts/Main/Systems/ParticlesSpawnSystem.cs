@@ -5,7 +5,7 @@ using Unity.Jobs;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
-[UpdateAfter(typeof(DestructionBufferSystem))]
+[UpdateAfter(typeof(SphereCollisionSystem))]
 [UpdateBefore(typeof(SphereDestructionSystem))]
 public class ParticlesSpawnSystem : JobComponentSystem
 {

@@ -1,0 +1,19 @@
+{
+    "Dependencies": [
+        "GlobalObjectId_V1-1-7aeb151e18db63a45987b4a9c6a9d9ed-93214019566545601-0"
+    ],
+    "Components": [
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeBuildProfile, Unity.Build.DotsRuntime",
+            "Target": "windows-dotnet",
+            "Configuration": 2,
+            "UseNewPipeline": false,
+            "PipelineConstructor": null
+        },
+        {
+            "$type": "Unity.Build.DotsRuntime.DotsRuntimeRootAssembly, Unity.Build.DotsRuntime",
+            "BeeTargetOverride": null,
+            "RootAssembly": "GlobalObjectId_V1-1-308a27203b19c84478dff43c76757968-5897886265953266890-0"
+        }
+    ]
+}

@@ -4,35 +4,16 @@ using Unity.Jobs;
 using Unity.Tiny;
 using Unity.Transforms;
 
-public class ParticleShardDestroySystem : JobComponentSystem
+public class ParticleShardDestroySystem : SystemBase
 {
-    private EndSimulationEntityCommandBufferSystem ecbs;
-
-    protected override void OnCreate()
+    protected override void OnUpdate()
     {
-        ecbs = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
-    }
-
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
-    {
-        var jobHandle = new ParticleShardDestroySystemJob()
-        {
-            ecb = ecbs.CreateCommandBuffer().ToConcurrent()
-        }.Schedule(this, inputDeps);
-        ecbs.AddJobHandleForProducer(jobHandle);
-        return jobHandle;
-    }
-
-    [BurstCompile]
-    [RequireComponentTag(typeof(ParticleShardTag))]
-    private struct ParticleShardDestroySystemJob : IJobForEachWithEntity<Translation>
-    {
-        public EntityCommandBuffer.Concurrent ecb;
-
-        public void Execute(Entity entity, int index, ref Translation translation)
-        {
-            if (-10 < translation.Value.y) return;
-            ecb.DestroyEntity(index, entity);
-        }
+        Entities
+            .WithAll<ParticleShardTag>()
+            .ForEach((ref Entity entity, in Translation translation) =>
+            {
+                if (-10 < translation.Value.y) return;
+                EntityManager.DestroyEntity(entity);
+            }).WithStructuralChanges().Run();
     }
 }

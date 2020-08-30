@@ -1,0 +1,62 @@
+{
+    "Dependencies": [],
+    "Components": [
+        {
+            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
+            "ProductName": "Spherestroyer",
+            "CompanyName": "PunyGames.com"
+        },
+        {
+            "$type": "Unity.Build.Common.SceneList, Unity.Build",
+            "$version": 1,
+            "BuildCurrentScene": false,
+            "SceneInfos": [
+                {
+                    "Scene": "GlobalObjectId_V1-1-1b436f617d6d3bb49aba65ff9f2581c7-102900000-0",
+                    "AutoLoad": true
+                }
+            ]
+        },
+        {
+            "$type": "Unity.Tiny.Rendering.Settings.TinyRenderingSettings, Unity.Tiny.Rendering.Authoring",
+            "WindowSize": {
+                "x": 960,
+                "y": 540
+            },
+            "RenderResolution": {
+                "x": 960,
+                "y": 540
+            },
+            "RenderGraphMode": 1,
+            "MaxResolution": 2048,
+            "AutoResizeFrame": true,
+            "DisableVsync": false,
+            "GPUSkinning": false
+        },
+        {
+            "$type": "Unity.Build.RootAssemblyComponent, Unity.Build",
+            "RootAssembly": "GlobalObjectId_V1-1-308a27203b19c84478dff43c76757968-5897886265953266890-0"
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeScriptingSettings, Unity.Entities.Runtime.Build",
+            "EnableSafetyChecks": 0,
+            "EnableProfiler": 0,
+            "ScriptingDefines": [
+                "UNITY_DOTSRUNTIME_EXPERIMENTAL_FIXED_SIM"
+            ],
+            "EnableMultithreading": false
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
+            "EnableBurst": true
+        },
+        {
+            "$type": "Unity.Build.Common.ScreenOrientations, Unity.Build",
+            "DefaultOrientation": 4,
+            "AllowAutoRotateToPortrait": false,
+            "AllowAutoRotateToReversePortrait": false,
+            "AllowAutoRotateToLandscape": true,
+            "AllowAutoRotateToReverseLandscape": true
+        }
+    ]
+}

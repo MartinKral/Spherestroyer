@@ -4,29 +4,18 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Jobs;
 
-public class RotationSystem : JobComponentSystem
+public class RotationSystem : SystemBase
 {
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        var job = new RotateJob
-        {
-            deltaTime = Time.DeltaTime
-        };
-        return job.Schedule(this, inputDeps);
-    }
-
-    [BurstCompile]
-    public struct RotateJob : IJobForEach<Rotate, Rotation>
-    {
-        public float deltaTime;
-
-        public void Execute(ref Rotate rotate, ref Rotation rotation)
+        float deltaTime = Time.DeltaTime;
+        Entities.ForEach((ref Rotation rotation, in Rotate rotate) =>
         {
             quaternion qx = quaternion.RotateX(rotate.radiansPerSecond.x * deltaTime);
             quaternion qy = quaternion.RotateY(rotate.radiansPerSecond.y * deltaTime);
             quaternion qz = quaternion.RotateZ(rotate.radiansPerSecond.z * deltaTime);
 
             rotation.Value = math.mul(math.normalize(rotation.Value), math.mul(qx, math.mul(qy, qz)));
-        }
+        }).Run();
     }
 }

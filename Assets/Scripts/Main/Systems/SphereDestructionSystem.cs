@@ -6,8 +6,8 @@ using Unity.Tiny.Audio;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
-[UpdateAfter(typeof(DestructionBufferSystem))]
-public class SphereDestructionSystem : JobComponentSystem
+[UpdateAfter(typeof(SphereCollisionSystem))]
+public class SphereDestructionSystem : SystemBase
 {
     private EntityQuery shakeTarget;
     private EntityQuery uiUpdateTarget;
@@ -20,9 +20,8 @@ public class SphereDestructionSystem : JobComponentSystem
         RequireSingletonForUpdate<GameState>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        var ecb = new EntityCommandBuffer(Allocator.Temp);
         var gameData = GetSingleton<GameState>();
 
         Logger.Log("In Sphere Destruction System");
@@ -35,17 +34,12 @@ public class SphereDestructionSystem : JobComponentSystem
                 gameData.score++;
                 SetSingleton(gameData);
 
-                ecb.AddComponent(shakeTarget, typeof(ActivatedTag));
-                ecb.AddComponent(uiUpdateTarget, typeof(ActivatedTag));
+                EntityManager.AddComponent(shakeTarget, typeof(ActivatedTag));
+                EntityManager.AddComponent(uiUpdateTarget, typeof(ActivatedTag));
 
-                ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.Success });
+                EntityManager.AddComponentData(EntityManager.CreateEntity(), new SoundRequest { Value = SoundType.Success });
 
-                ecb.DestroyEntity(entity);
-            }).Run();
-
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
-
-        return default;
+                EntityManager.DestroyEntity(entity);
+            }).WithStructuralChanges().Run();
     }
 }
