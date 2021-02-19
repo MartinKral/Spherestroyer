@@ -3,14 +3,13 @@ using Unity.Entities;
 using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
-public class HighScoreSystem : JobComponentSystem
+public class HighScoreSystem : SystemBase
 {
+    public int CurrentHighscore => savedHighscore;
     private readonly SavedInt savedHighscore = new SavedInt("spherestroyer-leaderboard");
 
     private EntityQuery highScoreUi;
     private EntityQuery disabledHighscoreUi;
-
-    public int CurrentHighscore => savedHighscore;
 
     protected override void OnCreate()
     {
@@ -31,7 +30,7 @@ public class HighScoreSystem : JobComponentSystem
         }
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var gameData = GetSingleton<GameState>();
 
@@ -56,6 +55,5 @@ public class HighScoreSystem : JobComponentSystem
             }).Run();
         ecb.Playback(EntityManager);
         ecb.Dispose();
-        return default;
     }
 }

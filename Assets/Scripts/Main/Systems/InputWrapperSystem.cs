@@ -5,7 +5,7 @@ using Unity.Tiny.Input;
 
 [AlwaysSynchronizeSystem]
 [UpdateInGroup(typeof(InitializationSystemGroup))]
-public class InputWrapperSystem : JobComponentSystem
+public class InputWrapperSystem : SystemBase
 {
     private InputSystem Input;
 
@@ -67,8 +67,7 @@ public class InputWrapperSystem : JobComponentSystem
         Input = World.GetExistingSystem<InputSystem>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        return default;
     }
 }

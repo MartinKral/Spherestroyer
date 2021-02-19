@@ -3,7 +3,7 @@ using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
 [UpdateInGroup(typeof(InitializationSystemGroup))]
-public class GameInputSystem : JobComponentSystem
+public class GameInputSystem : SystemBase
 {
     private InputWrapperSystem inputSystem;
 
@@ -22,16 +22,14 @@ public class GameInputSystem : JobComponentSystem
         endInitECBS = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        if (!inputSystem.IsTouchOrButtonDown()) return default;
+        if (!inputSystem.IsTouchOrButtonDown()) return;
 
         EntityCommandBuffer beginBuffer = beginInitECBS.CreateCommandBuffer();
         EntityCommandBuffer endBuffer = endInitECBS.CreateCommandBuffer();
 
         beginBuffer.AddComponent(inputEntityQuery, typeof(OnInputTag));
         endBuffer.RemoveComponent(inputEntityQuery, typeof(OnInputTag));
-
-        return default;
     }
 }

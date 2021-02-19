@@ -4,7 +4,7 @@ using Unity.Jobs;
 
 [AlwaysUpdateSystem]
 [AlwaysSynchronizeSystem]
-public class InputSoundSystem : JobComponentSystem
+public class InputSoundSystem : SystemBase
 {
     private InputWrapperSystem inputSystem;
 
@@ -13,12 +13,10 @@ public class InputSoundSystem : JobComponentSystem
         inputSystem = World.GetOrCreateSystem<InputWrapperSystem>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        if (!inputSystem.IsTouchOrButtonDown()) return default;
+        if (!inputSystem.IsTouchOrButtonDown()) return;
 
         EntityManager.AddComponentData(EntityManager.CreateEntity(), new SoundRequest { Value = SoundType.Input });
-
-        return default;
     }
 }

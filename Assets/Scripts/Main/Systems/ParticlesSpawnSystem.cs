@@ -7,7 +7,7 @@ using Unity.Transforms;
 [AlwaysSynchronizeSystem]
 [UpdateAfter(typeof(SphereCollisionSystem))]
 [UpdateBefore(typeof(SphereDestructionSystem))]
-public class ParticlesSpawnSystem : JobComponentSystem
+public class ParticlesSpawnSystem : SystemBase
 {
     private EntityQuery entityQuery;
 
@@ -19,7 +19,7 @@ public class ParticlesSpawnSystem : JobComponentSystem
             ComponentType.ReadOnly(typeof(MaterialId)));
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         EntityCommandBuffer ecb = new EntityCommandBuffer(Allocator.TempJob);
         var translations = entityQuery.ToComponentDataArray<Translation>(Allocator.TempJob);
@@ -45,7 +45,5 @@ public class ParticlesSpawnSystem : JobComponentSystem
         translations.Dispose();
 
         ecb.Dispose();
-
-        return default;
     }
 }

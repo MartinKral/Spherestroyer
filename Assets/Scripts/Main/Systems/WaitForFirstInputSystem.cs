@@ -4,7 +4,7 @@ using Unity.Jobs;
 using Unity.Tiny.Audio;
 
 [AlwaysSynchronizeSystem]
-public class WaitForFirstInputSystem : JobComponentSystem
+public class WaitForFirstInputSystem : SystemBase
 {
     private EntityQuery hideableEQ;
 
@@ -13,7 +13,7 @@ public class WaitForFirstInputSystem : JobComponentSystem
         hideableEQ = GetEntityQuery(ComponentType.ReadOnly<HideableSymbolTag>());
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var ecb = new EntityCommandBuffer(Allocator.Temp);
         Entities
@@ -30,6 +30,5 @@ public class WaitForFirstInputSystem : JobComponentSystem
 
         ecb.Playback(EntityManager);
         ecb.Dispose();
-        return default;
     }
 }

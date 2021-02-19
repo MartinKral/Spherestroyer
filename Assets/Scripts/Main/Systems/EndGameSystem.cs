@@ -4,14 +4,14 @@ using Unity.Entities;
 using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
-public class EndGameSystem : JobComponentSystem
+public class EndGameSystem : SystemBase
 {
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<GameState>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var gameData = GetSingleton<GameState>();
 
@@ -39,7 +39,7 @@ public class EndGameSystem : JobComponentSystem
         ecb.Playback(EntityManager);
         ecb.Dispose();
 
-        return default;
+        return;
     }
 
     private void ReactivateTouchSymbol(EntityCommandBuffer ecb)

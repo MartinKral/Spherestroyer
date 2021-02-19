@@ -6,21 +6,20 @@ using Unity.Tiny.Rendering;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
-public class UpdateScoreUISystem : JobComponentSystem
+public class UpdateScoreUISystem : SystemBase
 {
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<MaterialReferencesTag>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
+
     {
         var materialReferencesEntity = GetSingletonEntity<MaterialReferencesTag>();
 
         var nBuffer = EntityManager.GetBuffer<UIMaterialReference>(materialReferencesEntity);
         var materials = nBuffer.ToNativeArray(Allocator.TempJob);
-
-        var ecb = new EntityCommandBuffer(Allocator.Temp);
 
         Entities
             .WithAll<ActivatedTag>()
@@ -28,13 +27,9 @@ public class UpdateScoreUISystem : JobComponentSystem
             {
                 int digit = (int)((float)scorePart.TargetScore / scorePart.Divisor);
                 meshRenderer.material = materials[digit % 10].materialEntity;
-                ecb.RemoveComponent<ActivatedTag>(entity);
-            }).Run();
-
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
+                EntityManager.RemoveComponent<ActivatedTag>(entity);
+            }).WithStructuralChanges().Run();
 
         materials.Dispose();
-        return default;
     }
 }

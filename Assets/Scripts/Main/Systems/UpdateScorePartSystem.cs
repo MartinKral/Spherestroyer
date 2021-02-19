@@ -7,7 +7,7 @@ using Unity.Collections;
 [UpdateAfter(typeof(HighScoreSystem))]
 [UpdateAfter(typeof(SphereDestructionSystem))]
 [UpdateBefore(typeof(UpdateScoreUISystem))]
-public class UpdateScorePartSystem : JobComponentSystem
+public class UpdateScorePartSystem : SystemBase
 {
     private HighScoreSystem highScoreSystem;
 
@@ -17,7 +17,7 @@ public class UpdateScorePartSystem : JobComponentSystem
         RequireSingletonForUpdate<GameState>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var gameData = GetSingleton<GameState>();
 
@@ -35,7 +35,5 @@ public class UpdateScorePartSystem : JobComponentSystem
             {
                 scorePart.TargetScore = highScoreSystem.CurrentHighscore;
             }).Run();
-
-        return default;
     }
 }

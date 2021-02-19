@@ -5,14 +5,14 @@ using Unity.Tiny.Rendering;
 
 [AlwaysSynchronizeSystem]
 [UpdateAfter(typeof(ChangeMaterialIdSystem))]
-public class UpdateMaterialSystem : JobComponentSystem
+public class UpdateMaterialSystem : SystemBase
 {
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<MaterialReferencesTag>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var materialReferencesEntity = GetSingletonEntity<MaterialReferencesTag>();
 
@@ -27,6 +27,5 @@ public class UpdateMaterialSystem : JobComponentSystem
         }).Run();
 
         materials.Dispose();
-        return default;
     }
 }

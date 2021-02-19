@@ -3,14 +3,14 @@ using Unity.Entities;
 using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
-public class StartGameSystem : JobComponentSystem
+public class StartGameSystem : SystemBase
 {
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<GameState>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var ecb = new EntityCommandBuffer(Allocator.Temp);
         Entities
@@ -31,7 +31,6 @@ public class StartGameSystem : JobComponentSystem
 
         ecb.Playback(EntityManager);
         ecb.Dispose();
-        return default;
     }
 
     private void ResetSpawner()

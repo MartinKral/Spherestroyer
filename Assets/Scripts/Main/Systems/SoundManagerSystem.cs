@@ -4,83 +4,77 @@ using Unity.Jobs;
 using Unity.Tiny.Audio;
 
 [AlwaysSynchronizeSystem]
-public class SoundManagerSystem : JobComponentSystem
+public class SoundManagerSystem : SystemBase
 {
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<SoundManager>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var soundManager = GetSingleton<SoundManager>();
 
-        var ecb = new EntityCommandBuffer(Allocator.Temp);
-
-        TryPlaySounds(ecb, soundManager);
-        TryStartMusic(ecb, soundManager);
-        TryStopMusic(ecb, soundManager);
-        TryToggleMusic(ecb, soundManager);
-        TryToggleSound(ecb, soundManager);
-
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
-        return default;
+        TryPlaySounds(soundManager);
+        TryStartMusic(soundManager);
+        TryStopMusic(soundManager);
+        TryToggleMusic(soundManager);
+        TryToggleSound(soundManager);
     }
 
-    private void TryStopMusic(EntityCommandBuffer ecb, SoundManager soundManager)
+    private void TryStopMusic(SoundManager soundManager)
     {
         Entities
           .WithoutBurst()
           .WithAll<StopMusicTag>()
           .ForEach((Entity entity) =>
           {
-              if (soundManager.IsMusicEnabled) ecb.AddComponent<AudioSourceStop>(soundManager.MusicAS);
-              ecb.DestroyEntity(entity);
-          }).Run();
+              if (soundManager.IsMusicEnabled) EntityManager.AddComponent<AudioSourceStop>(soundManager.MusicAS);
+              EntityManager.DestroyEntity(entity);
+          }).WithStructuralChanges().Run();
     }
 
-    private void TryStartMusic(EntityCommandBuffer ecb, SoundManager soundManager)
+    private void TryStartMusic(SoundManager soundManager)
     {
         Entities
             .WithoutBurst()
             .WithAll<StartMusicTag>()
             .ForEach((Entity entity) =>
             {
-                if (soundManager.IsMusicEnabled) ecb.AddComponent<AudioSourceStart>(soundManager.MusicAS);
-                ecb.DestroyEntity(entity);
-            }).Run();
+                if (soundManager.IsMusicEnabled) EntityManager.AddComponent<AudioSourceStart>(soundManager.MusicAS);
+                EntityManager.DestroyEntity(entity);
+            }).WithStructuralChanges().Run();
     }
 
-    private void TryPlaySounds(EntityCommandBuffer ecb, SoundManager soundManager)
+    private void TryPlaySounds(SoundManager soundManager)
     {
         Entities
             .WithoutBurst()
             .ForEach((Entity entity, in SoundRequest soundRequest) =>
             {
-                if (soundManager.IsSoundEnabled) PlaySound(ecb, soundManager, soundRequest.Value);
-                ecb.DestroyEntity(entity);
-            }).Run();
+                if (soundManager.IsSoundEnabled) PlaySound(soundManager, soundRequest.Value);
+                EntityManager.DestroyEntity(entity);
+            }).WithStructuralChanges().Run();
     }
 
-    private void PlaySound(EntityCommandBuffer ecb, SoundManager soundManager, SoundType soundType)
+    private void PlaySound(SoundManager soundManager, SoundType soundType)
     {
         switch (soundType)
         {
             case SoundType.Input:
-                ecb.AddComponent<AudioSourceStart>(soundManager.InputAS);
+                EntityManager.AddComponent<AudioSourceStart>(soundManager.InputAS);
                 break;
 
             case SoundType.Success:
-                ecb.AddComponent<AudioSourceStart>(soundManager.SuccessAS);
+                EntityManager.AddComponent<AudioSourceStart>(soundManager.SuccessAS);
                 break;
 
             case SoundType.Highscore:
-                ecb.AddComponent<AudioSourceStart>(soundManager.HighscoreAS);
+                EntityManager.AddComponent<AudioSourceStart>(soundManager.HighscoreAS);
                 break;
 
             case SoundType.End:
-                ecb.AddComponent<AudioSourceStart>(soundManager.EndAS);
+                EntityManager.AddComponent<AudioSourceStart>(soundManager.EndAS);
                 break;
 
             default:
@@ -88,7 +82,7 @@ public class SoundManagerSystem : JobComponentSystem
         }
     }
 
-    private void TryToggleMusic(EntityCommandBuffer ecb, SoundManager soundManager)
+    private void TryToggleMusic(SoundManager soundManager)
     {
         Entities
             .WithAll<ToggleMusicTag>()
@@ -100,18 +94,18 @@ public class SoundManagerSystem : JobComponentSystem
 
                 if (soundManager.IsMusicEnabled)
                 {
-                    ecb.AddComponent<AudioSourceStart>(soundManager.MusicAS);
+                    EntityManager.AddComponent<AudioSourceStart>(soundManager.MusicAS);
                 }
                 else
                 {
-                    ecb.AddComponent<AudioSourceStop>(soundManager.MusicAS);
+                    EntityManager.AddComponent<AudioSourceStop>(soundManager.MusicAS);
                 }
 
-                ecb.DestroyEntity(entity);
-            }).Run();
+                EntityManager.DestroyEntity(entity);
+            }).WithStructuralChanges().Run();
     }
 
-    private void TryToggleSound(EntityCommandBuffer ecb, SoundManager soundManager)
+    private void TryToggleSound(SoundManager soundManager)
     {
         Entities
             .WithAll<ToggleSoundsTag>()
@@ -121,7 +115,7 @@ public class SoundManagerSystem : JobComponentSystem
                 soundManager.IsSoundEnabled = !soundManager.IsSoundEnabled;
                 SetSingleton(soundManager);
 
-                ecb.DestroyEntity(entity);
-            }).Run();
+                EntityManager.DestroyEntity(entity);
+            }).WithStructuralChanges().Run();
     }
 }

@@ -6,7 +6,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
-public class ShakeSystem : JobComponentSystem
+public class ShakeSystem : SystemBase
 {
     private Random randomGenerator;
 
@@ -16,7 +16,7 @@ public class ShakeSystem : JobComponentSystem
         randomGenerator.InitState();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
@@ -44,6 +44,5 @@ public class ShakeSystem : JobComponentSystem
 
         ecb.Playback(EntityManager);
         ecb.Dispose();
-        return default;
     }
 }

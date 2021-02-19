@@ -4,9 +4,9 @@ using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
 [UpdateInGroup(typeof(InitializationSystemGroup))]
-public class SceneManagerSystem : JobComponentSystem
+public class SceneManagerSystem : SystemBase
 {
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var ecb = new EntityCommandBuffer(Allocator.TempJob);
 
@@ -32,7 +32,6 @@ public class SceneManagerSystem : JobComponentSystem
 
         ecb.Playback(EntityManager);
         ecb.Dispose();
-        return default;
     }
 
     private void DestroyAllSceneEntities(EntityCommandBuffer ecb)

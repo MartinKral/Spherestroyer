@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
-public class ButtonInputSystem : JobComponentSystem
+public class ButtonInputSystem : SystemBase
 {
     private InputWrapperSystem inputSystem;
 
@@ -16,9 +16,9 @@ public class ButtonInputSystem : JobComponentSystem
     {
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        if (!inputSystem.IsTouchOrButtonDown()) return default;
+        if (!inputSystem.IsTouchOrButtonDown()) return;
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
@@ -34,7 +34,7 @@ public class ButtonInputSystem : JobComponentSystem
 
         ecb.Playback(EntityManager);
         ecb.Dispose();
-        return default;
+        return;
     }
 
     private void ClickedOnButton(ButtonType type, EntityCommandBuffer ecb)

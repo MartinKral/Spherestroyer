@@ -4,14 +4,14 @@ using Unity.Jobs;
 
 [AlwaysSynchronizeSystem]
 [UpdateAfter(typeof(SoundManagerSystem))]
-public class UpdateMenuUISystem : JobComponentSystem
+public class UpdateMenuUISystem : SystemBase
 {
     protected override void OnCreate()
     {
         RequireSingletonForUpdate<SoundManager>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
         var soundManager = GetSingleton<SoundManager>();
 
@@ -29,8 +29,6 @@ public class UpdateMenuUISystem : JobComponentSystem
 
         ecb.Playback(EntityManager);
         ecb.Dispose();
-
-        return default;
     }
 
     private void ToggleSoundCrossIcon(EntityCommandBuffer ecb, bool isSoundEnabled)

@@ -8,7 +8,7 @@ using Random = Unity.Mathematics.Random;
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
 [AlwaysSynchronizeSystem]
-public class SphereSpawnSystem : JobComponentSystem
+public class SphereSpawnSystem : SystemBase
 {
     private Random randomGenerator;
 
@@ -19,13 +19,11 @@ public class SphereSpawnSystem : JobComponentSystem
         RequireSingletonForUpdate<GameState>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        if (!GetSingleton<GameState>().IsGameActive) return default;
+        if (!GetSingleton<GameState>().IsGameActive) return;
 
         randomGenerator.NextFloat();
-
-        var ecb = new EntityCommandBuffer(Allocator.Temp);
 
         Entities
             .WithoutBurst()
@@ -49,7 +47,7 @@ public class SphereSpawnSystem : JobComponentSystem
 
                 if (!CanSpawnSphereBurst(spawner))
                 {
-                    SpawnRandomSphereAtPosition(position, materialId, ecb, spawner);
+                    SpawnRandomSphereAtPosition(position, materialId, spawner);
                 }
                 else
                 {
@@ -62,15 +60,10 @@ public class SphereSpawnSystem : JobComponentSystem
                         burstSpherePosition.y += 1.2f * i;
 
                         var burstSphereMaterial = (materialId + 1 * i) % 3;
-                        SpawnRandomSphereAtPosition(burstSpherePosition, burstSphereMaterial, ecb, spawner);
+                        SpawnRandomSphereAtPosition(burstSpherePosition, burstSphereMaterial, spawner);
                     }
                 }
-            }).Run();
-
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
-
-        return default;
+            }).WithStructuralChanges().Run();
     }
 
     private bool TrySkipSpawn(SphereSpawner spawner)
@@ -96,16 +89,16 @@ public class SphereSpawnSystem : JobComponentSystem
         return randomGenerator.NextFloat() < spawner.ChanceToBurst;
     }
 
-    private void SpawnRandomSphereAtPosition(float3 position, int materialId, EntityCommandBuffer ecb, in SphereSpawner spawner)
+    private void SpawnRandomSphereAtPosition(float3 position, int materialId, in SphereSpawner spawner)
     {
-        Entity icosphereEntity = ecb.Instantiate(spawner.Prefab);
-        ecb.SetComponent(icosphereEntity, new Translation { Value = position });
-        ecb.SetComponent(icosphereEntity, new MaterialId { currentMaterialId = materialId });
-        ecb.SetComponent(icosphereEntity, new Move
+        Entity icosphereEntity = EntityManager.Instantiate(spawner.Prefab);
+        EntityManager.SetComponentData(icosphereEntity, new Translation { Value = position });
+        EntityManager.SetComponentData(icosphereEntity, new MaterialId { currentMaterialId = materialId });
+        EntityManager.SetComponentData(icosphereEntity, new Move
         {
             speedY = -spawner.InitialSpeed - spawner.SpeedPerUpgrade * spawner.TimesUpgraded
         });
 
-        ecb.AddComponent<UpdateMaterialTag>(icosphereEntity);
+        EntityManager.AddComponent<UpdateMaterialTag>(icosphereEntity);
     }
 }

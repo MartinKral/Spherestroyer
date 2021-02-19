@@ -24,13 +24,11 @@ public class SphereDestructionSystem : SystemBase
     {
         var gameData = GetSingleton<GameState>();
 
-        Logger.Log("In Sphere Destruction System");
         Entities
             .WithAll<DestroyedTag, SphereTag>()
             .WithoutBurst()
             .ForEach((Entity entity) =>
             {
-                Logger.Log("Increasing score");
                 gameData.score++;
                 SetSingleton(gameData);
 
