@@ -4,7 +4,8 @@
         {
             "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
             "ProductName": "Spherestroyer",
-            "CompanyName": "PunyGames.com"
+            "CompanyName": "PunyGames.com",
+            "Version": "1.0.0"
         },
         {
             "$type": "Unity.Build.Common.SceneList, Unity.Build",
@@ -12,8 +13,16 @@
             "BuildCurrentScene": false,
             "SceneInfos": [
                 {
-                    "Scene": "GlobalObjectId_V1-1-1b436f617d6d3bb49aba65ff9f2581c7-102900000-0",
+                    "Scene": "GlobalObjectId_V1-1-34c1c1232ad50de47bde0e4799ae6610-102900000-0",
                     "AutoLoad": true
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-5c02c8217297d544dbd8c0ff2db3a418-102900000-0",
+                    "AutoLoad": false
+                },
+                {
+                    "Scene": "GlobalObjectId_V1-1-7c58bc11cdd6e0b43b2c1c9587a89436-102900000-0",
+                    "AutoLoad": false
                 }
             ]
         },

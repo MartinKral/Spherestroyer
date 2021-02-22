@@ -24,7 +24,6 @@ public class StartGameSystem : SystemBase
                 ActivateEntities(ecb);
                 ActivateSounds(ecb);
                 DestroyAllSpheres(ecb);
-                UpdateScoreUI(ecb);
 
                 ecb.DestroyEntity(entity);
             }).Run();
@@ -71,11 +70,5 @@ public class StartGameSystem : SystemBase
             ecb.DestroyEntity(sphereEntities[i]);
         }
         sphereEntities.Dispose();
-    }
-
-    private void UpdateScoreUI(EntityCommandBuffer ecb)
-    {
-        EntityQuery uiQuery = GetEntityQuery(ComponentType.ReadOnly(typeof(ScoreTag)));
-        ecb.AddComponent(uiQuery, typeof(ActivatedTag));
     }
 }

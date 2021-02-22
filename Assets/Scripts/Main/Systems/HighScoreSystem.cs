@@ -8,15 +8,9 @@ public class HighScoreSystem : SystemBase
     public int CurrentHighscore => savedHighscore;
     private readonly SavedInt savedHighscore = new SavedInt("spherestroyer-leaderboard");
 
-    private EntityQuery highScoreUi;
-    private EntityQuery disabledHighscoreUi;
 
     protected override void OnCreate()
     {
-        highScoreUi = GetEntityQuery(ComponentType.ReadOnly<HighscoreTag>());
-        disabledHighscoreUi = GetEntityQuery(
-            ComponentType.ReadOnly<HighscoreTag>(),
-            ComponentType.ReadOnly<Disabled>());
 
         RequireSingletonForUpdate<GameState>();
     }
@@ -25,7 +19,7 @@ public class HighScoreSystem : SystemBase
     {
         if (savedHighscore == 0)
         {
-            EntityManager.AddComponent(highScoreUi, typeof(Disabled));
+           // EntityManager.AddComponent(highScoreUi, typeof(Disabled));
             Logger.Log("Disabling highscore");
         }
     }
@@ -43,8 +37,6 @@ public class HighScoreSystem : SystemBase
             {
                 if (savedHighscore < gameData.score)
                 {
-                    ecb.RemoveComponent(disabledHighscoreUi, typeof(Disabled));
-                    ecb.AddComponent(highScoreUi, typeof(ActivatedTag));
                     ecb.AddComponent(ecb.CreateEntity(), new SoundRequest { Value = SoundType.Highscore });
                     savedHighscore.Value = gameData.score;
                 }

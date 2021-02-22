@@ -10,12 +10,10 @@ using Unity.Transforms;
 public class SphereDestructionSystem : SystemBase
 {
     private EntityQuery shakeTarget;
-    private EntityQuery uiUpdateTarget;
 
     protected override void OnCreate()
     {
         shakeTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(Shake)));
-        uiUpdateTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(ScoreTag)));
 
         RequireSingletonForUpdate<GameState>();
     }
@@ -33,7 +31,6 @@ public class SphereDestructionSystem : SystemBase
                 SetSingleton(gameData);
 
                 EntityManager.AddComponent(shakeTarget, typeof(ActivatedTag));
-                EntityManager.AddComponent(uiUpdateTarget, typeof(ActivatedTag));
 
                 EntityManager.AddComponentData(EntityManager.CreateEntity(), new SoundRequest { Value = SoundType.Success });
 

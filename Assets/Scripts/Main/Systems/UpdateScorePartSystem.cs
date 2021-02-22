@@ -1,12 +1,11 @@
 ﻿using Unity.Entities;
-using Unity.Transforms;
 using Unity.Jobs;
-using Unity.Collections;
+using Unity.Tiny.Text;
+using Unity.Tiny.UI;
 
 [AlwaysSynchronizeSystem]
 [UpdateAfter(typeof(HighScoreSystem))]
 [UpdateAfter(typeof(SphereDestructionSystem))]
-[UpdateBefore(typeof(UpdateScoreUISystem))]
 public class UpdateScorePartSystem : SystemBase
 {
     private HighScoreSystem highScoreSystem;
@@ -19,21 +18,22 @@ public class UpdateScorePartSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        // TODO: Update only when sphere destroyed?
+
         var gameData = GetSingleton<GameState>();
 
         Entities
-            .WithAll<ScoreTag, ActivatedTag>()
-            .ForEach((Entity entity, ref ScorePart scorePart) =>
-            {
-                scorePart.TargetScore = gameData.score;
-            }).Run();
+            .ForEach((Entity e, ref TextRenderer textRenderer, in UIName uiName) =>
+                {
+                    if (uiName.Name == "ScoreText")
+                    {
+                        TextLayout.SetEntityTextRendererString(EntityManager, e, $"{gameData.score}");
+                    }
 
-        Entities
-            .WithoutBurst()
-            .WithAll<HighscoreTag, ActivatedTag>()
-            .ForEach((Entity entity, ref ScorePart scorePart) =>
-            {
-                scorePart.TargetScore = highScoreSystem.CurrentHighscore;
-            }).Run();
+                    if (uiName.Name == "HighscoreText")
+                    {
+                        TextLayout.SetEntityTextRendererString(EntityManager, e, $"{highScoreSystem.CurrentHighscore}");
+                    }
+                }).WithStructuralChanges().Run();
     }
 }

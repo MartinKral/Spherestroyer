@@ -1,66 +1,49 @@
-﻿using Unity.Collections;
+﻿using System;
 using Unity.Entities;
-using Unity.Jobs;
+using Unity.Scenes;
 
-[AlwaysSynchronizeSystem]
-[UpdateInGroup(typeof(InitializationSystemGroup))]
+[UpdateInGroup(typeof(SceneSystemGroup))]
+[UpdateBefore(typeof(SceneSystem))]
 public class SceneManagerSystem : SystemBase
 {
     protected override void OnUpdate()
     {
-        var ecb = new EntityCommandBuffer(Allocator.TempJob);
+        SceneName sceneToLoad = SceneName.None;
 
-        Entities
-          .WithoutBurst()
-          .WithStructuralChanges()
-          .ForEach((Entity entity, ref SceneManager sceneManager, in ChangeScene changeScene) =>
-          {
-              DestroyAllSceneEntities(ecb);
-              sceneManager.CurrentSceneType = changeScene.Value;
+        Entities.ForEach((Entity e, in ChangeScene changeScene) =>
+        {
+            sceneToLoad = changeScene.Value;
+            EntityManager.DestroyEntity(e);
+        }).WithStructuralChanges().Run();
 
-              if (sceneManager.CurrentSceneType == SceneName.Gameplay)
-              {
-                  EntityManager.Instantiate(sceneManager.GameplayScene);
-              }
-              else if (sceneManager.CurrentSceneType == SceneName.Menu)
-              {
-                  EntityManager.Instantiate(sceneManager.MenuScene);
-              }
-
-              ecb.RemoveComponent<ChangeScene>(entity);
-          }).Run();
-
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
+        if (sceneToLoad == SceneName.Menu)
+        {
+            TryUnloadScene<GameSceneTag>();
+            LoadScene<MainMenuSceneTag>();
+        }
+        else if (sceneToLoad == SceneName.Gameplay)
+        {
+            TryUnloadScene<MainMenuSceneTag>();
+            LoadScene<GameSceneTag>();
+        }
     }
 
-    private void DestroyAllSceneEntities(EntityCommandBuffer ecb)
+    private void TryUnloadScene<T>() where T : struct
     {
-        EntityQuery eq = GetEntityQuery(ComponentType.ReadOnly<ScenePrefabTag>());
+        var sceneSystem = World.GetExistingSystem<SceneSystem>();
+        var sceneEntity = GetSingletonEntity<T>();
 
-        var scenePrefabs = eq.ToEntityArray(Allocator.TempJob);
-
-        for (int i = 0; i < scenePrefabs.Length; i++)
+        if (sceneSystem.IsSceneLoaded(sceneEntity))
         {
-            DestroyAllLinkedEntities(scenePrefabs[i], ecb);
+            sceneSystem.UnloadScene(sceneEntity);
         }
-
-        scenePrefabs.Dispose();
     }
 
-    private void DestroyAllLinkedEntities(Entity sceneEntity, EntityCommandBuffer ecb)
+    private void LoadScene<T>() where T : struct
     {
-        if (EntityManager.HasComponent<LinkedEntityGroup>(sceneEntity))
-        {
-            var buffer = EntityManager.GetBuffer<LinkedEntityGroup>(sceneEntity);
-            var linkedEntities = buffer.ToNativeArray(Allocator.TempJob);
-
-            for (int i = 0; i < linkedEntities.Length; i++)
-            {
-                ecb.DestroyEntity(linkedEntities[i].Value);
-            }
-
-            linkedEntities.Dispose();
-        }
+        var sceneSystem = World.GetExistingSystem<SceneSystem>();
+        var sceneEntity = GetSingletonEntity<T>();
+        var scene = EntityManager.GetComponentData<SceneReference>(sceneEntity);
+        sceneSystem.LoadSceneAsync(scene.SceneGUID, new SceneSystem.LoadParameters { AutoLoad = true });
     }
 }

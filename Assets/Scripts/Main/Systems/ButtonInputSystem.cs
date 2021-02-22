@@ -1,73 +1,61 @@
-﻿using Unity.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Jobs;
+using Unity.Tiny.UI;
 
-[AlwaysSynchronizeSystem]
+[UpdateInGroup(typeof(InitializationSystemGroup))]
+[UpdateBefore(typeof(GameInputSystem))]
 public class ButtonInputSystem : SystemBase
 {
-    private InputWrapperSystem inputSystem;
-
-    protected override void OnCreate()
-    {
-        inputSystem = World.GetOrCreateSystem<InputWrapperSystem>();
-    }
-
-    protected override void OnStartRunning()
-    {
-    }
-
     protected override void OnUpdate()
     {
-        if (!inputSystem.IsTouchOrButtonDown()) return;
-
-        var ecb = new EntityCommandBuffer(Allocator.Temp);
-
-        Entities
-            .WithoutBurst()
-            .ForEach((Entity entity, in Button button) =>
+        Entity clickedEntity = Entity.Null;
+        Entities.ForEach((Entity e, in UIState uiState) =>
+        {
+            if (uiState.IsPressed)
             {
-                if (inputSystem.IsInRect(button.MinMaxRect))
-                {
-                    ClickedOnButton(button.Type, ecb);
-                }
-            }).Run();
+                clickedEntity = e;
+            }
+        }).Run();
 
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
-        return;
+        if (clickedEntity != Entity.Null)
+        {
+            var uiSystem = World.GetExistingSystem<ProcessUIEvents>();
+
+            if (IsUiEntityMatch(clickedEntity, uiSystem, "PlayBtn"))
+            {
+                ClickOnPlayBtn();
+            }
+
+            if (IsUiEntityMatch(clickedEntity, uiSystem, "SoundBtn"))
+            {
+                ClickOnSoundBtn();
+            }
+
+            if (IsUiEntityMatch(clickedEntity, uiSystem, "MusicBtn"))
+            {
+                ClickOnMusicBtn();
+            }
+
+            if (IsUiEntityMatch(clickedEntity, uiSystem, "HighscoreBtn"))
+            {
+                ClickOnHighscore();
+            }
+
+            if (IsUiEntityMatch(clickedEntity, uiSystem, "BrandingBtn"))
+            {
+                ClickOnBrandingBtn();
+            }
+
+            if (IsUiEntityMatch(clickedEntity, uiSystem, "MenuBtn"))
+            {
+                ClickOnMenuBtn();
+            }
+        }
     }
 
-    private void ClickedOnButton(ButtonType type, EntityCommandBuffer ecb)
+    private bool IsUiEntityMatch(Entity entity, ProcessUIEvents uiSystem, string uiEntityName)
     {
-        switch (type)
-        {
-            case ButtonType.GoToPlay:
-                ClickOnPlayBtn(ecb);
-                break;
-
-            case ButtonType.GoToMenu:
-                ClickOnMenuBtn(ecb);
-                break;
-
-            case ButtonType.Branding:
-                ClickOnBrandingBtn();
-                break;
-
-            case ButtonType.Music:
-                ClickOnMusicBtn(ecb);
-                break;
-
-            case ButtonType.Sound:
-                ClickOnSoundBtn(ecb);
-                break;
-
-            case ButtonType.Highscore:
-                ClickOnHighscore();
-                break;
-
-            default:
-                break;
-        }
+        return uiSystem.GetEntityByUIName(uiEntityName) == entity;
     }
 
     private void ClickOnHighscore()
@@ -76,19 +64,19 @@ public class ButtonInputSystem : SystemBase
         Y8.Api.ShowHighscore("Leaderboard");
     }
 
-    private void ClickOnSoundBtn(EntityCommandBuffer ecb)
+    private void ClickOnSoundBtn()
     {
         Logger.Log("Click on sound btn");
 
-        ecb.AddComponent<ToggleSoundsTag>(ecb.CreateEntity());
-        ecb.AddComponent<UpdateMenuUITag>(ecb.CreateEntity());
+        EntityManager.AddComponent<ToggleSoundsTag>(EntityManager.CreateEntity());
+        EntityManager.AddComponent<UpdateMenuUITag>(EntityManager.CreateEntity());
     }
 
-    private void ClickOnMusicBtn(EntityCommandBuffer ecb)
+    private void ClickOnMusicBtn()
     {
         Logger.Log("Click on music btn");
-        ecb.AddComponent<ToggleMusicTag>(ecb.CreateEntity());
-        ecb.AddComponent<UpdateMenuUITag>(ecb.CreateEntity());
+        EntityManager.AddComponent<ToggleMusicTag>(EntityManager.CreateEntity());
+        EntityManager.AddComponent<UpdateMenuUITag>(EntityManager.CreateEntity());
     }
 
     private void ClickOnBrandingBtn()
@@ -96,25 +84,15 @@ public class ButtonInputSystem : SystemBase
         URLOpener.OpenURL("https://www.y8.com/");
     }
 
-    private void ClickOnPlayBtn(EntityCommandBuffer ecb)
+    private void ClickOnPlayBtn()
     {
+        EntityManager.AddComponentData(EntityManager.CreateEntity(), new ChangeScene() { Value = SceneName.Gameplay });
         Logger.Log("Click on play btn");
-        Entity sceneManagerEntity = GetSingletonEntity<SceneManager>();
-
-        ecb.AddComponent(sceneManagerEntity, new ChangeScene()
-        {
-            Value = SceneName.Gameplay
-        });
     }
 
-    private void ClickOnMenuBtn(EntityCommandBuffer ecb)
+    private void ClickOnMenuBtn()
     {
         Logger.Log("Click on menu btn");
-        Entity sceneManagerEntity = GetSingletonEntity<SceneManager>();
-
-        ecb.AddComponent(sceneManagerEntity, new ChangeScene()
-        {
-            Value = SceneName.Menu
-        });
+        EntityManager.AddComponentData(EntityManager.CreateEntity(), new ChangeScene() { Value = SceneName.Menu });
     }
 }

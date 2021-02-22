@@ -1,21 +1,20 @@
 ﻿using Unity.Entities;
-using Unity.Transforms;
-using Unity.Jobs;
+using Unity.Tiny.Input;
 
 [AlwaysUpdateSystem]
 [AlwaysSynchronizeSystem]
 public class InputSoundSystem : SystemBase
 {
-    private InputWrapperSystem inputSystem;
+    private InputSystem inputSystem;
 
     protected override void OnCreate()
     {
-        inputSystem = World.GetOrCreateSystem<InputWrapperSystem>();
+        inputSystem = World.GetOrCreateSystem<InputSystem>();
     }
 
     protected override void OnUpdate()
     {
-        if (!inputSystem.IsTouchOrButtonDown()) return;
+        if (!inputSystem.GetMouseButtonDown(0)) return;
 
         EntityManager.AddComponentData(EntityManager.CreateEntity(), new SoundRequest { Value = SoundType.Input });
     }

@@ -1,11 +1,12 @@
 ﻿using Unity.Entities;
 using Unity.Jobs;
+using Unity.Tiny.Input;
 
 [AlwaysSynchronizeSystem]
 [UpdateInGroup(typeof(InitializationSystemGroup))]
 public class GameInputSystem : SystemBase
 {
-    private InputWrapperSystem inputSystem;
+    private InputSystem inputSystem;
 
     private EntityQuery inputEntityQuery;
 
@@ -14,7 +15,7 @@ public class GameInputSystem : SystemBase
 
     protected override void OnCreate()
     {
-        inputSystem = World.GetOrCreateSystem<InputWrapperSystem>();
+        inputSystem = World.GetOrCreateSystem<InputSystem>();
 
         inputEntityQuery = GetEntityQuery(typeof(InputTag));
 
@@ -24,7 +25,7 @@ public class GameInputSystem : SystemBase
 
     protected override void OnUpdate()
     {
-        if (!inputSystem.IsTouchOrButtonDown()) return;
+        if (!inputSystem.GetMouseButtonDown(0)) return;
 
         EntityCommandBuffer beginBuffer = beginInitECBS.CreateCommandBuffer();
         EntityCommandBuffer endBuffer = endInitECBS.CreateCommandBuffer();
