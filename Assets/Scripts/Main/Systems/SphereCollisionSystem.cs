@@ -10,14 +10,14 @@ public class SphereCollisionSystem : SystemBase
 
     protected override void OnCreate()
     {
-        RequireSingletonForUpdate<GameState>();
+        RequireSingletonForUpdate<GameData>();
         RequireSingletonForUpdate<SpikeTag>();
     }
 
     protected override void OnUpdate()
     {
-        var gameData = GetSingleton<GameState>();
-        if (!gameData.IsGameActive) return;
+        var gameData = GetSingleton<GameData>();
+        if (gameData.currentGameState != GameState.Game) return;
 
         var spikeEntity = GetSingletonEntity<SpikeTag>();
         var MaterialIdData = GetComponentDataFromEntity<MaterialId>(true);

@@ -8,12 +8,12 @@ public class EndGameSystem : SystemBase
 {
     protected override void OnCreate()
     {
-        RequireSingletonForUpdate<GameState>();
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override void OnUpdate()
     {
-        var gameData = GetSingleton<GameState>();
+        var gameData = GetSingleton<GameData>();
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 
@@ -27,7 +27,7 @@ public class EndGameSystem : SystemBase
                     return;
                 }
 
-                gameData.IsGameActive = false;
+                gameData.currentGameState = GameState.PreGame;
                 SetSingleton(gameData);
 
                 ReactivateTouchSymbol(ecb);

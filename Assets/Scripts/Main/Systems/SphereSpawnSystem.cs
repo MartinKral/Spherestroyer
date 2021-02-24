@@ -16,12 +16,13 @@ public class SphereSpawnSystem : SystemBase
     {
         randomGenerator = new Random();
         randomGenerator.InitState();
-        RequireSingletonForUpdate<GameState>();
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override void OnUpdate()
     {
-        if (!GetSingleton<GameState>().IsGameActive) return;
+        var gameData = GetSingleton<GameData>();
+        if (gameData.currentGameState != GameState.Game) return;
 
         randomGenerator.NextFloat();
 

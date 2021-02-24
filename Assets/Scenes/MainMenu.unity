@@ -806,6 +806,7 @@ GameObject:
   - component: {fileID: 5205839965086073710}
   - component: {fileID: 5207705432304112648}
   - component: {fileID: 1443330491675952197}
+  - component: {fileID: 1443330491675952198}
   m_Layer: 5
   m_Name: PlayBtn
   m_TagString: Untagged
@@ -856,6 +857,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!95 &1443330491675952198
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443330491675952196}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!224 &2654741537434877812
 RectTransform:
   m_ObjectHideFlags: 0

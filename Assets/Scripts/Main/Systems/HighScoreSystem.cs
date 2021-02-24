@@ -8,25 +8,23 @@ public class HighScoreSystem : SystemBase
     public int CurrentHighscore => savedHighscore;
     private readonly SavedInt savedHighscore = new SavedInt("spherestroyer-leaderboard");
 
-
     protected override void OnCreate()
     {
-
-        RequireSingletonForUpdate<GameState>();
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override void OnStartRunning()
     {
         if (savedHighscore == 0)
         {
-           // EntityManager.AddComponent(highScoreUi, typeof(Disabled));
+            // EntityManager.AddComponent(highScoreUi, typeof(Disabled));
             Logger.Log("Disabling highscore");
         }
     }
 
     protected override void OnUpdate()
     {
-        var gameData = GetSingleton<GameState>();
+        var gameData = GetSingleton<GameData>();
 
         var ecb = new EntityCommandBuffer(Allocator.Temp);
 

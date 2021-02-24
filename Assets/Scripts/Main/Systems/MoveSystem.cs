@@ -8,15 +8,15 @@ public class MoveSystem : SystemBase
 {
     protected override void OnCreate()
     {
-        RequireSingletonForUpdate<GameState>();
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override void OnUpdate()
     {
-        var gameDataEntity = GetSingletonEntity<GameState>();
-        var gameData = EntityManager.GetComponentData<GameState>(gameDataEntity);
+        var gameDataEntity = GetSingletonEntity<GameData>();
+        var gameData = EntityManager.GetComponentData<GameData>(gameDataEntity);
 
-        if (!gameData.IsGameActive) return;
+        if (gameData.currentGameState != GameState.Game) return;
 
         float deltaTime = Time.DeltaTime;
         Entities.ForEach((ref Translation translation, in Move move) =>

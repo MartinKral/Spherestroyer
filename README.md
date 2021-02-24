@@ -12,8 +12,6 @@ If you want to publish a reskin of this game on your website, please credit [Y8.
 - ["PlayerPrefs"](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/GameSaver)
 - [Callback from JS library](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/Y8API)
 - [Shake](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/ShakeSystem.cs) >> Added to camera entity acts as screen shake
-- Temporary authoring for buttons [1](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Authoring/ButtonAuthoring.cs) [2](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/InputWrapperSystem.cs) [3](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/ButtonInputSystem.cs) >> add quad to the scene, add ButtonAuthoring, place it where you want and press "regenerate"
-- ["Unit" tests](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Tests) (0.29 - unit tests no longer work)
 
 ## Unity Tiny gotchas:
 
@@ -23,7 +21,7 @@ to be added only after the first input from the user (browser restriction).
 - It seems that import settings do not reduce the final file size(?). Import optimized sound file
 
 ### UI Hack
-- Since there is no UI yet, you can use quad with texture as a substitute. URP unlit transparent material with
+- UI can't be animated with scale / rotation. You can use quad with texture as a substitute. URP unlit transparent material with
 `Render Face: Both` otherwise it is not visible during DOTS runtime
 - If you want multiple layers, make sure that the object you wish on top is sibling, lower in hierarchy, and has material with lower priority
 

@@ -15,12 +15,12 @@ public class SphereDestructionSystem : SystemBase
     {
         shakeTarget = GetEntityQuery(ComponentType.ReadOnly(typeof(Shake)));
 
-        RequireSingletonForUpdate<GameState>();
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override void OnUpdate()
     {
-        var gameData = GetSingleton<GameState>();
+        var gameData = GetSingleton<GameData>();
 
         Entities
             .WithAll<DestroyedTag, SphereTag>()

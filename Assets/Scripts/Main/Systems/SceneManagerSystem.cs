@@ -6,6 +6,11 @@ using Unity.Scenes;
 [UpdateBefore(typeof(SceneSystem))]
 public class SceneManagerSystem : SystemBase
 {
+    protected override void OnCreate()
+    {
+        RequireSingletonForUpdate<GameData>();
+    }
+
     protected override void OnUpdate()
     {
         SceneName sceneToLoad = SceneName.None;
@@ -16,16 +21,21 @@ public class SceneManagerSystem : SystemBase
             EntityManager.DestroyEntity(e);
         }).WithStructuralChanges().Run();
 
+        var gameState = GetSingleton<GameData>();
         if (sceneToLoad == SceneName.Menu)
         {
+            gameState.currentGameState = GameState.Menu;
             TryUnloadScene<GameSceneTag>();
             LoadScene<MainMenuSceneTag>();
         }
         else if (sceneToLoad == SceneName.Gameplay)
         {
+            gameState.currentGameState = GameState.PreGame;
             TryUnloadScene<MainMenuSceneTag>();
             LoadScene<GameSceneTag>();
         }
+
+        SetSingleton(gameState);
     }
 
     private void TryUnloadScene<T>() where T : struct

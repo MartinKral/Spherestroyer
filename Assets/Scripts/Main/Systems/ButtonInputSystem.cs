@@ -9,18 +9,22 @@ public class ButtonInputSystem : SystemBase
     protected override void OnUpdate()
     {
         Entity clickedEntity = Entity.Null;
+        Entity pressedEntity = Entity.Null;
         Entities.ForEach((Entity e, in UIState uiState) =>
         {
-            if (uiState.IsPressed)
+            if (uiState.IsClicked)
             {
                 clickedEntity = e;
             }
+            else if (uiState.IsPressed)
+            {
+                pressedEntity = e;
+            }
         }).Run();
 
+        var uiSystem = World.GetExistingSystem<ProcessUIEvents>();
         if (clickedEntity != Entity.Null)
         {
-            var uiSystem = World.GetExistingSystem<ProcessUIEvents>();
-
             if (IsUiEntityMatch(clickedEntity, uiSystem, "PlayBtn"))
             {
                 ClickOnPlayBtn();
@@ -45,8 +49,11 @@ public class ButtonInputSystem : SystemBase
             {
                 ClickOnBrandingBtn();
             }
+        }
 
-            if (IsUiEntityMatch(clickedEntity, uiSystem, "MenuBtn"))
+        if (pressedEntity != Entity.Null)
+        {
+            if (IsUiEntityMatch(pressedEntity, uiSystem, "MenuBtn"))
             {
                 ClickOnMenuBtn();
             }

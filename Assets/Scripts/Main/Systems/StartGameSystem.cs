@@ -7,7 +7,7 @@ public class StartGameSystem : SystemBase
 {
     protected override void OnCreate()
     {
-        RequireSingletonForUpdate<GameState>();
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override void OnUpdate()
@@ -42,8 +42,8 @@ public class StartGameSystem : SystemBase
 
     private void ResetGameData()
     {
-        var gameData = GetSingleton<GameState>();
-        gameData.IsGameActive = true;
+        var gameData = GetSingleton<GameData>();
+        gameData.currentGameState = GameState.Game;
         gameData.score = 0;
         SetSingleton(gameData);
     }

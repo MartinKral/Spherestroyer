@@ -1,34 +1,28 @@
-﻿using Unity.Collections;
-using Unity.Entities;
-using Unity.Jobs;
-using Unity.Tiny.Audio;
+﻿using Unity.Entities;
+using Unity.Tiny.Input;
 
 [AlwaysSynchronizeSystem]
 public class WaitForFirstInputSystem : SystemBase
 {
     private EntityQuery hideableEQ;
+    private InputSystem inputSystem;
 
     protected override void OnCreate()
     {
         hideableEQ = GetEntityQuery(ComponentType.ReadOnly<HideableSymbolTag>());
+        inputSystem = World.GetOrCreateSystem<InputSystem>();
+
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override void OnUpdate()
     {
-        var ecb = new EntityCommandBuffer(Allocator.Temp);
-        Entities
-            .WithAll<HideableSymbolTag, OnInputTag>()
-            .WithoutBurst()
-            .ForEach((Entity entity) =>
-            {
-                ecb.AddComponent<StartGameTag>(ecb.CreateEntity());
+        var gameState = GetSingleton<GameData>();
 
-                // OnInputTag needs to be removed manually, since this will get disabled immediately
-                ecb.RemoveComponent<OnInputTag>(entity);
-                ecb.AddComponent(hideableEQ, typeof(Disabled));
-            }).Run();
+        if (gameState.currentGameState != GameState.PreGame) return;
+        if (!inputSystem.GetMouseButtonUp(0)) return;
 
-        ecb.Playback(EntityManager);
-        ecb.Dispose();
+        EntityManager.AddComponent<StartGameTag>(EntityManager.CreateEntity());
+        EntityManager.AddComponent(hideableEQ, typeof(Disabled));
     }
 }

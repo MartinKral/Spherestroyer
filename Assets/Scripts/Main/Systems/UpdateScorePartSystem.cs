@@ -13,14 +13,14 @@ public class UpdateScorePartSystem : SystemBase
     protected override void OnCreate()
     {
         highScoreSystem = World.GetOrCreateSystem<HighScoreSystem>();
-        RequireSingletonForUpdate<GameState>();
+        RequireSingletonForUpdate<GameData>();
     }
 
     protected override void OnUpdate()
     {
         // TODO: Update only when sphere destroyed?
 
-        var gameData = GetSingleton<GameState>();
+        var gameData = GetSingleton<GameData>();
 
         Entities
             .ForEach((Entity e, ref TextRenderer textRenderer, in UIName uiName) =>
