@@ -21,7 +21,8 @@
         "Unity.Tiny.Animation",
         "Unity.Entities.Runtime",
         "Unity.Scenes",
-        "Unity.Tiny.Text"
+        "Unity.Tiny.Text",
+        "Unity.Tiny.GameSave"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

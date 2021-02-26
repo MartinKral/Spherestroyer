@@ -14,6 +14,17 @@
             "$type": "Unity.Build.DotsRuntime.DotsRuntimeRootAssembly, Unity.Build.DotsRuntime",
             "BeeTargetOverride": null,
             "RootAssembly": "GlobalObjectId_V1-1-308a27203b19c84478dff43c76757968-5897886265953266890-0"
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeScriptingSettings, Unity.Entities.Runtime.Build",
+            "EnableSafetyChecks": 0,
+            "EnableProfiler": 0,
+            "ScriptingDefines": [],
+            "EnableMultithreading": false
+        },
+        {
+            "$type": "Unity.Entities.Runtime.Build.DotsRuntimeBurstSettings, Unity.Entities.Runtime.Build",
+            "EnableBurst": false
         }
     ]
 }

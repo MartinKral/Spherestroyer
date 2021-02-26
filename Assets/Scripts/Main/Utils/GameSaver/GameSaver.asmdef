@@ -1,7 +1,11 @@
 {
     "name": "GameSaver",
     "references": [
-        "Extensions"
+        "Extensions",
+        "Unity.Entities",
+        "Unity.Tiny.GameSave",
+        "Unity.Collections",
+        "Logger"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
