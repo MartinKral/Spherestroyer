@@ -12,7 +12,7 @@ If you want to publish a reskin of this game on your website, please credit [Y8.
 - ["PlayerPrefs"](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/GameSaver)
 - [Callback from JS library](https://github.com/MartinKral/tiny-one-button/tree/master/Assets/Scripts/Main/Utils/Y8API)
 - [Shake](https://github.com/MartinKral/tiny-one-button/blob/master/Assets/Scripts/Main/Systems/ShakeSystem.cs) >> Added to camera entity acts as screen shake
-- [GameSaverSystem] (https://github.com/MartinKral/Spherestroyer/blob/master/Assets/Scripts/Main/Utils/GameSaver/GameSaverSystem.cs) A wrapper for Tiny GameSave, using just one save file
+- [GameSaverSystem](https://github.com/MartinKral/Spherestroyer/blob/master/Assets/Scripts/Main/Utils/GameSaver/GameSaverSystem.cs) A wrapper for Tiny GameSave, using just one save file
 
 ## Unity Tiny gotchas:
 
